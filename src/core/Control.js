@@ -1,5 +1,8 @@
 import { Component } from 'react';
 
+import { startPlayback } from '../actions/navActions.js';
+
+
 class Control extends Component {
 
   //--------------------------------------------------------------------------
@@ -12,16 +15,7 @@ class Control extends Component {
     super(props);
     this.state = {};
     this.store = this.props.store;
-
-    this.actionMap={
-    }
-
-    this.appStartDelay=500;
-
-    // console.log("Control constructor");
-
   }
-
 
   //--------------------------------------------------------------------------
   //
@@ -41,23 +35,28 @@ class Control extends Component {
     this.mounted=false;
   }
 
+  onStoreChange() {
+    if (this.mounted) {
+      let state=this.store.getState();
+      this.setState(state);
+      if ((state.dataLoaded)&&(!state.playbackStarted)) {
+        this.store.dispatch(startPlayback());
+      } else
+      if (state.loadDataError) {
+        console.log("Presentation data load error...");
+      }
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   // Own methods
   //
   //--------------------------------------------------------------------------
 
-  onStoreChange() {
-    if (this.mounted) {
-      let state=this.store.getState();
-      this.setState(state);
-      if (state.dataLoaded) {
+  goFirstSlide() {
 
-      } else
-      if (state.loadDataError) {
-        
-      }
-    }
+
   }
 
   render () {

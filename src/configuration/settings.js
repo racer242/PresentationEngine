@@ -20,6 +20,8 @@ const settings = {
   assetsUrl: assetsUrl,
 
   defaultState:{
+    playbackStarted:false,
+    currentSlide:null,
   },
 
   isMobile:isMobile(),
@@ -27,7 +29,7 @@ const settings = {
   isDev:(document.location.toString().indexOf("localhost")>0),
 
   anyImage:/\.(gif|jpg|jpeg|png|svg)$/gi,
-
+  indexHtmlFile:"index.html",
 }
 
 

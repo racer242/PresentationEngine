@@ -43,19 +43,14 @@ class DataManager extends Component {
   }
 
   onStoreChange() {
-    if (this.mounted) {
-      let state=this.store.getState();
-      if (state.reloadData) {
-        console.log("DataManager reloadData");
-        this.load()
-      }
-    }
+    // if (this.mounted) {
+    //   let state=this.store.getState();
+    // }
   }
 
   /* ++++ Logic methods ++++ */
 
   load() {
-    console.log("LOAD");
 
     if (this.state.isLoading) return;
     this.setState(
@@ -101,7 +96,6 @@ class DataManager extends Component {
 
 
   onContentLoad(data) {
-    console.log("!!",data);
     this.setState(
       {
         ...this.state,
