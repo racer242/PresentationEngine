@@ -1,0 +1,13 @@
+.view {
+  position: absolute;
+}
+.viewContainer{
+  position: absolute;
+  /* width: 100%;
+  height: 100%; */
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  left:0px;
+  top:0px;
+}

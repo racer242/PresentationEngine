@@ -32,5 +32,6 @@ const settings = {
   indexHtmlFile:"index.html",
 }
 
+settings.useEmbeddedContent=settings.useEmbeddedContent||isLocal();
 
 export default settings;

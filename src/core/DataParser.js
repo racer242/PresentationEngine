@@ -205,21 +205,21 @@ class DataParser {
 
         let source={};
         //Если путь не указан никак, то берем новый путь. Иначе - оставляем старый
-        if ((aLayer.source.path!==null)&&(aLayer.source.path!=="")) {
+        if ((aLayer.source.path!=null)&&(aLayer.source.path!=="")) {
           source.path=aLayer.source.path;
         } else {
           source.path=oLayer.source.path;
         }
 
         //Если клип не указан, то берем новый клип, или заменяем пустой строкой (удаляется старый). Иначе - оставляем старый
-        if (aLayer.source.clip!==null) {
+        if (aLayer.source.clip!=null) {
           source.clip=aLayer.source.clip;
         } else {
           source.clip=oLayer.source.clip;
         }
 
         //Если фрейм не указан, то берем новый фрейм, или заменяем пустой строкой (удаляется старый). Иначе - оставляем старый
-        if (aLayer.source.frame!==null) {
+        if (aLayer.source.frame!=null) {
           source.frame=aLayer.source.frame;
         } else {
           source.frame=oLayer.source.frame;
@@ -263,16 +263,20 @@ class DataParser {
 
       //Скорректи ровали слои слайда из слоев текущего слайда
       layers=this.concatLayers(layers,slides.sequence[i].layers);
+
       layers=this.setupLayers(layers,settings);
-      // console.log(layers);
 
-      let slidelayers=[];
-      //Преобразуем объект со слоями опять в список
-      for (let j = 0; j < slides.layers.length; j++) {
-        slidelayers.push(layers[slides.layers[j].name]);
-      }
 
-      slide.layers=slidelayers;
+      // let slidelayers=[];
+      // //Преобразуем объект со слоями опять в список
+      // for (let j = 0; j < slides.layers.length; j++) {
+      //   slidelayers.push(layers[slides.layers[j].name]);
+      // }
+      //
+      // slide.layers=slidelayers;
+
+      slide.layers=layers;
+
       result.push(slide);
     }
 
@@ -291,10 +295,13 @@ class DataParser {
 
     let sequence=this.collectSequence(slides,settings);
 
+    let layers=slides.layers;
+
     let result={
       sequence,
       settings,
       menus,
+      layers,
     };
 
     let extraData={};

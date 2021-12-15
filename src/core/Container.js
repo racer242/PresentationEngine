@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import Projector from '../components/Projector.js';
+
 // import settings from '../configuration/settings.js'
 import '../css/container.css';
 
@@ -77,6 +80,22 @@ class Container extends Component {
       let {boxWidth,boxHeight,boxLeft,boxTop,boxScale,boxFontSize}=this.getViewPort(this.props.windowWidth,this.props.windowHeight,this.state.settings);
       if (boxScale) {
 
+        let bounds={
+          size:{
+            width:boxWidth,
+            height:boxHeight,
+          },
+          style:{
+            width:boxWidth+"px",
+            height:boxHeight+"px",
+          },
+          native:{
+            width:this.state.settings.minWidth,
+            height:this.state.settings.minHeight,
+          },
+          scale:boxScale,
+        };
+
         this.updateGlobalFontSize(boxFontSize);
 
         return (
@@ -90,13 +109,17 @@ class Container extends Component {
             <div
               className="contentContainer"
               style={{
-                width:boxWidth+"px",
-                height:boxHeight+"px",
+                ...bounds.style,
                 left:boxLeft+"px",
                 top:boxTop+"px",
                 background:this.state.settings.containerBg,
               }}
-            >Данные загружены!</div>
+            >
+              <Projector
+                state={this.state}
+                bounds={bounds}
+              />
+            </div>
             {children}
           </div>
         )

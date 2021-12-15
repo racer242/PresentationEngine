@@ -17,17 +17,20 @@ let mainReducerController = (state={}, action) => {
 
     case 'SET_STORE_DATA':
     case 'LOAD_STORE_DATA_ERROR':
-    case 'START_PLAYBACK':
     {
       state={
         ...state,
         ...action.data,
       }
+      break;
     }
 
     case 'START_PLAYBACK':
     {
-      state=reduceToSlideIndex(state,0);
+      state={
+        ...reduceToSlideIndex(state,0),
+        ...action.data,
+      }
       break;
     }
 
