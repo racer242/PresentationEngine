@@ -24,7 +24,7 @@ class ScrollableLayer extends Component {
               <View
                 title={slide.id+"_"+layer.name}
                 key={"Slide"+i}
-                source={layer.source}
+                layer={layer}
                 bounds={this.props.bounds}
               />
             )

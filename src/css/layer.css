@@ -1,3 +1,4 @@
 .layer {
   position: absolute;
+  pointer-events: none;
 }

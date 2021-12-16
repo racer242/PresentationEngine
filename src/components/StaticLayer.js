@@ -17,7 +17,7 @@ class StaticLayer extends Component {
       >
         <View
           title={slide.id+"_"+layer.name}
-          source={layer.source}
+          layer={layer}
           bounds={this.props.bounds}
         />
       </div>

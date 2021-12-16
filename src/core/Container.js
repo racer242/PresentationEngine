@@ -84,14 +84,18 @@ class Container extends Component {
           size:{
             width:boxWidth,
             height:boxHeight,
+            top:boxTop,
+            left:boxLeft,
           },
           style:{
             width:boxWidth+"px",
             height:boxHeight+"px",
           },
           native:{
-            width:this.state.settings.minWidth,
-            height:this.state.settings.minHeight,
+            minWidth:this.state.settings.minWidth,
+            minHeight:this.state.settings.minHeight,
+            maxWidth:this.state.settings.maxWidth,
+            maxHeight:this.state.settings.maxHeight,
           },
           scale:boxScale,
         };
