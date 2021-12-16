@@ -43,7 +43,7 @@ class Control extends Component {
         this.store.dispatch(startPlayback());
       } else
       if (state.loadDataError) {
-        console.log("Presentation data load error...");
+        console.log("Presentation data load error...",state.lastError);
       }
     }
   }

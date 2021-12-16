@@ -131,7 +131,7 @@ class DataParser {
         if (slide.data) {
           slide.data=slide.data.split(",");
         }
-
+        slide.index=a.length;
         a.push(slide);
       }
       return a;

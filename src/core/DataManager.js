@@ -87,7 +87,12 @@ class DataManager extends Component {
           data = this.dataParser.parse(data);
           this.onContentLoad(data);
         } else {
-          this.onContentLoadError();
+          this.onContentLoadError({
+            lastError:{
+              source:settings.contentUrl,
+              location:window.location.href,
+            }
+          });
         }
       });
 
@@ -110,7 +115,7 @@ class DataManager extends Component {
 
   }
 
-  onContentLoadError() {
+  onContentLoadError(data) {
     this.setState(
       {
         ...this.state,
@@ -119,7 +124,7 @@ class DataManager extends Component {
       }
     )
     this.store.dispatch(
-      loadStoreDataError()
+      loadStoreDataError(data)
     );
   }
 

@@ -10,15 +10,20 @@ class StaticLayer extends Component {
   render() {
     let slide=this.props.slide;
     let layer=this.props.layer;
+    let isHidden=false;
     return (
       <div
         className="layer"
-        style={this.props.bounds.style}
+        style={{
+          ...this.props.bounds.style,
+          ...this.props.style,
+        }}
       >
         <View
-          title={slide.id+"_"+layer.name}
+          name={slide.id+"|"+layer.name+"|"+slide.index}
           layer={layer}
           bounds={this.props.bounds}
+          hidden={isHidden}
         />
       </div>
     )

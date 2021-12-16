@@ -7,7 +7,13 @@ import '../css/view.css';
 class View extends Component {
 
   render() {
+
     let layer=this.props.layer;
+
+    if ((this.props.invisible)||(layer.source.path==="")||(!layer.source.path)) {
+      return null;
+    }
+
     let source="./"+path.join(layer.source.path,settings.indexHtmlFile);
 
     let left=(-(this.props.bounds.native.maxWidth-this.props.bounds.size.width)/2);
@@ -60,7 +66,10 @@ class View extends Component {
     return (
       <div
         className="view"
-        style={this.props.bounds.style}
+        style={{
+          ...this.props.bounds.style,
+          ...this.props.style,
+        }}
       >
         <div
           className="viewScaler"
@@ -73,7 +82,8 @@ class View extends Component {
           }}
         >
           <iframe
-            title={this.props.title}
+            title={this.props.name}
+            name={this.props.name}
             src={source}
             className='viewContainer'
             style={{
