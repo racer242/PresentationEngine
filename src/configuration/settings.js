@@ -30,6 +30,8 @@ const settings = {
 
   anyImage:/\.(gif|jpg|jpeg|png|svg)$/gi,
   indexHtmlFile:"index.html",
+
+  parentWindowId:"PARENT",
 }
 
 settings.useEmbeddedContent=settings.useEmbeddedContent||isLocal();

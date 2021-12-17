@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js?1639685858516"></script>
+<script src="index.js?1639727624857"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -68,21 +68,26 @@ function handleComplete(evt,comp) {
 /* *** create stage and terminate *** */
 /* *** Message functions *** */
 function receiveMessage(data) {
-	if (data.target!=contentId) return;
-	console.log("RECEIVED MESSAGE:",data);
-	if (data.event=="setSource") {
-		handledSource=data.source;
-		console.log("CLIP Recieved");
-		createStage(handledEvent,handledComp,handledSource);
-	} else
-	if (data.event=="play") {
-		if (exportRoot) {
-			exportRoot.play();
+	if ((data.target==contentId)||(data.target=="broadcast")) {
+		console.log("RECEIVED MESSAGE:",window.location.href,data);
+		if (data.event=="init") {
+			handledSource=data.source;
+			window.dataStore={
+				params:data.params,
+				data:data.data,
+			}
+			console.log("CLIP Recieved",window.location.href);
+			createStage(handledEvent,handledComp,handledSource);
+		} else
+		if (data.event=="play") {
+			if (exportRoot) {
+				exportRoot.play();
+			}
 		}
 	}
 }
 function sendMessage(data) {
-	console.log("SEND MESSAGE:",data);
+	console.log("SEND MESSAGE:",window.location.href,data);
 	data.source=contentId;
 	var parentWindow = window.parent;
 	parentWindow.postMessage(data,"*");
@@ -90,10 +95,10 @@ function sendMessage(data) {
 /* *** Message functions *** */
 /* *** Create stage function start *** */
 function createStage(evt,comp,source) {
-	console.log("CREATE STAGE TRIAL:",evt,comp,source);
+	console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source);
 	if ((!evt)||(!comp)||(!source)||(handledLoad)) return;
 	handledLoad=true;
-	console.log("CREATE STAGE READY:",evt,comp,source,handledLoad);
+	console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
 	/* *** Create stage function start *** */
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
 	var lib=comp.getLibrary();
@@ -110,18 +115,18 @@ function createStage(evt,comp,source) {
 	var libClip=lib[source.clip];
 	if (libClip) {
 		exportRoot = new libClip();
-		console.log("EXPORT ROOT SET TO:",source.clip);
+		console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
 	} else {
-		console.log("NO CLIP FOUND - DEFAULT CLIP USED");
+		console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
 	}
 	/* *** Define export root clip *** */
 	/* *** Go go frame or stop *** */
 	if (source.frame) {
 		exportRoot.gotoAndStop(source.frame);
-		console.log("GO TO FRAME",source.frame);
+		console.log("GO TO FRAME",window.location.href,source.frame);
 	} else {
 		exportRoot.stop();
-		console.log("ROOT STOPPED");
+		console.log("ROOT STOPPED",window.location.href);
 	}
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {

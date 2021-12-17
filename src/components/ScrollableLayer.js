@@ -47,7 +47,7 @@ class ScrollableLayer extends Component {
           if (layer.source.path) {
             return (
               <View
-                name={slide.id+"|"+layer.name+"|"+slide.index}
+                name={v.id+"|"+layer.name+"|"+i}
                 key={"Slide"+i}
                 layer={layer}
                 bounds={this.props.bounds}
