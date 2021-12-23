@@ -27,8 +27,8 @@ class View extends Component {
     if (layer.align?.indexOf("top")>=0) {
       if (Math.round(this.props.bounds.native.maxHeight*this.props.bounds.scale)>this.props.bounds.size.height) {
         top=(this.props.bounds.native.maxHeight*this.props.bounds.scale-this.props.bounds.native.maxHeight)/2;
-        containerTop=0;
       }
+      containerTop=0;
     } else
     if (layer.align?.indexOf("bottom")>=0) {
       if (Math.round(this.props.bounds.native.maxHeight*this.props.bounds.scale)>this.props.bounds.size.height) {
@@ -57,11 +57,32 @@ class View extends Component {
     let containerHeight=this.props.bounds.native.maxHeight;
 
     if (layer.width) {
+      if ((containerLeft==null)&&(containerRight==null)) {
+        containerLeft=(containerWidth-layer.width)/2;
+      }
       containerWidth=layer.width;
     }
     if (layer.height) {
+      if ((containerTop==null)&&(containerBottom==null)) {
+        containerTop=(containerHeight-layer.height)/2;
+      }
       containerHeight=layer.height;
     }
+    if (layer.margin) {
+      if (layer.margin.l) {
+        if (!containerLeft) containerLeft=layer.margin.l; else containerLeft+=layer.margin.l;
+      } else
+      if (layer.margin.r) {
+        if (!containerRight) containerRight=layer.margin.r; else containerRight+=layer.margin.r;
+      }
+      if (layer.margin.t) {
+        if (!containerTop) containerTop=layer.margin.t; else containerTop+=layer.margin.t;
+      } else
+      if (layer.margin.b) {
+        if (!containerBottom) containerBottom=layer.margin.b; else containerBottom+=layer.margin.b;
+      }
+    }
+
 
     return (
       <div

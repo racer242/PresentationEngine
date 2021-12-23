@@ -1,6 +1,7 @@
 // import settings from '../configuration/settings.js'
 import { concatObjects } from '../helpers/objectTools.js'
 import { applyMacrosObject } from '../helpers/macrosTools.js'
+import { getMatches } from '../helpers/stringTools.js'
 
 
 import dirtyJson from 'dirty-json'
@@ -54,6 +55,14 @@ class DataParser {
         }
         layer.source=this.parseSource(layer.source);
         if (!layer.level) layer.level=0;
+        if (layer.disable) return a;
+        if (layer.margin) {
+          let marginParse=getMatches(/(\D)(\d+)/gi,layer.margin,2);
+          layer.margin=marginParse.reduce((ma,mv,mi)=>{
+            ma[mv[0]]=Number(mv[1]);
+            return ma;
+          },{});
+        }
         a.push(layer);
       }
       return a;
@@ -89,6 +98,7 @@ class DataParser {
             template[index[name]]=v[name];
           }
         }
+        if (template.disable) return a;
         a[template.template]=template;
       }
       return a;
@@ -132,6 +142,7 @@ class DataParser {
           slide.data=slide.data.split(",");
         }
         slide.index=a.length;
+        if (slide.disable) return a;
         a.push(slide);
       }
       return a;

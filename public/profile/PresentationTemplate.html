@@ -71,7 +71,7 @@ function receiveMessage(data) {
 	if ((data.target==contentId)||(data.target=="broadcast")) {
 		console.log("RECEIVED MESSAGE:",window.location.href,data);
 		if (data.event=="init") {
-			handledSource=data.source;
+			handledSource=data.data.source;
 			window.dataStore={
 				params:data.params,
 				data:data.data,
@@ -117,13 +117,58 @@ function createStage(evt,comp,source) {
 	/* *** Define export root clip *** */
 
 	/* *** Go go frame or stop *** */
+
+	var labels=[];
+	for (var i = 0; i < exportRoot.labels.length; i++) {
+		labels[exportRoot.labels[i].position]=exportRoot.labels[i].label;
+	}
+
+	console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+	var lastFrame=-1;
+	exportRoot.on("tick", function() {
+		if (lastFrame!=exportRoot.currentFrame) {
+			lastFrame=exportRoot.currentFrame;
+	    if (labels[exportRoot.currentFrame]) {
+				if (labels[exportRoot.currentFrame].indexOf("stop")>=0) { exportRoot.stop();}
+				console.log(labels[exportRoot.currentFrame],exportRoot.currentFrame);
+			}
+		}
+	});
+
+
 	if (source.frame) {
-		exportRoot.gotoAndStop(source.frame);
+		exportRoot.gotoAndPlay(source.frame);
 		console.log("GO TO FRAME",window.location.href,source.frame);
 	} else {
 		exportRoot.stop();
 		console.log("ROOT STOPPED",window.location.href);
 	}
+
+	dom_overlay_container.addEventListener("click", function(event) {
+	var stageBounds=stage.getBounds();
+	var domOverlayBounds=dom_overlay_container.getBoundingClientRect();
+	var mouseX=(event.clientX-domOverlayBounds.x)*stageBounds.width/domOverlayBounds.width;
+	var mouseY=(event.clientY-domOverlayBounds.y)*stageBounds.height/domOverlayBounds.height;
+	for(var i=0; i<exportRoot.children.length; i++) {
+		var child=exportRoot.children[i];
+		if (child.name) {
+			var bounds={
+				x:child.x,
+				y:child.y,
+				width:child.nominalBounds.width*child.scaleX,
+				height:child.nominalBounds.height*child.scaleY,
+			};
+			if (
+				(bounds.x<=mouseX)&&((bounds.x+bounds.width)>=mouseX)&&
+				(bounds.y<=mouseY)&&((bounds.y+bounds.height)>=mouseY)
+			)
+			console.log(child.name,bounds);
+		}
+	}
+
+})
+
 
 	//Registers the "tick" event listener.
 	$START_ANIMATION
@@ -134,10 +179,10 @@ $PLAYSOUND
 $SCRIPT_END
 <!-- write your code here -->
 </head>
-<body onload="init();" style="margin:0px;background:#000;">
-	<div id="$ANIM_CONTAINER_ID" style="background-color:$BG; width:$WTpx; height:$HTpx">
-		<canvas id="$CANVAS_ID" width="$WT" height="$HT" style="position: absolute; display: $CANVAS_DISP; background-color:$BG;"></canvas>
-		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:$WTpx; height:$HTpx; position: absolute; left: 0px; top: 0px; display: $CANVAS_DISP;">
+<body onload="init();" style="margin:0px;">
+	<div id="$ANIM_CONTAINER_ID" style="width:$WTpx; height:$HTpx">
+		<canvas id="$CANVAS_ID" width="$WT" height="$HT" style="position: absolute; display: $CANVAS_DISP; "></canvas>
+		<div id="dom_overlay_container" style="pointer-events:all; overflow:hidden; width:$WTpx; height:$HTpx; position: absolute; left: 0px; top: 0px; display: $CANVAS_DISP;">
 		</div>
 	</div>
     $PRELOADER_DIV

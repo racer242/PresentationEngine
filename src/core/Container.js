@@ -102,9 +102,10 @@ class Container extends Component {
 
         this.updateGlobalFontSize(boxFontSize);
 
-        return (
+        children.push(
           <div
             id="Container"
+            key="Container"
             className="globalContainer"
             style={{
               background:this.state.settings.globalBg,
@@ -124,7 +125,6 @@ class Container extends Component {
                 bounds={bounds}
               />
             </div>
-            {children}
           </div>
         )
       }

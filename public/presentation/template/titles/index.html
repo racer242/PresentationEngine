@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
 <html>
 <head>
 <meta charset="UTF-8">
@@ -6,27 +14,175 @@
 <title>index</title>
 <!-- write your code here -->
 <style>
-  body {
+  #animation_container {
 	position:absolute;
-	margin:0;
+	margin:auto;
 	left:0;right:0;
 	top:0;bottom:0;
-	overflow:hidden;
-  }
-  #label {
-	position:absolute;
-	width:100%;
-	height:100px;
-	left:0;
-	top:0;
-	font-size:10px;
-	color:#ffff00;
-	background: #ff2200;
-	text-align:center;
   }
 </style>
+<script src="libs/createjs-2015.11.26.min.js"></script>
+<script src="index.js"></script>
+<script>
+var contentId=window.name;
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("284D0C179085334E961662CC8FA93117");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+	/* *** message handler *** */
+	window.addEventListener("message", function(event) {
+		receiveMessage(event.data);
+	})
+	/* *** message handler *** */
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }
+}
+/* *** handled vars declarations *** */
+var handledComp;
+var handledEvent;
+var handledSource;
+var handledLoad;
+/* *** handled vars declarations *** */
+function handleComplete(evt,comp) {
+	/* *** send complete message *** */
+	sendMessage({event:"complete"});
+	/* *** send complete message *** */
+	/* *** receive handled vars *** */
+	handledComp=comp;
+	handledEvent=evt;
+	console.log("EVT AND COMP Recieved",comp,evt);
+	/* *** receive handled vars *** */
+	/* *** create stage and terminate *** */
+	createStage(handledEvent,handledComp,handledSource);
+}
+/* *** create stage and terminate *** */
+/* *** Message functions *** */
+function receiveMessage(data) {
+	if ((data.target==contentId)||(data.target=="broadcast")) {
+		console.log("RECEIVED MESSAGE:",window.location.href,data);
+		if (data.event=="init") {
+			handledSource=data.data.source;
+			window.dataStore={
+				params:data.params,
+				data:data.data,
+			}
+			console.log("CLIP Recieved",window.location.href);
+			createStage(handledEvent,handledComp,handledSource);
+		} else
+		if (data.event=="play") {
+			if (exportRoot) {
+				exportRoot.play();
+			}
+		}
+	}
+}
+function sendMessage(data) {
+	console.log("SEND MESSAGE:",window.location.href,data);
+	data.source=contentId;
+	var parentWindow = window.parent;
+	parentWindow.postMessage(data,"*");
+}
+/* *** Message functions *** */
+/* *** Create stage function start *** */
+function createStage(evt,comp,source) {
+	console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source);
+	if ((!evt)||(!comp)||(!source)||(handledLoad)) return;
+	handledLoad=true;
+	console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
+	/* *** Create stage function start *** */
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.titles();
+	stage = new lib.Stage(canvas);
+	/* *** Define export root clip *** */
+	var libClip=lib[source.clip];
+	if (libClip) {
+		exportRoot = new libClip();
+		console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
+	} else {
+		console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
+	}
+	/* *** Define export root clip *** */
+	/* *** Go go frame or stop *** */
+	var labels=[];
+	for (var i = 0; i < exportRoot.labels.length; i++) {
+		labels[exportRoot.labels[i].position]=exportRoot.labels[i].label;
+	}
+	console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+	var lastFrame=-1;
+	exportRoot.on("tick", function() {
+		if (lastFrame!=exportRoot.currentFrame) {
+			lastFrame=exportRoot.currentFrame;
+	    if (labels[exportRoot.currentFrame]) {
+				if (labels[exportRoot.currentFrame].indexOf("stop")>=0) { exportRoot.stop();}
+				console.log(labels[exportRoot.currentFrame],exportRoot.currentFrame);
+			}
+		}
+	});
+	if (source.frame) {
+		exportRoot.gotoAndPlay(source.frame);
+		console.log("GO TO FRAME",window.location.href,source.frame);
+	} else {
+		exportRoot.stop();
+		console.log("ROOT STOPPED",window.location.href);
+	}
+	dom_overlay_container.addEventListener("click", function(event) {
+	var stageBounds=stage.getBounds();
+	var domOverlayBounds=dom_overlay_container.getBoundingClientRect();
+	var mouseX=(event.clientX-domOverlayBounds.x)*stageBounds.width/domOverlayBounds.width;
+	var mouseY=(event.clientY-domOverlayBounds.y)*stageBounds.height/domOverlayBounds.height;
+	for(var i=0; i<exportRoot.children.length; i++) {
+		var child=exportRoot.children[i];
+		if (child.name) {
+			var bounds={
+				x:child.x,
+				y:child.y,
+				width:child.nominalBounds.width*child.scaleX,
+				height:child.nominalBounds.height*child.scaleY,
+			};
+			if (
+				(bounds.x<=mouseX)&&((bounds.x+bounds.width)>=mouseX)&&
+				(bounds.y<=mouseY)&&((bounds.y+bounds.height)>=mouseY)
+			)
+			console.log(child.name,bounds);
+		}
+	}
+})
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.setFPS(lib.properties.fps);
+		createjs.Ticker.addEventListener("tick", stage);
+	}
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script>
+<!-- write your code here -->
 </head>
-<body>
-	<div id="label">TITLES</div>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="width:1280px; height:70px">
+		<canvas id="canvas" width="1280" height="70" style="position: absolute; display: block; "></canvas>
+		<div id="dom_overlay_container" style="pointer-events:all; overflow:hidden; width:1280px; height:70px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
 </body>
 </html>

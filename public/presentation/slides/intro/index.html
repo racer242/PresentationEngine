@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js?1639727624857"></script>
+<script src="index.js?1639759389511"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -128,6 +128,28 @@ function createStage(evt,comp,source) {
 		exportRoot.stop();
 		console.log("ROOT STOPPED",window.location.href);
 	}
+	dom_overlay_container.addEventListener("click", function(event) {
+	var stageBounds=stage.getBounds();
+	var domOverlayBounds=dom_overlay_container.getBoundingClientRect();
+	var mouseX=(event.clientX-domOverlayBounds.x)*stageBounds.width/domOverlayBounds.width;
+	var mouseY=(event.clientY-domOverlayBounds.y)*stageBounds.height/domOverlayBounds.height;
+	for(var i=0; i<exportRoot.children.length; i++) {
+		var child=exportRoot.children[i];
+		if (child.name) {
+			var bounds={
+				x:child.x,
+				y:child.y,
+				width:child.nominalBounds.width*child.scaleX,
+				height:child.nominalBounds.height*child.scaleY,
+			};
+			if (
+				(bounds.x<=mouseX)&&((bounds.x+bounds.width)>=mouseX)&&
+				(bounds.y<=mouseY)&&((bounds.y+bounds.height)>=mouseY)
+			)
+			console.log(child.name,bounds);
+		}
+	}
+})
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		stage.addChild(exportRoot);
@@ -145,7 +167,7 @@ function createStage(evt,comp,source) {
 <body onload="init();" style="margin:0px;background:#000;">
 	<div id="animation_container" style="background-color:rgba(0, 0, 0, 1.00); width:1280px; height:960px">
 		<canvas id="canvas" width="1280" height="960" style="position: absolute; display: block; background-color:rgba(0, 0, 0, 1.00);"></canvas>
-		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1280px; height:960px; position: absolute; left: 0px; top: 0px; display: block;">
+		<div id="dom_overlay_container" style="pointer-events:all; overflow:hidden; width:1280px; height:960px; position: absolute; left: 0px; top: 0px; display: block;">
 		</div>
 	</div>
 </body>

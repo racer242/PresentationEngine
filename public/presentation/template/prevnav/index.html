@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prev Nav</title>
+<style>
+  body {
+    margin:0;
+    overflow:hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+    outline-style:none;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+    -webkit-font-smoothing: antialiased;
+  }
+  #button {
+    position: absolute;
+    width:30px;
+    height:100px;
+    cursor: pointer;
+    background: #404040;
+    background-image: url(prev.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px 40px;
+  }
+  #button:active {
+    background: #fff;
+    background-image: url(prev_select.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px 40px;
+  }
+</style>
+<script>
+var contentId=window.name;
+
+function sendMessage(data) {
+  console.log("SEND MESSAGE:",window.location.href,data);
+  data.source=contentId;
+  var parentWindow = window.parent;
+  parentWindow.postMessage(data,"*");
+}
+
+function buttonClick() {
+  sendMessage({event:"prev"});
+}
+</script>
+</head>
+<body>
+  <div id="button" onclick="buttonClick();"></div>
+</body>
+</html>
