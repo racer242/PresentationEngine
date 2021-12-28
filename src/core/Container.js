@@ -73,8 +73,7 @@ class Container extends Component {
     let children = [];
     children.push(this.props.children);
 
-    if (this.state.currentSlide) {
-      // console.log("------",this.state.currentSlide);
+    if (this.state.position>=0) {
       // console.log(this.props);
 
       let {boxWidth,boxHeight,boxLeft,boxTop,boxScale,boxFontSize}=this.getViewPort(this.props.windowWidth,this.props.windowHeight,this.state.settings);

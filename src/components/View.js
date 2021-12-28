@@ -10,7 +10,7 @@ class View extends Component {
 
     let layer=this.props.layer;
 
-    if ((this.props.invisible)||(layer.source.path==="")||(!layer.source.path)) {
+    if (!layer.source.path) {
       return null;
     }
 
@@ -83,13 +83,13 @@ class View extends Component {
       }
     }
 
-
     return (
       <div
         className="view"
         style={{
           ...this.props.bounds.style,
           ...this.props.style,
+          visibility:((this.props.hidden)||(this.props.invisible))?"hidden":"visible",
         }}
       >
         <div

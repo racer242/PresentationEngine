@@ -1,5 +1,7 @@
 import settings from '../configuration/settings.js'
-import {reduceToSlideIndex} from './helpers/navigationHelper.js'
+import navReducer from './navReducer.js'
+import assetReducer from './assetReducer.js'
+
 
 let mainReducerController = (state={}, action) => {
 
@@ -25,23 +27,6 @@ let mainReducerController = (state={}, action) => {
       break;
     }
 
-    case 'START_PLAYBACK':
-    {
-      state={
-        ...reduceToSlideIndex(state,0),
-        ...action.data,
-      }
-      break;
-    }
-
-    case 'GOTO_SLIDE_INDEX': {
-      break;
-    }
-
-    case 'GOTO_SLIDE': {
-      break;
-    }
-
     default: {}
   }
   return state;
@@ -55,7 +40,9 @@ const mainReducer = (state={}, action) => {
   }
 
   state = mainReducerController(state,action);
-  // state = feedEditorReducer(state,action);
+  state = navReducer(state,action);
+  state = assetReducer(state,action);
+
 
   return state;
 }

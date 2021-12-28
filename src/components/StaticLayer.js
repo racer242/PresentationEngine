@@ -10,7 +10,7 @@ class StaticLayer extends Component {
   render() {
     let slide=this.props.slide;
     let layer=this.props.layer;
-    let isHidden=false;
+
     return (
       <div
         className="layer"
@@ -23,7 +23,8 @@ class StaticLayer extends Component {
           name={slide.id+"|"+layer.name+"|"+slide.index}
           layer={layer}
           bounds={this.props.bounds}
-          hidden={isHidden}
+          hidden={layer.hiddenNow}
+          invisible={!layer.visible}
         />
       </div>
     )

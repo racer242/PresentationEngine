@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import settings from '../configuration/settings.js'
-import { startPlayback } from '../actions/navActions.js';
+import { startPlayback, nextSlide, prevSlide, gotoSlide } from '../actions/navActions.js';
+import { viewLoaded, initIsDone } from '../actions/assetActions.js';
 
 
 class Control extends Component {
@@ -40,12 +41,18 @@ class Control extends Component {
     if (this.mounted) {
       let state=this.store.getState();
       this.setState(state);
+
       if ((state.dataLoaded)&&(!state.playbackStarted)) {
         this.store.dispatch(startPlayback());
       } else
       if (state.loadDataError) {
         console.log("Presentation data load error...",state.lastError);
+      } else
+      if (state.readyToInit) {
+        // this.sendInit();
+        this.store.dispatch(initIsDone());
       }
+
     }
   }
 
@@ -70,7 +77,7 @@ class Control extends Component {
           if (slide) {
             let layer=slide.layers[slideLayer];
             if (layer) {
-              this.processInteraction(eventType,event.data,slide,layer);
+              this.processInteraction(eventType,event.params,event.data,slide,layer);
             }
           }
         }
@@ -89,23 +96,26 @@ class Control extends Component {
       targetName=slide.id+"|"+layer.name+"|"+slide.index;
       targetWindow = window.frames[targetName];
     }
-
-    targetWindow.postMessage(
-      {
-        event:eventType,
-        source:settings.parentWindowId,
-        target:targetName,
-        data,
-      },
-      "*"
-    );
+    if (targetWindow) {
+      targetWindow.postMessage(
+        {
+          event:eventType,
+          source:settings.parentWindowId,
+          target:targetName,
+          data,
+        },
+        "*"
+      );
+    } else {
+      console.log("NO TARGET WINDOW",targetName);
+    }
   }
 
-
-  processInteraction(eventType,data,slide,layer) {
+  processInteraction(eventType,params,data,slide,layer) {
     console.log("Process interaction:",eventType,data,slide,layer);
     switch (eventType) {
       case "complete": {
+        this.store.dispatch(viewLoaded(slide.index,layer.name));
         this.sendMessage("init",{
           source:layer.source,
           params:slide.params,
@@ -113,10 +123,25 @@ class Control extends Component {
         },slide,layer);
         break;
       }
+      case "next": {
+        this.store.dispatch(nextSlide());
+        break;
+      }
+      case "prev": {
+        this.store.dispatch(prevSlide());
+        break;
+      }
+      case "goto": {
+        let slideId;
+        if (params) slideId=params[0];
+        if (data) slideId=data.id;
+        this.store.dispatch(gotoSlide(slideId));
+        break;
+      }
       default:{}
     }
   }
-
+// nextSlide, prevSlide, gotoSlide
   render () {
     return null;
   }

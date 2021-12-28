@@ -427,14 +427,14 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_001.png?1639727612155", id:"_001"},
-		{src:"images/_1.png?1639727612155", id:"_1"},
-		{src:"images/_1pngcopy.png?1639727612155", id:"_1pngcopy"},
-		{src:"images/_1pngcopy2.png?1639727612155", id:"_1pngcopy2"},
-		{src:"images/_1pngcopy3.png?1639727612155", id:"_1pngcopy3"},
-		{src:"images/_1pngcopy4.png?1639727612155", id:"_1pngcopy4"},
-		{src:"images/_1pngcopy5.png?1639727612155", id:"_1pngcopy5"},
-		{src:"images/_2.png?1639727612155", id:"_2"}
+		{src:"images/_001.png", id:"_001"},
+		{src:"images/_1.png", id:"_1"},
+		{src:"images/_1pngcopy.png", id:"_1pngcopy"},
+		{src:"images/_1pngcopy2.png", id:"_1pngcopy2"},
+		{src:"images/_1pngcopy3.png", id:"_1pngcopy3"},
+		{src:"images/_1pngcopy4.png", id:"_1pngcopy4"},
+		{src:"images/_1pngcopy5.png", id:"_1pngcopy5"},
+		{src:"images/_2.png", id:"_2"}
 	],
 	preloads: []
 };

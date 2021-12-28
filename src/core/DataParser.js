@@ -246,7 +246,14 @@ class DataParser {
 
   setupLayers(layers,settings) {
     for (let layerName in layers) {
-      layers[layerName].source.path = applyMacrosObject(settings,layers[layerName].source.path);
+      let layer=layers[layerName];
+      if (layer.source.path) {
+        layer.source.path = applyMacrosObject(settings,layer.source.path);
+      } else {
+        layer.ignore=true;
+      }
+
+      layer.hiddenNow=layer.hidden;
     }
     return layers;
   }

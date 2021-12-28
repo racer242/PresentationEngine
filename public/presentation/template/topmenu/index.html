@@ -1,121 +1,121 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Top Menu</title>
-  <link href="fonts.css" rel="stylesheet">
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <title>Top Menu</title>
+    <link href="fonts.css" rel="stylesheet">
+    <style>
 
-    body {
-    	position:absolute;
-    	margin:0;
-    	left:0;right:0;
-    	top:0;bottom:0;
-    	overflow:hidden;
+      body {
+      	position:absolute;
+      	margin:0;
+      	left:0;right:0;
+      	top:0;bottom:0;
+      	overflow:hidden;
 
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-      outline-style:none;
-      outline: none;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+        outline-style:none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
 
-      -webkit-font-smoothing: antialiased;
-    }
-    #plate {
-    	position:absolute;
-    	width:100%;
-    	height:70px;
-    	left:0;
-    	top:0;
-    }
-    #background {
-      position:absolute;
-    	width:100%;
-    	height:68px;
-      left:0;
-    	top:0;
-      border-bottom:2px solid #e8e7e4;
-      pointer-events: none;
-      background: rgba(255,255,255,0);
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,1) 80%);
-    }
-    #logo {
-      pointer-events: none;
-      width:70px;
-    	height:70px;
-    }
-    #redButton {
-      position:absolute;
-      top:0px;
-      right: 0px;
-      width:70px;
-    	height:70px;
-      cursor: pointer;
-    }
-    #redButtonPlate {
-      pointer-events: none;
-      width:70px;
-    	height:70px;
-    }
-    #redButtonTitle {
-      position: absolute;
-      display: flex;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-      color: #fff;
-      align-items: center;
-      justify-content: center;
-    }
-    #redButtonTitle p {
-      font-family: 'Raleway';
-      font-weight: bold;
-      font-size: 18px;
-      margin: 0px;
-    }
-  </style>
-  <script>
-    function redButtonClick() {
-      console.log("!!!!! redButtonClick !!!!!");
-    }
-  </script>
+        -webkit-font-smoothing: antialiased;
+      }
+      #plate {
+      	position:absolute;
+      	width:100%;
+      	height:70px;
+      	left:0;
+      	top:0;
+      }
+      #background {
+        position:absolute;
+      	width:100%;
+      	height:68px;
+        left:0;
+      	top:0;
+        border-bottom:2px solid #e8e7e4;
+        pointer-events: none;
+        background: rgba(255,255,255,0);
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,1) 80%);
+      }
+      #logo {
+        pointer-events: none;
+        width:70px;
+      	height:70px;
+      }
+      #redButton {
+        position:absolute;
+        top:0px;
+        right: 0px;
+        width:70px;
+      	height:70px;
+        cursor: pointer;
+      }
+      #redButtonPlate {
+        pointer-events: none;
+        width:70px;
+      	height:70px;
+      }
+      #redButtonTitle {
+        position: absolute;
+        display: flex;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+      }
+      #redButtonTitle p {
+        font-family: 'Raleway';
+        font-weight: bold;
+        font-size: 18px;
+        margin: 0px;
+      }
+    </style>
+    <script>
+      function redButtonClick() {
+        sendMessage({event:"goto",id:"intro"});
+      }
+    </script>
 
-  <script>
-    var contentId=window.name;
-    window.addEventListener("message", function(event) {
-      receiveMessage(event.data);
-    });
+    <script>
+      var contentId=window.name;
+      window.addEventListener("message", function(event) {
+        receiveMessage(event.data);
+      });
 
-    function receiveMessage(data) {
-    	if ((data.target==contentId)||(data.target=="broadcast")) {
-    		console.log("RECEIVED MESSAGE:",window.location.href,data);
-    		if (data.event=="init") {
-    		} else
-    		if (data.event=="play") {
-    		}
-    	}
-    }
+      function receiveMessage(data) {
+      	if ((data.target==contentId)||(data.target=="broadcast")) {
+      		console.log("RECEIVED MESSAGE:",window.location.href,data);
+      		if (data.event=="init") {
+      		} else
+      		if (data.event=="play") {
+      		}
+      	}
+      }
 
-    function sendMessage(data) {
-      console.log("SEND MESSAGE:",window.location.href,data);
-      data.source=contentId;
-      var parentWindow = window.parent;
-      parentWindow.postMessage(data,"*");
-    }
+      function sendMessage(data) {
+        console.log("SEND MESSAGE:",window.location.href,data);
+        data.source=contentId;
+        var parentWindow = window.parent;
+        parentWindow.postMessage(data,"*");
+      }
 
-    function init() {
-      sendMessage({event:"complete"});
-    }
+      function init() {
+        sendMessage({event:"complete"});
+      }
 
-  </script>
+    </script>
 
 
 
-</head>
+  </head>
   <body onload="init();">
     <div id="background"></div>
   	<div id="plate">

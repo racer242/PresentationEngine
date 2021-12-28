@@ -3463,32 +3463,21 @@ p.nominalBounds = new cjs.Rectangle(0,0,1316.1,960);
 	this.initialize(mode,startPosition,loop,{"viewSlide00":28,"end00":30});
 
 	// timeline functions:
-	this.frame_0 = function() {
-		this.cancelButton_clickHandler=function () {
-			try {
-				mobileTouch.cancel();
-			} catch (e) {
-				alert("Cancel Button Pressed");
-			}
-		}
-		
-		this.cancelButton.on("click", this.cancelButton_clickHandler);
-	}
 	this.frame_27 = function() {
 		this.stop()
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(27).call(this.frame_27).wait(10));
+	this.timeline.addTween(cjs.Tween.get(this).wait(27).call(this.frame_27).wait(10));
 
 	// Layer_3
-	this.cancelButton = new lib.CancelButton();
-	this.cancelButton.name = "cancelButton";
-	this.cancelButton.parent = this;
-	this.cancelButton.setTransform(791.4,266.4);
-	new cjs.ButtonHelper(this.cancelButton, 0, 1, 2, false, new lib.CancelButton(), 3);
+	this.prev00 = new lib.CancelButton();
+	this.prev00.name = "prev00";
+	this.prev00.parent = this;
+	this.prev00.setTransform(791.4,266.4);
+	new cjs.ButtonHelper(this.prev00, 0, 1, 2, false, new lib.CancelButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.cancelButton).wait(37));
+	this.timeline.addTween(cjs.Tween.get(this.prev00).wait(37));
 
 	// _
 	this.instance = new lib._6_7();
@@ -3664,36 +3653,36 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_1.png?1639727591340", id:"_1"},
-		{src:"images/_1pngcopy.png?1639727591340", id:"_1pngcopy"},
-		{src:"images/_1pngcopy10.png?1639727591340", id:"_1pngcopy10"},
-		{src:"images/_1pngcopy11.png?1639727591340", id:"_1pngcopy11"},
-		{src:"images/_1pngcopy12.png?1639727591340", id:"_1pngcopy12"},
-		{src:"images/_1pngcopy13.png?1639727591340", id:"_1pngcopy13"},
-		{src:"images/_1pngcopy14.png?1639727591340", id:"_1pngcopy14"},
-		{src:"images/_1pngcopy2.png?1639727591340", id:"_1pngcopy2"},
-		{src:"images/_1pngcopy3.png?1639727591340", id:"_1pngcopy3"},
-		{src:"images/_1pngcopy4.png?1639727591340", id:"_1pngcopy4"},
-		{src:"images/_1pngcopy5.png?1639727591340", id:"_1pngcopy5"},
-		{src:"images/_1pngcopy6.png?1639727591340", id:"_1pngcopy6"},
-		{src:"images/_1pngcopy7.png?1639727591340", id:"_1pngcopy7"},
-		{src:"images/_1pngcopy8.png?1639727591340", id:"_1pngcopy8"},
-		{src:"images/_1pngcopy9.png?1639727591340", id:"_1pngcopy9"},
-		{src:"images/_2.png?1639727591340", id:"_2"},
-		{src:"images/_2pngcopy.png?1639727591340", id:"_2pngcopy"},
-		{src:"images/_2pngcopy10.png?1639727591340", id:"_2pngcopy10"},
-		{src:"images/_2pngcopy11.png?1639727591340", id:"_2pngcopy11"},
-		{src:"images/_2pngcopy12.png?1639727591340", id:"_2pngcopy12"},
-		{src:"images/_2pngcopy2.png?1639727591340", id:"_2pngcopy2"},
-		{src:"images/_2pngcopy3.png?1639727591340", id:"_2pngcopy3"},
-		{src:"images/_2pngcopy4.png?1639727591340", id:"_2pngcopy4"},
-		{src:"images/_2pngcopy5.png?1639727591340", id:"_2pngcopy5"},
-		{src:"images/_2pngcopy6.png?1639727591340", id:"_2pngcopy6"},
-		{src:"images/_2pngcopy7.png?1639727591340", id:"_2pngcopy7"},
-		{src:"images/_2pngcopy8.png?1639727591340", id:"_2pngcopy8"},
-		{src:"images/_2pngcopy9.png?1639727591340", id:"_2pngcopy9"},
-		{src:"images/_3.png?1639727591340", id:"_3"},
-		{src:"images/_3pngcopy.png?1639727591340", id:"_3pngcopy"}
+		{src:"images/_1.png?1640633810189", id:"_1"},
+		{src:"images/_1pngcopy.png?1640633810189", id:"_1pngcopy"},
+		{src:"images/_1pngcopy10.png?1640633810189", id:"_1pngcopy10"},
+		{src:"images/_1pngcopy11.png?1640633810189", id:"_1pngcopy11"},
+		{src:"images/_1pngcopy12.png?1640633810189", id:"_1pngcopy12"},
+		{src:"images/_1pngcopy13.png?1640633810189", id:"_1pngcopy13"},
+		{src:"images/_1pngcopy14.png?1640633810189", id:"_1pngcopy14"},
+		{src:"images/_1pngcopy2.png?1640633810189", id:"_1pngcopy2"},
+		{src:"images/_1pngcopy3.png?1640633810189", id:"_1pngcopy3"},
+		{src:"images/_1pngcopy4.png?1640633810189", id:"_1pngcopy4"},
+		{src:"images/_1pngcopy5.png?1640633810189", id:"_1pngcopy5"},
+		{src:"images/_1pngcopy6.png?1640633810189", id:"_1pngcopy6"},
+		{src:"images/_1pngcopy7.png?1640633810189", id:"_1pngcopy7"},
+		{src:"images/_1pngcopy8.png?1640633810189", id:"_1pngcopy8"},
+		{src:"images/_1pngcopy9.png?1640633810189", id:"_1pngcopy9"},
+		{src:"images/_2.png?1640633810189", id:"_2"},
+		{src:"images/_2pngcopy.png?1640633810189", id:"_2pngcopy"},
+		{src:"images/_2pngcopy10.png?1640633810189", id:"_2pngcopy10"},
+		{src:"images/_2pngcopy11.png?1640633810189", id:"_2pngcopy11"},
+		{src:"images/_2pngcopy12.png?1640633810189", id:"_2pngcopy12"},
+		{src:"images/_2pngcopy2.png?1640633810189", id:"_2pngcopy2"},
+		{src:"images/_2pngcopy3.png?1640633810189", id:"_2pngcopy3"},
+		{src:"images/_2pngcopy4.png?1640633810189", id:"_2pngcopy4"},
+		{src:"images/_2pngcopy5.png?1640633810189", id:"_2pngcopy5"},
+		{src:"images/_2pngcopy6.png?1640633810189", id:"_2pngcopy6"},
+		{src:"images/_2pngcopy7.png?1640633810189", id:"_2pngcopy7"},
+		{src:"images/_2pngcopy8.png?1640633810189", id:"_2pngcopy8"},
+		{src:"images/_2pngcopy9.png?1640633810189", id:"_2pngcopy9"},
+		{src:"images/_3.png?1640633810189", id:"_3"},
+		{src:"images/_3pngcopy.png?1640633810189", id:"_3pngcopy"}
 	],
 	preloads: []
 };

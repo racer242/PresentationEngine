@@ -1,7 +1,7 @@
 window.settings={
 
   useEmbeddedContent:false,
-  outContentToConsole:false,
+  outContentToConsole:true,
 
   contentUrl:"./presentation/content.xlsx",
 

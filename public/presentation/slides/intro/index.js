@@ -41,22 +41,28 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{red:0,white:10,viewSlide00:2,end00:4,"viewSlide00":12,"end00":14});
 
 	// Layer_3
-	this.gotoSlide00detailing = new lib.AreaButton();
-	this.gotoSlide00detailing.name = "gotoSlide00detailing";
-	this.gotoSlide00detailing.parent = this;
-	this.gotoSlide00detailing.setTransform(523,685.9,3.0289,0.7596);
-	new cjs.ButtonHelper(this.gotoSlide00detailing, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00detailing = new lib.AreaButton();
+	this.goto00detailing.name = "goto00detailing";
+	this.goto00detailing.parent = this;
+	this.goto00detailing.setTransform(523,685.9,3.0289,0.7596);
+	new cjs.ButtonHelper(this.goto00detailing, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.gotoSlide00detailing).to({_off:true},10).wait(10));
+	this.timeline.addTween(cjs.Tween.get(this.goto00detailing).to({_off:true},10).wait(10));
 
 	// Layer_4
+	this.next00 = new lib.AreaButton();
+	this.next00.name = "next00";
+	this.next00.parent = this;
+	this.next00.setTransform(526.05,463.4,2.979,2.5408);
+	new cjs.ButtonHelper(this.next00, 0, 1, 2, false, new lib.AreaButton(), 3);
+
 	this.gotoNextSlide00 = new lib.AreaButton();
 	this.gotoNextSlide00.name = "gotoNextSlide00";
 	this.gotoNextSlide00.parent = this;
 	this.gotoNextSlide00.setTransform(526.05,463.4,2.979,2.5408);
 	new cjs.ButtonHelper(this.gotoNextSlide00, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.gotoNextSlide00).wait(20));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.next00}]}).to({state:[{t:this.gotoNextSlide00}]},10).wait(10));
 
 	// Layer_5
 	this.instance = new lib.cover();
@@ -78,8 +84,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_2.png?1639759389498", id:"_2"},
-		{src:"images/cover.png?1639759389498", id:"cover"}
+		{src:"images/_2.png", id:"_2"},
+		{src:"images/cover.png", id:"cover"}
 	],
 	preloads: []
 };

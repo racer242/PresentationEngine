@@ -10,7 +10,13 @@ import '../css/projector.css';
 class Layer extends Component {
 
   render() {
+
     let state=this.props.state;
+    let currentSlide=state.sequence[state.position];
+    let targetSlide=state.sequence[state.target];
+
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
     return (
       <div
         id="Projector"
@@ -19,27 +25,29 @@ class Layer extends Component {
       >
         {
           state.layers.map((v,i) => {
-            let layer=state.currentSlide.layers[v.name];
-            if (v.static) {
-              return (
-                <StaticLayer
-                  key={v.name}
-                  layer={layer}
-                  slide={state.currentSlide}
-                  bounds={this.props.bounds}
-                />
-              )
-            } else {
+            let layer=currentSlide.layers[v.name];
+            // if (v.static) {
+            //   return (
+            //     <StaticLayer
+            //       key={v.name}
+            //       layer={layer}
+            //       slide={currentSlide}
+            //       bounds={this.props.bounds}
+            //     />
+            //   )
+            // } else {
               return (
                 <ScrollableLayer
                   key={v.name}
-                  state={state}
                   layer={layer}
-                  slide={state.currentSlide}
+                  slide={currentSlide}
+                  target={targetSlide}
+                  sequence={state.sequence}
                   bounds={this.props.bounds}
+                  position={state.viewPosition}
                 />
               )
-            }
+            // }
           })
         }
       </div>

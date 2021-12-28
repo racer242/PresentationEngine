@@ -21,7 +21,9 @@ const settings = {
 
   defaultState:{
     playbackStarted:false,
-    currentSlide:null,
+    position:-1,
+    viewPosition:-1,
+    target:-1,
   },
 
   isMobile:isMobile(),

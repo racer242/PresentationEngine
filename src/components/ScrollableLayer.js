@@ -7,30 +7,18 @@ import '../css/layer.css';
 
 class ScrollableLayer extends Component {
 
-  getVisibleIds(slide,slides) {
-    let result=[];
-    result.push(slide.id);
-    if (slide.index>0) {
-      result.push(slides[slide.index-1].id);
-    }
-    if (slide.index<slides.length-1) {
-      result.push(slides[slide.index+1].id);
-    }
-    if (slide.next) {
-      result.push(slide.next);
-    }
-    if (slide.prev) {
-      result.push(slide.prev);
-    }
-    return result;
-  }
-
   render() {
-    let state=this.props.state;
+    let sequence=this.props.sequence;
     let slide=this.props.slide;
+    let target=this.props.target;
     let isHidden=false;
-    let slideXPosition=-slide.index*this.props.bounds.size.width;
-    let visibleIds=this.getVisibleIds(slide,state.sequence);
+    let isntStatic=!this.props.layer.static;
+
+    let slideXPosition=0;
+    if (isntStatic) {
+      slideXPosition=-this.props.position*this.props.bounds.size.width;
+    }
+
     return (
       <div
         className="layer"
@@ -38,21 +26,25 @@ class ScrollableLayer extends Component {
           ...this.props.bounds.style,
           ...this.props.style,
           left:slideXPosition,
+          transition: "left 1s ease-out",
         }}
       >
       {
-        state.sequence.map((v,i) => {
+        sequence.map((v,i) => {
           let layer=v.layers[this.props.layer.name];
-          let xPosition=i*this.props.bounds.size.width;
-          if (layer.source.path) {
+          let xPosition=0;
+          if (isntStatic) {
+            xPosition=i*this.props.bounds.size.width;
+          }
+          if ((layer.included)&&(!layer.ignore)) {
             return (
               <View
                 name={v.id+"|"+layer.name+"|"+i}
                 key={"Slide"+i}
                 layer={layer}
                 bounds={this.props.bounds}
-                hidden={isHidden}
-                invisible={visibleIds.indexOf(v.id)<0}
+                hidden={layer.hiddenNow}
+                invisible={!layer.visible}
                 style={{
                   left:xPosition,
                 }}
@@ -61,7 +53,6 @@ class ScrollableLayer extends Component {
           } else {
             return null;
           }
-
         })
       }
       </div>
