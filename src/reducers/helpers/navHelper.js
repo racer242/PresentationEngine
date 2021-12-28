@@ -9,8 +9,8 @@ export const reduceToSlideIndex = (state,index) => {
 }
 
 export const reduceToSlideId = (state,id) => {
-  resetIncludedLayers(state);
   let slide=state.sequence.find(v => v.id===id);
+  resetIncludedLayers(state,slide.index);
   let position=state.position;
   if (slide) {
     position=slide.index;
