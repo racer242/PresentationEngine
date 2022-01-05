@@ -49,8 +49,10 @@ class Control extends Component {
         console.log("Presentation data load error...",state.lastError);
       } else
       if (state.readyToInit) {
-        // this.sendInit();
-        this.store.dispatch(initIsDone());
+        this.sendInit();
+        setTimeout(()=>{
+          this.store.dispatch(initIsDone());
+        },200)
       }
 
     }
@@ -62,11 +64,29 @@ class Control extends Component {
   //
   //--------------------------------------------------------------------------
 
+
+  sendInit() {
+    this.state.sequence.map((v)=>{
+      for (let layerName in v.layers) {
+        let layer=v.layers[layerName];
+        if (layer.loaded) {
+          this.sendMessage("init",{
+            source:layer.source,
+            params:v.params,
+            data:this.state.extraData,
+          },v,layer);
+        }
+      }
+    });
+  }
+
+
+
   initInteractions() {
     window.addEventListener("message", (event) => {
   		let eventType=event.data.event;
       let eventSource=event.data.source;
-      console.log("Received Message:",eventType,eventSource);
+      console.log("Received Message:",eventType,eventSource,event);
       if ((eventSource)&&(eventSource!==settings.parentWindowId)) {
         let parseSource=eventSource.split("|");
         let sourceId=parseSource[0];
@@ -77,7 +97,7 @@ class Control extends Component {
           if (slide) {
             let layer=slide.layers[slideLayer];
             if (layer) {
-              this.processInteraction(eventType,event.params,event.data,slide,layer);
+              this.processInteraction(eventType,event.data,slide,layer);
             }
           }
         }
@@ -111,16 +131,11 @@ class Control extends Component {
     }
   }
 
-  processInteraction(eventType,params,data,slide,layer) {
+  processInteraction(eventType,data,slide,layer) {
     console.log("Process interaction:",eventType,data,slide,layer);
     switch (eventType) {
       case "complete": {
         this.store.dispatch(viewLoaded(slide.index,layer.name));
-        this.sendMessage("init",{
-          source:layer.source,
-          params:slide.params,
-          data:this.state.extraData,
-        },slide,layer);
         break;
       }
       case "next": {
@@ -133,8 +148,10 @@ class Control extends Component {
       }
       case "goto": {
         let slideId;
-        if (params) slideId=params[0];
-        if (data) slideId=data.id;
+        if (data.params)
+          slideId=data.params[0];
+        else
+          if (data) slideId=data.id;
         this.store.dispatch(gotoSlide(slideId));
         break;
       }

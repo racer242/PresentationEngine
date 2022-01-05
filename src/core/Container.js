@@ -32,6 +32,7 @@ class Container extends Component {
   onStoreChange() {
     if (this.mounted) {
       let state=this.store.getState();
+      if (state.blockRender) return;
       this.setState(state);
     }
   }
@@ -67,14 +68,12 @@ class Container extends Component {
     document.getElementsByTagName('html')[0].style['font-size']=fontSize+'px';
   }
 
-
   render() {
 
     let children = [];
     children.push(this.props.children);
 
     if (this.state.position>=0) {
-      // console.log(this.props);
 
       let {boxWidth,boxHeight,boxLeft,boxTop,boxScale,boxFontSize}=this.getViewPort(this.props.windowWidth,this.props.windowHeight,this.state.settings);
       if (boxScale) {

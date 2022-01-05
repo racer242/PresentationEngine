@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
-// import settings from '../configuration/settings.js'
+import settings from '../configuration/settings.js'
 
 import View from './View.js';
 
 import '../css/layer.css';
 
 class ScrollableLayer extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      transition:false,
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.position!==this.props.position) {
+      this.setState({
+        ...this.state,
+        transition:true,
+      })
+    }
+  }
 
   render() {
     let sequence=this.props.sequence;
@@ -26,8 +42,9 @@ class ScrollableLayer extends Component {
           ...this.props.bounds.style,
           ...this.props.style,
           left:slideXPosition,
-          transition: "left 1s ease-out",
+          transition: (isntStatic&&this.state.transition)?`left ${settings.transition.duration}s ${settings.transition.easing} ${settings.transition.delay}s`:null,
         }}
+        onTransitionEnd={()=>{this.setState({...this.state,transition:false})}}
       >
       {
         sequence.map((v,i) => {

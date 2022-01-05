@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import settings from '../configuration/settings.js'
 
-import StaticLayer from './StaticLayer.js';
 import ScrollableLayer from './ScrollableLayer.js';
 
 
@@ -15,8 +14,6 @@ class Layer extends Component {
     let currentSlide=state.sequence[state.position];
     let targetSlide=state.sequence[state.target];
 
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
     return (
       <div
         id="Projector"
@@ -26,16 +23,6 @@ class Layer extends Component {
         {
           state.layers.map((v,i) => {
             let layer=currentSlide.layers[v.name];
-            // if (v.static) {
-            //   return (
-            //     <StaticLayer
-            //       key={v.name}
-            //       layer={layer}
-            //       slide={currentSlide}
-            //       bounds={this.props.bounds}
-            //     />
-            //   )
-            // } else {
               return (
                 <ScrollableLayer
                   key={v.name}
