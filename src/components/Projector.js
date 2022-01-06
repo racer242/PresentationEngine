@@ -12,7 +12,7 @@ class Layer extends Component {
 
     let state=this.props.state;
     let currentSlide=state.sequence[state.position];
-    let targetSlide=state.sequence[state.target];
+    // let targetSlide=state.sequence[state.target];
 
     return (
       <div
@@ -28,7 +28,7 @@ class Layer extends Component {
                   key={v.name}
                   layer={layer}
                   slide={currentSlide}
-                  target={targetSlide}
+                  // target={targetSlide}
                   sequence={state.sequence}
                   bounds={this.props.bounds}
                   position={state.viewPosition}

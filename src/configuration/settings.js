@@ -23,7 +23,8 @@ const settings = {
     playbackStarted:false,
     position:-1,
     viewPosition:0,
-    target:-1,
+    // target:-1,
+    cacheStack:[],
   },
 
   isMobile:isMobile(),

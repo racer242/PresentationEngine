@@ -11,4 +11,6 @@ window.settings={
     easing:"ease-in-out",
   },
 
+  cacheSize:5,
+
 }
