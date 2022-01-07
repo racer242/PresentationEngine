@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import settings from '../configuration/settings.js'
-import { startPlayback, nextSlide, prevSlide, gotoSlide } from '../actions/navActions.js';
+import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer } from '../actions/navActions.js';
 import { viewLoaded, initIsDone } from '../actions/assetActions.js';
 
 
@@ -73,6 +73,7 @@ class Control extends Component {
           this.sendMessage("init",{
             source:layer.source,
             params:v.params,
+            menus:this.state.menus,
             data:this.state.extraData,
           },v,layer);
         }
@@ -141,7 +142,6 @@ class Control extends Component {
       }
       case "next": {
         if (this.state.blockInteraction) {
-          console.log("??????????????????????????????????????");
           return;
         }
         this.store.dispatch(nextSlide());
@@ -149,7 +149,6 @@ class Control extends Component {
       }
       case "prev": {
         if (this.state.blockInteraction) {
-          console.log("??????????????????????????????????????");
           return;
         }
         this.store.dispatch(prevSlide());
@@ -157,7 +156,6 @@ class Control extends Component {
       }
       case "goto": {
         if (this.state.blockInteraction) {
-          console.log("??????????????????????????????????????");
           return;
         }
         let slideId;
@@ -166,6 +164,18 @@ class Control extends Component {
         else
           if (data) slideId=data.id;
         this.store.dispatch(gotoSlide(slideId));
+        break;
+      }
+      case "hide": {
+        this.store.dispatch(hideLayer(slide.index,data.name));
+        break;
+      }
+      case "show": {
+        this.store.dispatch(showLayer(slide.index,data.name));
+        break;
+      }
+      case "switch": {
+        this.store.dispatch(switchLayer(slide.index,data.name));
         break;
       }
       default:{}

@@ -47,3 +47,27 @@ export const unblockInteraction = () => {
     type: 'UNBLOCK_INTERACTION',
   }
 }
+
+export const hideLayer = (index,name) => {
+  return {
+    type: 'HIDE_LAYER',
+    index,
+    name,
+  }
+}
+
+export const showLayer = (index,name) => {
+  return {
+    type: 'SHOW_LAYER',
+    index,
+    name,
+  }
+}
+
+export const switchLayer = (index,name) => {
+  return {
+    type: 'SWITCH_LAYER',
+    index,
+    name,
+  }
+}

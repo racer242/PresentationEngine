@@ -50,7 +50,6 @@ export const resetIncludedLayers = (state,index) => {
   });
 
   state.blockInteraction=true;
-  console.log("????? true");
 
   if (checkSlideLoaded(target.layers)) {
     updateCacheStack(index,state);
@@ -95,7 +94,6 @@ export const reduceReady = (state) => {
 
   if (state.position===settings.startPosition) {
     state.blockInteraction=false;
-    console.log("????? false");
   }
 
 

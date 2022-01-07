@@ -74,6 +74,51 @@ const navReducer = (state={}, action) => {
       break;
     }
 
+    case 'HIDE_LAYER': {
+      let slide=state.sequence[action.index];
+      if (slide) {
+        let layer=slide.layers[action.name];
+        if (layer) {
+          layer.hiddenNow=true;
+          state={
+            ...state,
+          }
+        }
+      }
+      break;
+    }
+
+    case 'SHOW_LAYER': {
+      let slide=state.sequence[action.index];
+      if (slide) {
+        let layer=slide.layers[action.name];
+        if (layer) {
+          layer.hiddenNow=false;
+          state={
+            ...state,
+          }
+        }
+      }
+      break;
+    }
+
+    case 'SWITCH_LAYER': {
+      let slide=state.sequence[action.index];
+      if (slide) {
+        let layer=slide.layers[action.name];
+        if (layer) {
+          if (layer.hiddenNow)
+            layer.hiddenNow=false;
+          else
+            layer.hiddenNow=true;
+          state={
+            ...state,
+          }
+        }
+      }
+      break;
+    }
+
     default:{}
   }
   return state
