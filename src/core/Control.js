@@ -133,20 +133,33 @@ class Control extends Component {
 
   processInteraction(eventType,data,slide,layer) {
     console.log("Process interaction:",eventType,data,slide,layer);
+
     switch (eventType) {
       case "complete": {
         this.store.dispatch(viewLoaded(slide.index,layer.name));
         break;
       }
       case "next": {
+        if (this.state.blockInteraction) {
+          console.log("??????????????????????????????????????");
+          return;
+        }
         this.store.dispatch(nextSlide());
         break;
       }
       case "prev": {
+        if (this.state.blockInteraction) {
+          console.log("??????????????????????????????????????");
+          return;
+        }
         this.store.dispatch(prevSlide());
         break;
       }
       case "goto": {
+        if (this.state.blockInteraction) {
+          console.log("??????????????????????????????????????");
+          return;
+        }
         let slideId;
         if (data.params)
           slideId=data.params[0];
@@ -158,7 +171,7 @@ class Control extends Component {
       default:{}
     }
   }
-// nextSlide, prevSlide, gotoSlide
+
   render () {
     return null;
   }

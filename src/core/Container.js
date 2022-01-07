@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import Projector from '../components/Projector.js';
+import { unblockInteraction } from '../actions/navActions.js';
 
-// import settings from '../configuration/settings.js'
+
 import '../css/container.css';
 
 class Container extends Component {
@@ -11,6 +12,7 @@ class Container extends Component {
     super(props);
     this.store = this.props.store;
     this.state={};
+    this.transitionReadyHandler=this.transitionReadyHandler.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,10 @@ class Container extends Component {
       if (state.blockRender) return;
       this.setState(state);
     }
+  }
+
+  transitionReadyHandler() {
+    this.store.dispatch(unblockInteraction());
   }
 
   getViewPort(windowWidth,windowHeight,conf) {
@@ -121,6 +127,7 @@ class Container extends Component {
               <Projector
                 state={this.state}
                 bounds={bounds}
+                onTransitionReady={this.transitionReadyHandler}
               />
             </div>
           </div>

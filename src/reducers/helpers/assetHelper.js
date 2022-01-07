@@ -49,6 +49,9 @@ export const resetIncludedLayers = (state,index) => {
     }
   });
 
+  state.blockInteraction=true;
+  console.log("????? true");
+
   if (checkSlideLoaded(target.layers)) {
     updateCacheStack(index,state);
     state.readyToInit=true;
@@ -86,11 +89,15 @@ export const reduceReady = (state) => {
     })
   });
 
-  return {
-    ...state,
-    viewPosition:state.position,
-    readyToInit:false,
-    blockRender:false,
+  state.viewPosition=state.position;
+  state.readyToInit=false;
+  state.blockRender=false;
+
+  if (state.position===settings.startPosition) {
+    state.blockInteraction=false;
+    console.log("????? false");
   }
 
+
+  return state;
 }

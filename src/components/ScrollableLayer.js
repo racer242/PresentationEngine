@@ -38,7 +38,6 @@ class ScrollableLayer extends Component {
         toOffset=this.scrollOffset+1;
         this.scrollOffset++;
       }
-
       this.setState({
         ...this.state,
         transition:true,
@@ -51,12 +50,18 @@ class ScrollableLayer extends Component {
     }
   }
 
+  transitionReady() {
+    this.setState({...this.state,transition:false});
+    if (this.props.layer.master) this.props.onTransitionReady();
+  }
+
   render() {
     let sequence=this.props.sequence;
     let slide=this.props.slide;
     let isHidden=false;
     let isntStatic=!this.props.layer.static;
 
+    // let distance=this.state.from-this.state.to;
     let scrollPosition=0;
     let fromPosition=0;
     let toPosition=0;
@@ -76,7 +81,7 @@ class ScrollableLayer extends Component {
           left:scrollPosition,
           transition: (isntStatic&&this.state.transition)?`left ${settings.transition.duration}s ${settings.transition.easing} ${settings.transition.delay}s`:null,
         }}
-        onTransitionEnd={()=>{this.setState({...this.state,transition:false})}}
+        onTransitionEnd={()=>{this.transitionReady();}}
       >
       {
         sequence.map((v,i) => {

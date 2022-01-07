@@ -10,29 +10,27 @@ const navReducer = (state={}, action) => {
     {
       state={
         ...reduceToSlideIndex(state,0),
-        ...action.data,
+        playbackStarted:true,
       }
       break;
     }
 
 
-    case 'GOTO_NEXT_SLIDE': {
+    case 'NEXT_SLIDE': {
       let index=state.position;
       if (index<state.sequence.length-1) {
         state={
           ...reduceToSlideIndex(state,index+1),
-          ...action.data,
         }
       }
       break;
     }
 
-    case 'GOTO_PREV_SLIDE': {
+    case 'PREV_SLIDE': {
       let index=state.position;
       if (index>0) {
         state={
           ...reduceToSlideIndex(state,index-1),
-          ...action.data,
         }
       }
       break;
@@ -41,7 +39,6 @@ const navReducer = (state={}, action) => {
     case 'GOTO_SLIDE_INDEX': {
       state={
         ...reduceToSlideIndex(state,action.index),
-        ...action.data,
       }
       break;
     }
@@ -49,7 +46,6 @@ const navReducer = (state={}, action) => {
     case 'GOTO_SLIDE': {
       state={
         ...reduceToSlideId(state,action.id),
-        ...action.data,
       }
       break;
     }
@@ -58,6 +54,22 @@ const navReducer = (state={}, action) => {
       state={
         ...state,
         viewPosition:state.position,
+      }
+      break;
+    }
+
+    case 'BLOCK_INTERACTION': {
+      state={
+        ...state,
+        blockInteraction:true,
+      }
+      break;
+    }
+
+    case 'UNBLOCK_INTERACTION': {
+      state={
+        ...state,
+        blockInteraction:false,
       }
       break;
     }

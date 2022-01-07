@@ -1,21 +1,18 @@
 export const startPlayback = () => {
   return {
     type: 'START_PLAYBACK',
-    data:{
-      playbackStarted:true,
-    },
   }
 }
 
 export const nextSlide = () => {
   return {
-    type: 'GOTO_NEXT_SLIDE',
+    type: 'NEXT_SLIDE',
   }
 }
 
 export const prevSlide = () => {
   return {
-    type: 'GOTO_PREV_SLIDE',
+    type: 'PREV_SLIDE',
   }
 }
 
@@ -36,5 +33,17 @@ export const gotoSlide = (id) => {
 export const applyViewPosition = () => {
   return {
     type: 'APPLY_VIEW_POSITION',
+  }
+}
+
+export const blockInteraction = () => {
+  return {
+    type: 'BLOCK_INTERACTION',
+  }
+}
+
+export const unblockInteraction = () => {
+  return {
+    type: 'UNBLOCK_INTERACTION',
   }
 }

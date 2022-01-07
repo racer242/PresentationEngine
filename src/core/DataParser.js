@@ -79,6 +79,12 @@ class DataParser {
       return a;
     },{});
 
+    let masterLayer=layers.find((v)=>{return v.master});
+    if (!masterLayer) {
+      masterLayer=layers.find((v)=>{return !v.static});
+      masterLayer.master=1;
+    }
+
     return { layers, layerIndex};
   }
 
