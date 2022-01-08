@@ -5,6 +5,7 @@ export const reduceToSlideIndex = (state,index) => {
   return {
     ...state,
     position:index,
+    lastPosition:state.position,
   }
 }
 
@@ -18,5 +19,6 @@ export const reduceToSlideId = (state,id) => {
   return {
     ...state,
     position,
+    lastPosition:state.position,
   }
 }

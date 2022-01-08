@@ -11,13 +11,13 @@ class ScrollableLayer extends Component {
     super(props);
     this.state = {
       transition:false,
-      from:0,
-      to:0,
-      fromOffset:0,
-      toOffset:0,
-      scrollOffset:0,
+      from:props.position,
+      to:props.position,
+      fromOffset:props.position,
+      toOffset:props.position,
+      scrollOffset:props.position,
     };
-    this.scrollOffset=0;
+    this.scrollOffset=props.position;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -46,7 +46,7 @@ class ScrollableLayer extends Component {
         fromOffset,
         toOffset,
         scrollOffset:this.scrollOffset,
-      })
+      });
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import settings from '../configuration/settings.js'
-import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer } from '../actions/navActions.js';
+import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer, playbackIsDone } from '../actions/navActions.js';
 import { viewLoaded, initIsDone } from '../actions/assetActions.js';
 
 
@@ -53,6 +53,12 @@ class Control extends Component {
         setTimeout(()=>{
           this.store.dispatch(initIsDone());
         },200)
+      } else
+      if (state.readyToPlay) {
+        this.sendPlay();
+        setTimeout(()=>{
+          this.store.dispatch(playbackIsDone());
+        },200)
       }
 
     }
@@ -66,22 +72,29 @@ class Control extends Component {
 
 
   sendInit() {
-    this.state.sequence.map((v)=>{
-      for (let layerName in v.layers) {
-        let layer=v.layers[layerName];
-        if (layer.loaded) {
-          this.sendMessage("init",{
-            source:layer.source,
-            params:v.params,
-            menus:this.state.menus,
-            data:this.state.extraData,
-          },v,layer);
-        }
+    // this.state.sequence.map((v)=>{
+    let slide=this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer)=>{
+      if (layer.loaded) {
+        this.sendMessage("init",{
+          source:layer.source,
+          params:slide.params,
+          menus:this.state.menus,
+          data:this.state.extraData,
+        },slide,layer);
+      }
+    });
+    // });
+  }
+
+  sendPlay() {
+    let slide=this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer)=>{
+      if (!layer.hiddenNow) {
+        this.sendMessage("play",{},slide,layer);
       }
     });
   }
-
-
 
   initInteractions() {
     window.addEventListener("message", (event) => {
@@ -172,10 +185,21 @@ class Control extends Component {
       }
       case "show": {
         this.store.dispatch(showLayer(slide.index,data.name));
+        this.sendMessage("play",{},slide,slide.layers[data.name]);
         break;
       }
       case "switch": {
         this.store.dispatch(switchLayer(slide.index,data.name));
+        let targetLayer=slide.layers[data.name];
+        if (targetLayer) {
+          if (targetLayer.hiddenNow) {
+            this.sendMessage("play",{},slide,slide.layers[data.name]);
+          }
+        }
+        break;
+      }
+      case "stop": {
+        this.sendMessage("stop",{},slide,layer);
         break;
       }
       default:{}

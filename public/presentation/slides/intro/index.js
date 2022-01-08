@@ -18,7 +18,23 @@ p.nominalBounds = new cjs.Rectangle(0,0,1280,960);
 (lib.cover = function() {
 	this.initialize(img.cover);
 }).prototype = p = new cjs.Bitmap();
-p.nominalBounds = new cjs.Rectangle(0,0,1280,960);
+p.nominalBounds = new cjs.Rectangle(0,0,1280,960);// helper functions:
+
+function mc_symbol_clone() {
+	var clone = this._cloneProps(new this.constructor(this.mode, this.startPosition, this.loop));
+	clone.gotoAndStop(this.currentFrame);
+	clone.paused = this.paused;
+	clone.framerate = this.framerate;
+	return clone;
+}
+
+function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
+	var prototype = cjs.extend(symbol, cjs.MovieClip);
+	prototype.clone = mc_symbol_clone;
+	prototype.nominalBounds = nominalBounds;
+	prototype.frameBounds = frameBounds;
+	return prototype;
+	}
 
 
 (lib.AreaButton = function(mode,startPosition,loop) {
@@ -36,9 +52,22 @@ p.nominalBounds = new cjs.Rectangle(0,0,1280,960);
 p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 
 
+(lib.arrow = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FFFFFF").s().p("AmknmINJHmItJHmg");
+	this.shape.setTransform(42.125,48.65);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.arrow, new cjs.Rectangle(0,0,84.3,97.3), null);
+
+
 // stage content:
 (lib.intro = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{red:0,white:10,viewSlide00:2,end00:4,"viewSlide00":12,"end00":14});
+	this.initialize(mode,startPosition,loop,{red:0,white:10,stop01:9,stop02:12});
 
 	// Layer_3
 	this.goto00detailing = new lib.AreaButton();
@@ -64,17 +93,24 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.next00}]}).to({state:[{t:this.gotoNextSlide00}]},10).wait(10));
 
-	// Layer_5
-	this.instance = new lib.cover();
+	// Layer_6
+	this.instance = new lib.arrow();
 	this.instance.parent = this;
+	this.instance.setTransform(-50.4,606.85,1,1,0,0,0,42.1,48.6);
 
-	this.instance_1 = new lib._2();
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({x:509.6},9,cjs.Ease.cubicOut).to({_off:true},1).wait(10));
+
+	// Layer_5
+	this.instance_1 = new lib.cover();
 	this.instance_1.parent = this;
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[{t:this.instance_1}]},10).wait(10));
+	this.instance_2 = new lib._2();
+	this.instance_2.parent = this;
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1}]}).to({state:[{t:this.instance_2}]},10).wait(10));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(640,480,640,480);
+p.nominalBounds = new cjs.Rectangle(547.5,480,732.5,480);
 // library properties:
 lib.properties = {
 	id: '284D0C179085334E961662CC8FA93117',
@@ -84,8 +120,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_2.png", id:"_2"},
-		{src:"images/cover.png", id:"cover"}
+		{src:"images/_2.png?1641668339991", id:"_2"},
+		{src:"images/cover.png?1641668339991", id:"cover"}
 	],
 	preloads: []
 };

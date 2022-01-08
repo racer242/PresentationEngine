@@ -48,6 +48,18 @@ export const unblockInteraction = () => {
   }
 }
 
+export const transitionFinished = () => {
+  return {
+    type: 'TRANSITION_FINISHED',
+  }
+}
+
+export const playbackIsDone = () => {
+  return {
+    type: 'PLAYBACK_IS_DONE',
+  }
+}
+
 export const hideLayer = (index,name) => {
   return {
     type: 'HIDE_LAYER',

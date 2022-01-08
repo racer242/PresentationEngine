@@ -21,12 +21,14 @@ const settings = {
 
   defaultState:{
     playbackStarted:false,
-    position:-1,
-    viewPosition:0,
+    lastPosition:window.settings.startPosition,
+    position:window.settings.startPosition,
+    viewPosition:window.settings.startPosition,
     cacheStack:[],
     readyToInit:false,
     blockRender:false,
     blockInteraction:false,
+    readyToPlay:false,
   },
 
   isMobile:isMobile(),

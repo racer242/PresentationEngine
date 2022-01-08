@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Projector from '../components/Projector.js';
-import { unblockInteraction } from '../actions/navActions.js';
+import { transitionFinished } from '../actions/navActions.js';
 
 
 import '../css/container.css';
@@ -40,7 +40,7 @@ class Container extends Component {
   }
 
   transitionReadyHandler() {
-    this.store.dispatch(unblockInteraction());
+    this.store.dispatch(transitionFinished());
   }
 
   getViewPort(windowWidth,windowHeight,conf) {
@@ -79,7 +79,7 @@ class Container extends Component {
     let children = [];
     children.push(this.props.children);
 
-    if (this.state.position>=0) {
+    if (this.state.playbackStarted) {
 
       let {boxWidth,boxHeight,boxLeft,boxTop,boxScale,boxFontSize}=this.getViewPort(this.props.windowWidth,this.props.windowHeight,this.state.settings);
       if (boxScale) {

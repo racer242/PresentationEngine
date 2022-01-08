@@ -92,10 +92,10 @@ export const reduceReady = (state) => {
   state.readyToInit=false;
   state.blockRender=false;
 
-  if (state.position===settings.startPosition) {
+  if (state.position===state.lastPosition) {
     state.blockInteraction=false;
+    state.readyToPlay=true;
   }
-
 
   return state;
 }

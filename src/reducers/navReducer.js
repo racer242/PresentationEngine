@@ -9,7 +9,7 @@ const navReducer = (state={}, action) => {
     case 'START_PLAYBACK':
     {
       state={
-        ...reduceToSlideIndex(state,0),
+        ...reduceToSlideIndex(state,state.position),
         playbackStarted:true,
       }
       break;
@@ -70,6 +70,23 @@ const navReducer = (state={}, action) => {
       state={
         ...state,
         blockInteraction:false,
+      }
+      break;
+    }
+
+    case 'TRANSITION_FINISHED': {
+      state={
+        ...state,
+        blockInteraction:false,
+        readyToPlay:true,
+      }
+      break;
+    }
+
+    case 'PLAYBACK_IS_DONE': {
+      state={
+        ...state,
+        readyToPlay:false,
       }
       break;
     }

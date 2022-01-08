@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js"></script>
+<script src="index.js?1641668339999"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -43,25 +43,25 @@ function init() {
 	})
 	/* *** message handler *** */
 	/* *** swipe handler *** */
-	      document.addEventListener('touchstart', handleTouchStart, false);
-	      document.addEventListener('touchmove', handleTouchMove, false);
-	      var xDown = null;
-	      function handleTouchStart(evt) {
-	        const firstTouch = evt.touches[0];
-	        xDown = firstTouch.clientX;
-	      };
-	      function handleTouchMove(evt) {
-	        if ( ! xDown ) {
-	          return;
-	        }
-	        var xUp = evt.touches[0].clientX;
-	        if ( xDown - xUp > 0 ) {
-	          sendMessage({event:"next"});
-	        } else {
-	          sendMessage({event:"prev"});
-	        }
-	        xDown = null;
-	      };
+  document.addEventListener('touchstart', handleTouchStart, false);
+  document.addEventListener('touchmove', handleTouchMove, false);
+  var xDown = null;
+  function handleTouchStart(evt) {
+    const firstTouch = evt.touches[0];
+    xDown = firstTouch.clientX;
+  };
+  function handleTouchMove(evt) {
+    if ( ! xDown ) {
+      return;
+    }
+    var xUp = evt.touches[0].clientX;
+    if ( xDown - xUp > 0 ) {
+      sendMessage({event:"next"});
+    } else {
+      sendMessage({event:"prev"});
+    }
+    xDown = null;
+  };
 	/* *** swipe handler *** */
 }
 function handleFileLoad(evt, comp) {
@@ -144,10 +144,21 @@ function parseCommand(command) {
 /* *** Message functions *** */
 /* *** Create stage function start *** */
 function createStage(evt,comp,source) {
-	//console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source);
-	if ((!evt)||(!comp)||(!source)||(handledLoad)) return;
+	console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source,handledLoad);
+	if ((!evt)||(!comp)||(!source)) return;
+	if (handledLoad) {
+		if (source.frame) {
+			exportRoot.gotoAndStop(source.frame);
+			console.log("GO TO FRAME",window.location.href,source.frame);
+		} else {
+			if (contentId) {
+				exportRoot.gotoAndStop(0);
+			}
+			console.log("ROOT STOPPED",window.location.href);
+		}
+	}
 	handledLoad=true;
-	//console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
+	console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
 	/* *** Create stage function start *** */
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
 	var lib=comp.getLibrary();
@@ -164,9 +175,9 @@ function createStage(evt,comp,source) {
 	var libClip=lib[source.clip];
 	if (libClip) {
 		exportRoot = new libClip();
-		//console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
+		console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
 	} else {
-		//console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
+		console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
 	}
 	/* *** Define export root clip *** */
 	/* *** Go go frame or stop *** */
@@ -177,21 +188,22 @@ function createStage(evt,comp,source) {
 	var lastFrame=-1;
 	exportRoot.on("tick", function() {
 		if (lastFrame!=exportRoot.currentFrame) {
+			lastFrame=exportRoot.currentFrame;
 			var command=parseCommand(labels[exportRoot.currentFrame]);
 			if (command) {
-				//console.log("Label command detected:",command);
+				console.log("Label command detected:",window.location.href,source.clip,source.frame,command,lastFrame,exportRoot.currentFrame);
 				sendMessage(command);
 			}
 		}
 	});
 	if (source.frame) {
 		exportRoot.gotoAndStop(source.frame);
-		//console.log("GO TO FRAME",window.location.href,source.frame);
+		console.log("GO TO FRAME",window.location.href,source.frame);
 	} else {
 		if (contentId) {
-			exportRoot.stop();
+			exportRoot.gotoAndStop(0);
 		}
-		//console.log("ROOT STOPPED",window.location.href);
+		console.log("ROOT STOPPED",window.location.href);
 	}
 	dom_overlay_container.addEventListener("click", function(event) {
 	var stageBounds={width:1280,height:960};
