@@ -7,17 +7,13 @@ const assetReducer = (state={}, action) => {
   switch (action.type) {
 
     case 'VIEW_LOADED': {
-      state={
-        ...reduceViewLoaded(state,action.slideIndex,action.layerName),
-      }
+      state=reduceViewLoaded(state,action.slideIndex,action.layerName);
       break;
     }
 
     case 'INIT_IS_DONE':
     {
-      state={
-        ...reduceReady(state),
-      }
+      state=reduceReady(state);
       break;
     }
 

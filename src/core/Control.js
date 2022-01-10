@@ -42,7 +42,7 @@ class Control extends Component {
       let state=this.store.getState();
       this.setState(state);
 
-      if ((state.dataLoaded)&&(!state.playbackStarted)) {
+      if ((state.dataLoaded)&&(!state.isWorking)) {
         this.store.dispatch(startPlayback());
       } else
       if (state.loadDataError) {

@@ -6,7 +6,14 @@
   position: absolute;
   pointer-events: none;
 }
-.viewContainer{
+.iframeContainer{
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  pointer-events: all;
+}
+.imageContainer{
   position: absolute;
   margin: 0px;
   padding: 0px;

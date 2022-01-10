@@ -36,3 +36,12 @@ export const replaceObject = (object,data) => {
   }
   return data;
 }
+
+export const getFileExt = (data) => {
+  let regExp=/\.([^.]*?)(?=\?|#|$)/gim;
+  let match=regExp.exec(data);
+  if (match) {
+    return match[1];
+  }
+  return null;
+}

@@ -82,7 +82,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.next00 = new lib.AreaButton();
 	this.next00.name = "next00";
 	this.next00.parent = this;
-	this.next00.setTransform(526.05,463.4,2.979,2.5408);
+	this.next00.setTransform(526.05,463.5,2.979,2.2243);
 	new cjs.ButtonHelper(this.next00, 0, 1, 2, false, new lib.AreaButton(), 3);
 
 	this.gotoNextSlide00 = new lib.AreaButton();
@@ -120,8 +120,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_2.png?1641668339991", id:"_2"},
-		{src:"images/cover.png?1641668339991", id:"cover"}
+		{src:"images/_2.png?1641733133436", id:"_2"},
+		{src:"images/cover.png?1641733133436", id:"cover"}
 	],
 	preloads: []
 };

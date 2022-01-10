@@ -1,4 +1,4 @@
-import {reduceToSlideIndex, reduceToSlideId} from './helpers/navHelper.js'
+import {reduceToSlideIndex, reduceToSlideId, reduceNextSlide, reducePrevSlide} from './helpers/navHelper.js'
 
 const navReducer = (state={}, action) => {
 
@@ -9,44 +9,29 @@ const navReducer = (state={}, action) => {
     case 'START_PLAYBACK':
     {
       state={
-        ...reduceToSlideIndex(state,state.position),
-        playbackStarted:true,
+        ...reduceToSlideIndex(state,state.position,true),
+        isWorking:true,
       }
       break;
     }
 
-
     case 'NEXT_SLIDE': {
-      let index=state.position;
-      if (index<state.sequence.length-1) {
-        state={
-          ...reduceToSlideIndex(state,index+1),
-        }
-      }
+      state=reduceNextSlide(state);
       break;
     }
 
     case 'PREV_SLIDE': {
-      let index=state.position;
-      if (index>0) {
-        state={
-          ...reduceToSlideIndex(state,index-1),
-        }
-      }
+      state=reducePrevSlide(state);
       break;
     }
 
     case 'GOTO_SLIDE_INDEX': {
-      state={
-        ...reduceToSlideIndex(state,action.index),
-      }
+      state=reduceToSlideIndex(state,action.index);
       break;
     }
 
     case 'GOTO_SLIDE': {
-      state={
-        ...reduceToSlideId(state,action.id),
-      }
+      state=reduceToSlideId(state,action.id);
       break;
     }
 

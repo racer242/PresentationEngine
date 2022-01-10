@@ -79,7 +79,7 @@ class Container extends Component {
     let children = [];
     children.push(this.props.children);
 
-    if (this.state.playbackStarted) {
+    if (this.state.isWorking) {
 
       let {boxWidth,boxHeight,boxLeft,boxTop,boxScale,boxFontSize}=this.getViewPort(this.props.windowWidth,this.props.windowHeight,this.state.settings);
       if (boxScale) {

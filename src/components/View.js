@@ -6,6 +6,46 @@ import '../css/view.css';
 
 class View extends Component {
 
+  constructor(props) {
+    super(props);
+    this.image_loadHandler=this.image_loadHandler.bind(this);
+    this.image_touchStartHandler=this.image_touchStartHandler.bind(this);
+    this.image_touchEndHandler=this.image_touchEndHandler.bind(this);
+    this.image_touchMoveHandler=this.image_touchMoveHandler.bind(this);
+    this.imageXDownPosition=null;
+    this.imageXMovePosition=null;
+  }
+
+  sendMessage(data) {
+    console.log("SEND MESSAGE:",this.props.name,data);
+    data.source=this.props.name;
+    window.postMessage(data,"*");
+  }
+
+  image_loadHandler(event) {
+    this.sendMessage({event:"complete"});
+  }
+
+  image_touchStartHandler(event) {
+    this.imageXDownPosition = event.touches[0].clientX;
+  }
+
+  image_touchMoveHandler(event) {
+    this.imageXMovePosition = event.touches[0].clientX;
+  }
+
+  image_touchEndHandler(event) {
+    if ( ! this.imageXDownPosition ) {
+      return;
+    }
+    if ( this.imageXDownPosition - this.imageXMovePosition > 0 ) {
+      this.sendMessage({event:"next"});
+    } else {
+      this.sendMessage({event:"prev"});
+    }
+    this.imageXDownPosition = null;
+  }
+
   render() {
 
     let layer=this.props.layer;
@@ -102,11 +142,12 @@ class View extends Component {
             transform:`scale(${this.props.bounds.scale})`,
           }}
         >
+        { !layer.image &&
           <iframe
             title={this.props.name}
             name={this.props.name}
             src={source}
-            className='viewContainer'
+            className='iframeContainer'
             style={{
               width:containerWidth,
               height:containerHeight,
@@ -116,6 +157,27 @@ class View extends Component {
               bottom:containerBottom,
             }}
           />
+        }
+        { layer.image &&
+          <img
+            src={"./"+path.join(layer.source.path,layer.source.clip)}
+            className='imageContainer'
+            onLoad={this.image_loadHandler}
+            onError={this.image_loadHandler}
+            onTouchStart={this.image_touchStartHandler}
+            onTouchMove={this.image_touchMoveHandler}
+            onTouchEnd={this.image_touchEndHandler}
+            draggable={false}
+            style={{
+              width:containerWidth,
+              height:containerHeight,
+              left:containerLeft,
+              top:containerTop,
+              right:containerRight,
+              bottom:containerBottom,
+            }}
+          />
+        }
         </div>
       </div>
     )

@@ -51,6 +51,7 @@ export const resetIncludedLayers = (state,index) => {
 
   state.blockInteraction=true;
 
+
   if (checkSlideLoaded(target.layers)) {
     updateCacheStack(index,state);
     state.readyToInit=true;
@@ -59,19 +60,23 @@ export const resetIncludedLayers = (state,index) => {
   return state;
 }
 
+
+
 export const reduceViewLoaded = (state,slideIndex,layerId) => {
 
   let layers=state.sequence[slideIndex].layers;
   layers[layerId].loaded=true;
 
-  state.readyToInit=checkSlideLoaded(layers);
-  if (state.readyToInit) {
+  let readyToInit=checkSlideLoaded(layers);
+  if (readyToInit) {
     updateCacheStack(slideIndex,state);
   }
 
-  state.blockRender=true;
-
-  return state;
+  return {
+    ...state,
+    blockRender:true,
+    readyToInit,
+  }
 
 }
 
@@ -88,14 +93,16 @@ export const reduceReady = (state) => {
     })
   });
 
-  state.viewPosition=state.position;
-  state.readyToInit=false;
-  state.blockRender=false;
 
   if (state.position===state.lastPosition) {
     state.blockInteraction=false;
     state.readyToPlay=true;
   }
 
-  return state;
+  return {
+    ...state,
+    viewPosition:state.position,
+    readyToInit:false,
+    blockRender:false,
+  }
 }

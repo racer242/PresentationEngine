@@ -20,7 +20,8 @@ const settings = {
   assetsUrl: assetsUrl,
 
   defaultState:{
-    playbackStarted:false,
+    isWorking:false,
+
     lastPosition:window.settings.startPosition,
     position:window.settings.startPosition,
     viewPosition:window.settings.startPosition,
@@ -36,6 +37,7 @@ const settings = {
   isDev:(document.location.toString().indexOf("localhost")>0),
 
   anyImage:/\.(gif|jpg|jpeg|png|svg)$/gi,
+
   indexHtmlFile:"index.html",
 
   parentWindowId:"PARENT",

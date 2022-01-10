@@ -1,8 +1,7 @@
-// import settings from '../configuration/settings.js'
+import settings from '../configuration/settings.js'
 import { concatObjects } from '../helpers/objectTools.js'
 import { applyMacrosObject } from '../helpers/macrosTools.js'
-import { getMatches } from '../helpers/stringTools.js'
-
+import { getMatches, getFileExt } from '../helpers/stringTools.js'
 
 import dirtyJson from 'dirty-json'
 
@@ -236,9 +235,15 @@ class DataParser {
         }
 
         //Если фрейм не указан, то берем новый фрейм, или заменяем пустой строкой (удаляется старый). Иначе - оставляем старый
+        if (aLayer.source.frame==="") {
+          source.path=null;
+          source.clip=null;
+          source.frame=null;
+        } else
         if (aLayer.source.frame!=null) {
           source.frame=aLayer.source.frame;
-        } else {
+        } else
+        {
           source.frame=oLayer.source.frame;
         }
 
@@ -250,13 +255,18 @@ class DataParser {
     return result;
   }
 
-  setupLayers(layers,settings) {
+  setupLayers(layers,config) {
     for (let layerName in layers) {
       let layer=layers[layerName];
       if (layer.source.path) {
-        layer.source.path = applyMacrosObject(settings,layer.source.path);
+        layer.source.path = applyMacrosObject(config,layer.source.path);
       } else {
         layer.ignore=true;
+      }
+
+      if (layer.source.clip?.indexOf(".")>=0) {
+        layer.type=getFileExt(layer.source.clip);
+        layer.image=Boolean(layer.source.clip.match(settings.anyImage));
       }
 
       layer.hiddenNow=layer.hidden;
@@ -265,7 +275,7 @@ class DataParser {
   }
 
 
-  collectSequence(slides,settings) {
+  collectSequence(slides,config) {
     let result=[];
 
     for (let i = 0; i < slides.sequence.length; i++) {
@@ -288,16 +298,7 @@ class DataParser {
       //Скорректи ровали слои слайда из слоев текущего слайда
       layers=this.concatLayers(layers,slides.sequence[i].layers);
 
-      layers=this.setupLayers(layers,settings);
-
-
-      // let slidelayers=[];
-      // //Преобразуем объект со слоями опять в список
-      // for (let j = 0; j < slides.layers.length; j++) {
-      //   slidelayers.push(layers[slides.layers[j].name]);
-      // }
-      //
-      // slide.layers=slidelayers;
+      layers=this.setupLayers(layers,config);
 
       slide.layers=layers;
 
@@ -314,16 +315,16 @@ class DataParser {
     slides.templates=this.parseTemplates(data.templates,slides.layerIndex);
     slides.sequence=this.parseSequence(data.sequence,slides.layerIndex);
 
-    let settings=this.parseSettings(data.settings);
+    let config=this.parseSettings(data.settings);
     let menus=this.parseMenus(data.menus);
 
-    let sequence=this.collectSequence(slides,settings);
+    let sequence=this.collectSequence(slides,config);
 
     let layers=slides.layers;
 
     let result={
       sequence,
-      settings,
+      settings:config,
       menus,
       layers,
     };
