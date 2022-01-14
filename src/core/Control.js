@@ -72,7 +72,6 @@ class Control extends Component {
 
 
   sendInit() {
-    // this.state.sequence.map((v)=>{
     let slide=this.state.sequence[this.state.position];
     Object.values(slide.layers).map((layer)=>{
       if (layer.loaded) {
@@ -83,8 +82,8 @@ class Control extends Component {
           data:this.state.extraData,
         },slide,layer);
       }
+      return null;
     });
-    // });
   }
 
   sendPlay() {
@@ -93,6 +92,7 @@ class Control extends Component {
       if (!layer.hiddenNow) {
         this.sendMessage("play",{},slide,layer);
       }
+      return null;
     });
   }
 
@@ -100,10 +100,9 @@ class Control extends Component {
     window.addEventListener("message", (event) => {
   		let eventType=event.data.event;
       let eventSource=event.data.source;
-      console.log("Received Message:",eventType,eventSource,event);
+      // console.log("Received Message:",eventType,eventSource,event);
       if ((eventSource)&&(eventSource!==settings.parentWindowId)) {
         let parseSource=eventSource.split("|");
-        let sourceId=parseSource[0];
         let slideLayer=parseSource[1];
         let slideIndex=parseSource[2];
         if ((this.state)&&(this.state.sequence)) {
@@ -120,7 +119,7 @@ class Control extends Component {
   }
 
   sendMessage(eventType,data,slide,layer) {
-    console.log("Send message:",eventType,data,slide,layer);
+    // console.log("Send message:",eventType,data,slide,layer);
     let targetWindow;
     let targetName;
     if (slide==="broadcast") {
@@ -141,12 +140,12 @@ class Control extends Component {
         "*"
       );
     } else {
-      console.log("NO TARGET WINDOW",targetName);
+      // console.log("NO TARGET WINDOW",targetName);
     }
   }
 
   processInteraction(eventType,data,slide,layer) {
-    console.log("Process interaction:",eventType,data,slide,layer);
+    // console.log("Process interaction:",eventType,data,slide,layer);
 
     switch (eventType) {
       case "complete": {
@@ -180,20 +179,36 @@ class Control extends Component {
         break;
       }
       case "hide": {
-        this.store.dispatch(hideLayer(slide.index,data.name));
+        let layerName;
+        if (data.params)
+          layerName=data.params[0];
+        else
+          if (data) layerName=data.name;
+        this.store.dispatch(hideLayer(slide.index,layerName));
+        this.sendMessage("reset",{},slide,slide.layers[layerName]);
         break;
       }
       case "show": {
-        this.store.dispatch(showLayer(slide.index,data.name));
-        this.sendMessage("play",{},slide,slide.layers[data.name]);
+        let layerName;
+        if (data.params)
+          layerName=data.params[0];
+        else
+          if (data) layerName=data.name;
+        this.store.dispatch(showLayer(slide.index,layerName));
+        this.sendMessage("play",{},slide,slide.layers[layerName]);
         break;
       }
       case "switch": {
-        this.store.dispatch(switchLayer(slide.index,data.name));
-        let targetLayer=slide.layers[data.name];
+        let layerName;
+        if (data.params)
+          layerName=data.params[0];
+        else
+          if (data) layerName=data.name;
+        this.store.dispatch(switchLayer(slide.index,layerName));
+        let targetLayer=slide.layers[layerName];
         if (targetLayer) {
           if (targetLayer.hiddenNow) {
-            this.sendMessage("play",{},slide,slide.layers[data.name]);
+            this.sendMessage("play",{},slide,slide.layers[layerName]);
           }
         }
         break;

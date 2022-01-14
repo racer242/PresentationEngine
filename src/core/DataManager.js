@@ -68,15 +68,37 @@ class DataManager extends Component {
         try {
           wb = XLSX.read(settings.content, {type: 'base64'});
         } catch (e) {
-          this.onContentLoadError();
+          this.onContentLoadError({
+            lastError:{
+              source:settings.contentUrl,
+              location:window.location.href,
+              error:e.message,
+            }
+          });
           return
         }
         let data = this.convertSheetsToTables(wb.Sheets);
         if (data) {
           data = this.dataParser.parse(data);
-          this.onContentLoad(data);
+          if (data) {
+            this.onContentLoad(data);
+          } else {
+            this.onContentLoadError({
+              lastError:{
+                source:settings.contentUrl,
+                location:window.location.href,
+                error:"Parse XLSX error",
+              }
+            });
+          }
         } else {
-          this.onContentLoadError();
+          this.onContentLoadError({
+            lastError:{
+              source:settings.contentUrl,
+              location:window.location.href,
+              error:"Convert XLSX error"
+            }
+          });
         }
       },1000);
 

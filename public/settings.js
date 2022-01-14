@@ -1,17 +1,20 @@
 window.settings={
 
-  useEmbeddedContent:false,
-  outContentToConsole:false,
-
+  // Расположение файла конфигурации
   contentUrl:"./presentation/content.xlsx",
 
-  transition:{
-    delay:0,
-    duration:1,
-    easing:"ease-in-out",
-  },
+  // Настройки для получения и использования контента в формате Base64
+  useEmbeddedContent:true,
+  outContentToConsole:false,
 
-  cacheSize:5,
-  startPosition:0,
+  // Настройки. перекрывающие settings, полученные из файла конфигурации
+  // Полезно, когда контент переведен в Base64 и надо что-то быстро подрегулировать
+  // defaultSettings: {
+  //   transitionDelay:0,
+  //   transitionDuration:1,
+  //   transitionEasing:"ease-in-out",
+  //   cacheSize:5,
+  //   startPosition:0,
+  // },
 
 }

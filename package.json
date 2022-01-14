@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cleanBuild": "del-cli build/**/*.fla build/**/*.cmd build/**/*.bat build/**/_template build/**/~$content.xlsx"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,7 @@
   },
   "homepage": ".",
   "devDependencies": {
+    "del-cli": "^4.0.1",
     "redux-devtools": "^3.7.0"
   }
 }

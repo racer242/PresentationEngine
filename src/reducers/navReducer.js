@@ -2,7 +2,7 @@ import {reduceToSlideIndex, reduceToSlideId, reduceNextSlide, reducePrevSlide} f
 
 const navReducer = (state={}, action) => {
 
-  console.log("navReducer",action);
+  // console.log("navReducer",action);
 
   switch (action.type) {
 

@@ -2,7 +2,7 @@ import {reduceViewLoaded, reduceReady} from './helpers/assetHelper.js'
 
 const assetReducer = (state={}, action) => {
 
-  console.log("assetReducer",action);
+  // console.log("assetReducer",action);
 
   switch (action.type) {
 

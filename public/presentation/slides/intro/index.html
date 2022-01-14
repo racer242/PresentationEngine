@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js?1641733133445"></script>
+<script src="index.js?1642055442481"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -94,7 +94,7 @@ function handleComplete(evt,comp) {
 /* *** Message functions *** */
 function receiveMessage(data) {
 	if ((data.target==contentId)||(data.target=="broadcast")) {
-		console.log("RECEIVED MESSAGE:",window.location.href,data);
+		//console.log("RECEIVED MESSAGE:",window.location.href,data);
 		switch (data.event) {
 		  case "init": {
 				handledSource=data.data.source;
@@ -122,7 +122,7 @@ function receiveMessage(data) {
 	}
 }
 function sendMessage(data) {
-	console.log("SEND MESSAGE:",window.location.href,data);
+	//console.log("SEND MESSAGE:",window.location.href,data);
 	data.source=contentId;
 	var parentWindow = window.parent;
 	parentWindow.postMessage(data,"*");
@@ -144,21 +144,21 @@ function parseCommand(command) {
 /* *** Message functions *** */
 /* *** Create stage function start *** */
 function createStage(evt,comp,source) {
-	console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source,handledLoad);
+	//console.log("CREATE STAGE TRIAL:",window.location.href,evt,comp,source,handledLoad);
 	if ((!evt)||(!comp)||(!source)) return;
 	if (handledLoad) {
 		if (source.frame) {
 			exportRoot.gotoAndStop(source.frame);
-			console.log("GO TO FRAME",window.location.href,source.frame);
+			//console.log("GO TO FRAME",window.location.href,source.frame);
 		} else {
 			if (contentId) {
 				exportRoot.gotoAndStop(0);
 			}
-			console.log("ROOT STOPPED",window.location.href);
+			//console.log("ROOT STOPPED",window.location.href);
 		}
 	}
 	handledLoad=true;
-	console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
+	//console.log("CREATE STAGE READY:",window.location.href,evt,comp,source,handledLoad);
 	/* *** Create stage function start *** */
 	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
 	var lib=comp.getLibrary();
@@ -175,9 +175,9 @@ function createStage(evt,comp,source) {
 	var libClip=lib[source.clip];
 	if (libClip) {
 		exportRoot = new libClip();
-		console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
+		//console.log("EXPORT ROOT SET TO:",window.location.href,source.clip);
 	} else {
-		console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
+		//console.log("NO CLIP FOUND - DEFAULT CLIP USED",window.location.href);
 	}
 	/* *** Define export root clip *** */
 	/* *** Go go frame or stop *** */
@@ -191,19 +191,19 @@ function createStage(evt,comp,source) {
 			lastFrame=exportRoot.currentFrame;
 			var command=parseCommand(labels[exportRoot.currentFrame]);
 			if (command) {
-				console.log("Label command detected:",window.location.href,source.clip,source.frame,command,lastFrame,exportRoot.currentFrame);
+				//console.log("Label command detected:",window.location.href,source.clip,source.frame,command,lastFrame,exportRoot.currentFrame);
 				sendMessage(command);
 			}
 		}
 	});
 	if (source.frame) {
 		exportRoot.gotoAndStop(source.frame);
-		console.log("GO TO FRAME",window.location.href,source.frame);
+		//console.log("GO TO FRAME",window.location.href,source.frame);
 	} else {
 		if (contentId) {
 			exportRoot.gotoAndStop(0);
 		}
-		console.log("ROOT STOPPED",window.location.href);
+		//console.log("ROOT STOPPED",window.location.href);
 	}
 	dom_overlay_container.addEventListener("click", function(event) {
 	var stageBounds={width:1280,height:960};

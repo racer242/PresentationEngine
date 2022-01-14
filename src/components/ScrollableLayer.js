@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import settings from '../configuration/settings.js'
 
 import View from './View.js';
 
@@ -10,7 +9,6 @@ class ScrollableLayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transition:false,
       from:props.position,
       to:props.position,
       fromOffset:props.position,
@@ -18,6 +16,7 @@ class ScrollableLayer extends Component {
       scrollOffset:props.position,
     };
     this.scrollOffset=props.position;
+    this.transition=false;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -38,9 +37,9 @@ class ScrollableLayer extends Component {
         toOffset=this.scrollOffset+1;
         this.scrollOffset++;
       }
+      this.transition=true;
       this.setState({
         ...this.state,
-        transition:true,
         from,
         to,
         fromOffset,
@@ -51,17 +50,18 @@ class ScrollableLayer extends Component {
   }
 
   transitionReady() {
-    this.setState({...this.state,transition:false});
-    if (this.props.layer.master) this.props.onTransitionReady();
+    if (this.transition) {
+      this.transition=false;
+      if (this.props.layer.master) {
+        this.props.onTransitionReady();
+      }
+    }
   }
 
   render() {
     let sequence=this.props.sequence;
-    let slide=this.props.slide;
-    let isHidden=false;
     let isntStatic=!this.props.layer.static;
 
-    // let distance=this.state.from-this.state.to;
     let scrollPosition=0;
     let fromPosition=0;
     let toPosition=0;
@@ -79,29 +79,29 @@ class ScrollableLayer extends Component {
           ...this.props.bounds.style,
           ...this.props.style,
           left:scrollPosition,
-          transition: (isntStatic&&this.state.transition)?`left ${settings.transition.duration}s ${settings.transition.easing} ${settings.transition.delay}s`:null,
+          transition: (isntStatic&&this.transition)?`left ${this.props.transitionDuration}s ${this.props.transitionEasing} ${this.props.transitionDelay}s`:null,
         }}
         onTransitionEnd={()=>{this.transitionReady();}}
       >
       {
         sequence.map((v,i) => {
           let layer=v.layers[this.props.layer.name];
-          let xPosition=0;
-          let hide=false;
-          if (isntStatic) {
-            if (i===this.state.from) {
-              xPosition=fromPosition;
-            } else
-            if (i===this.state.to) {
-              xPosition=toPosition;
-            } else
-            if (this.state.from===-1) {
-              xPosition=0;
-            } else {
-              hide=true;
-            }
-          }
           if ((layer.included)&&(!layer.ignore)) {
+            let xPosition=0;
+            let hide=false;
+            if (isntStatic) {
+              if (i===this.state.from) {
+                xPosition=fromPosition;
+              } else
+              if (i===this.state.to) {
+                xPosition=toPosition;
+              } else
+              if (this.state.from===-1) {
+                xPosition=0;
+              } else {
+                hide=true;
+              }
+            }
             return (
               <View
                 name={v.id+"|"+layer.name+"|"+i}

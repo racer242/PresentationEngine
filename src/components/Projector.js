@@ -29,6 +29,10 @@ class Layer extends Component {
                 sequence={state.sequence}
                 bounds={this.props.bounds}
                 position={state.viewPosition}
+                transition={state.settings.transition}
+                transitionDelay={state.settings.transitionDelay}
+                transitionDuration={state.settings.transitionDuration}
+                transitionEasing={state.settings.transitionEasing}
                 onTransitionReady={this.props.onTransitionReady}
               />
             )

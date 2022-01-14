@@ -168,6 +168,7 @@ class View extends Component {
             onTouchMove={this.image_touchMoveHandler}
             onTouchEnd={this.image_touchEndHandler}
             draggable={false}
+            alt=""
             style={{
               width:containerWidth,
               height:containerHeight,

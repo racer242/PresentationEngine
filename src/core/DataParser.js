@@ -12,12 +12,21 @@ class DataParser {
     if (!sheet) {
       return null;
     }
-    return sheet.reduce((a,v,i)=>{
+    let config = sheet.reduce((a,v,i)=>{
       if ((v)&&(i>0)) {
         a[v.A]=v.B;
       }
       return a;
     },{});
+
+    if (settings.defaultSettings) {
+      config= {
+        ...config,
+        ...settings.defaultSettings,
+      }
+    }
+
+    return config;
   }
 
   parseSource(source) {
@@ -312,10 +321,14 @@ class DataParser {
   parse(data) {
 
     let slides=this.parseLayers(data.layers);
+    if (!slides) {
+      return null;
+    }
     slides.templates=this.parseTemplates(data.templates,slides.layerIndex);
     slides.sequence=this.parseSequence(data.sequence,slides.layerIndex);
 
     let config=this.parseSettings(data.settings);
+
     let menus=this.parseMenus(data.menus);
 
     let sequence=this.collectSequence(slides,config);
@@ -327,6 +340,9 @@ class DataParser {
       settings:config,
       menus,
       layers,
+      lastPosition:config.startPosition,
+      position:config.startPosition,
+      viewPosition:config.startPosition,
     };
 
     let extraData={};

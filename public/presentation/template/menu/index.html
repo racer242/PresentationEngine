@@ -51,11 +51,15 @@
         font-weight: normal;
         font-size: 16px;
         cursor: pointer;
-
       }
       .menu-item div {
         margin-left: 18px;
         pointer-events: none;
+      }
+
+      .menu-item sup {
+        vertical-align:0.3em;
+        font-size:70%
       }
 
     </style>
@@ -68,7 +72,7 @@
 
       function receiveMessage(data) {
         if ((data.target==contentId)||(data.target=="broadcast")) {
-          console.log("RECEIVED MESSAGE:",window.location.href,data);
+          // console.log("RECEIVED MESSAGE:",window.location.href,data);
           if (data.event=="init") {
             buildMenu(data.data.menus.contents)
           } else
@@ -78,7 +82,7 @@
       }
 
       function sendMessage(data) {
-        console.log("SEND MESSAGE:",window.location.href,data);
+        // console.log("SEND MESSAGE:",window.location.href,data);
         data.source=contentId;
         var parentWindow = window.parent;
         parentWindow.postMessage(data,"*");
@@ -100,7 +104,7 @@
           element.innerHTML="<div>"+item.title+"</div>";
           element.classList.add('menu-item');
           element.style.height=menuItemHeight+"px";
-          element.style.lineHeight=menuItemHeight*.7+"px";
+          element.style.lineHeight=menuItemHeight+"px";
           element.style.top=offset+"px";
           element.data=item;
           element.addEventListener("click",function (e) {

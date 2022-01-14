@@ -92,7 +92,7 @@
 
       function receiveMessage(data) {
       	if ((data.target==contentId)||(data.target=="broadcast")) {
-      		console.log("RECEIVED MESSAGE:",window.location.href,data);
+      		// console.log("RECEIVED MESSAGE:",window.location.href,data);
       		if (data.event=="init") {
       		} else
       		if (data.event=="play") {
@@ -101,7 +101,7 @@
       }
 
       function sendMessage(data) {
-        console.log("SEND MESSAGE:",window.location.href,data);
+        // console.log("SEND MESSAGE:",window.location.href,data);
         data.source=contentId;
         var parentWindow = window.parent;
         parentWindow.postMessage(data,"*");

@@ -21,10 +21,9 @@ const settings = {
 
   defaultState:{
     isWorking:false,
-
-    lastPosition:window.settings.startPosition,
-    position:window.settings.startPosition,
-    viewPosition:window.settings.startPosition,
+    lastPosition:0,
+    position:0,
+    viewPosition:0,
     cacheStack:[],
     readyToInit:false,
     blockRender:false,

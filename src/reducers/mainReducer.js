@@ -5,7 +5,7 @@ import assetReducer from './assetReducer.js'
 
 let mainReducerController = (state={}, action) => {
 
-  console.log("mainReducer",action);
+  console.log("Reduce action:",action);
 
   switch (action.type) {
 
