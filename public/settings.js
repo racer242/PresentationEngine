@@ -4,7 +4,7 @@ window.settings={
   contentUrl:"./presentation/content.xlsx",
 
   // Настройки для получения и использования контента в формате Base64
-  useEmbeddedContent:true,
+  useEmbeddedContent:false,
   outContentToConsole:false,
 
   // Настройки. перекрывающие settings, полученные из файла конфигурации

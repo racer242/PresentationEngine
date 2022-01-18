@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <link href="fonts.css" rel="stylesheet">
+
+    <style>
+      body {
+        position:absolute;
+        margin:0;
+        left:0;right:0;
+        top:0;bottom:0;
+        overflow:hidden;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+        outline-style:none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+      #container {
+      	position:absolute;
+      	width:100%;
+      	height:100%;
+      	left:70px;
+      	top:70px;
+      	color:#ffff00;
+      	background: rgba(255,255,255,0.5);
+      }
+      #menu {
+      	position:absolute;
+      	width:222px;
+      	height:100%;
+      	left:0px;
+      	top:0px;
+      	font-size:10px;
+      	background: #ffffff;
+      }
+      .menu-item {
+        position:absolute;
+      	width:100%;
+        border-bottom: 1px solid #e5e5e5;
+        color:#252525;
+        font-family: 'Raleway';
+        font-weight: normal;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .menu-item div {
+        margin-left: 18px;
+        pointer-events: none;
+      }
+
+      .menu-item sup {
+        vertical-align:0.3em;
+        font-size:70%
+      }
+
+    </style>
+
+    <script>
+      var contentId=window.name;
+      window.addEventListener("message", function(event) {
+        receiveMessage(event.data);
+      });
+
+      function receiveMessage(data) {
+        if ((data.target==contentId)||(data.target=="broadcast")) {
+          // console.log("RECEIVED MESSAGE:",window.location.href,data);
+          if (data.event=="init") {
+            buildMenu(data.data.menus.contents)
+          } else
+          if (data.event=="play") {
+          }
+        }
+      }
+
+      function sendMessage(data) {
+        // console.log("SEND MESSAGE:",window.location.href,data);
+        data.source=contentId;
+        var parentWindow = window.parent;
+        parentWindow.postMessage(data,"*");
+      }
+
+      function init() {
+        sendMessage({event:"complete"});
+      }
+
+      var menuItemHeight=40;
+
+      function buildMenu(items) {
+        var menu=document.getElementById("menu");
+        menu.innerHTML="";
+        var offset=0;
+        for (var i = 0; i < items.length; i++) {
+          var item=items[i];
+          var element = document.createElement("div");
+          element.innerHTML="<div>"+item.title+"</div>";
+          element.classList.add('menu-item');
+          element.style.height=menuItemHeight+"px";
+          element.style.lineHeight=menuItemHeight+"px";
+          element.style.top=offset+"px";
+          element.data=item;
+          element.addEventListener("click",function (e) {
+            sendMessage({event:"goto",id:e.target.data.reference});
+            sendMessage({event:"hide",name:"menu"});
+          });
+          menu.append(element);
+          offset+=menuItemHeight;
+        }
+
+        var container=document.getElementById("container");
+        container.addEventListener("click",function (e) {
+          sendMessage({event:"hide",name:"menu"});
+        });
+
+      }
+
+    </script>
+
+  </head>
+  <body onload="init();">
+  	<div id="container">
+      <div id="menu">
+      </div>
+    </div>
+  </body>
+</html>

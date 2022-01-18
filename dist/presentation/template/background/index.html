@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="authoring-tool" content="Adobe_Animate_CC">
+    <title>index</title>
+    <!-- write your code here -->
+    <style>
+      body {
+    	position:absolute;
+    	margin:0;
+    	left:0;right:0;
+    	top:0;bottom:0;
+    	background:#ffff00;
+      overflow:hidden;
+      }
+    </style>
+
+    <script>
+      var contentId=window.name;
+      window.addEventListener("message", function(event) {
+        receiveMessage(event.data);
+      });
+
+      function receiveMessage(data) {
+        if ((data.target==contentId)||(data.target=="broadcast")) {
+          // console.log("RECEIVED MESSAGE:",window.location.href,data);
+          if (data.event=="init") {
+          } else
+          if (data.event=="play") {
+          }
+        }
+      }
+
+      function sendMessage(data) {
+        // console.log("SEND MESSAGE:",window.location.href,data);
+        data.source=contentId;
+        var parentWindow = window.parent;
+        parentWindow.postMessage(data,"*");
+      }
+
+      function init() {
+        sendMessage({event:"complete"});
+      }
+
+    </script>
+
+  </head>
+  <body onload="init();">
+  </body>
+</html>
