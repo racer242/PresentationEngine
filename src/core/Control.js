@@ -217,6 +217,14 @@ class Control extends Component {
         this.sendMessage("stop",{},slide,layer);
         break;
       }
+      case "close": {
+        if (settings.closeScript) {
+          settings.closeScript();
+        } else {
+          console.log("Error: Close script not found in public settings...");
+        }
+        break;
+      }
       default:{}
     }
   }

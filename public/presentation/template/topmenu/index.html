@@ -51,7 +51,7 @@
       #redButton {
         position:absolute;
         top:0px;
-        right: 0px;
+        right: 70px;
         width:70px;
       	height:70px;
         cursor: pointer;
@@ -77,11 +77,46 @@
         font-size: 18px;
         margin: 0px;
       }
+
+      #closeButton {
+        position:absolute;
+        top:0px;
+        right: 0px;
+        width:70px;
+        height:70px;
+        cursor: pointer;
+        background: #fff;
+      }
+      #closeIcon {
+        position:absolute;
+        pointer-events: none;
+        top:20px;
+        left: 20px;
+        width:30px;
+        height:30px;
+      }
+
+      svg {
+        display: block;
+      }
+
+      .close-x {
+        stroke: #404040;
+        fill: transparent;
+        stroke-linecap: round;
+        stroke-width: 5;
+      }
+
     </style>
     <script>
       function redButtonClick() {
         sendMessage({event:"goto",id:"intro"});
       }
+
+      function closeButtonClick() {
+        sendMessage({event:"close"});
+      }
+
     </script>
 
     <script>
@@ -124,6 +159,13 @@
       <div id="redButton" onclick="redButtonClick();">
         <div id="redButtonTitle"><p>Red</p></div>
         <img id="redButtonPlate" src="red_button_select.png"/>
+      </div>
+      <div id="closeButton" onclick="closeButtonClick();">
+        <div id="closeIcon">
+          <svg viewbox="0 0 40 40">
+            <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+          </svg>
+        </div>
       </div>
     </div>
   </body>

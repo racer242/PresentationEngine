@@ -7,6 +7,15 @@ window.settings={
   useEmbeddedContent:false,
   outContentToConsole:false,
 
+  closeScript: function() {
+    try {
+      //mobileTouch.cancel();
+    	mobileTouch.close();
+    } catch (e) {
+    	alert("Close Script Activated");
+    }
+  },
+
   // Настройки. перекрывающие settings, полученные из файла конфигурации
   // Полезно, когда контент переведен в Base64 и надо что-то быстро подрегулировать
   // defaultSettings: {
