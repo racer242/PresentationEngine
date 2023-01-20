@@ -37,6 +37,23 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 
 
+(lib.AreaButton = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("rgba(0,255,255,0.902)").s().p("AnzH0IAAvnIPnAAIAAPng");
+	this.shape.setTransform(50,50);
+	this.shape._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(3).to({_off:false},0).wait(1));
+
+	this._renderFirstFrame();
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,100,100);
+
+
 (lib._03 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -85,6 +102,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 // stage content:
 (lib.academy = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{stop00:14});
+
+	// Buttons
+	this.show00popup1 = new lib.AreaButton();
+	this.show00popup1.name = "show00popup1";
+	this.show00popup1.setTransform(180.3,709.2,2.5505,1,0,0,0,0.1,0);
+	this.show00popup1._off = true;
+	new cjs.ButtonHelper(this.show00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.timeline.addTween(cjs.Tween.get(this.show00popup1).wait(14).to({_off:false},0).wait(6));
 
 	// Layer_3
 	this.shape = new cjs.Shape();
@@ -135,8 +161,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674198342224", id:"_01"},
-		{src:"images/_02.png?1674198342224", id:"_02"}
+		{src:"images/_01.jpg?1674247473126", id:"_01"},
+		{src:"images/_02.png?1674247473126", id:"_02"}
 	],
 	preloads: []
 };

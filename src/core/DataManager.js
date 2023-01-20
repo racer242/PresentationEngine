@@ -171,6 +171,7 @@ class DataManager extends Component {
       try {
         wb = XLSX.read(btoaValue, {type: 'base64'});
       } catch (e) {
+        // console.log(e);
         callback(null);
         return;
       }

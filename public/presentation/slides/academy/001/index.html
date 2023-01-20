@@ -22,7 +22,7 @@
   }
 </style>
 <script src="libs/1.0.0/createjs.min.js"></script>
-<script src="index.js?1674198342352"></script>
+<script src="index.js?1674247473144"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -180,6 +180,7 @@ function createStage(evt,comp,source) {
 	}
 	exportRoot = new lib.academy();
 	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();
 	/* *** Define export root clip *** */
 	var libClip=lib[source.clip];
 	if (libClip) {

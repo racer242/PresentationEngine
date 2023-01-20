@@ -72,6 +72,14 @@ class Control extends Component {
   //
   //--------------------------------------------------------------------------
 
+  openLink(data,slide) {
+    if (data?.params?.length>0&&slide?.params) {
+      const linkId=data.params[0];
+      const link=slide.params[linkId]?.url;
+      const target=slide.params[linkId]?.target;
+      window.open(link,target)
+    }
+  }
 
   processClose() {
     if (settings.closeScript) {
@@ -149,7 +157,7 @@ class Control extends Component {
     window.addEventListener("message", (event) => {
   		let eventType=event.data.event;
       let eventSource=event.data.source;
-      // console.log("Received Message:",eventType,eventSource,event);
+      console.log("Received Message:",eventType,eventSource,event);
       if ((eventSource)&&(eventSource!==settings.parentWindowId)) {
         let parseSource=eventSource.split("|");
         let slideLayer=parseSource[1];
@@ -284,6 +292,10 @@ class Control extends Component {
       }
       case "close": {
         this.processClose();
+        break;
+      }
+      case "open": {
+        this.openLink(data,slide);
         break;
       }
       default:{}

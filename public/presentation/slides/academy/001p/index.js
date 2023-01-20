@@ -72,26 +72,29 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.hide00popup1.setTransform(961.1,291.95,0.7998,0.83);
 	new cjs.ButtonHelper(this.hide00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance = new lib.AreaButton();
-	this.instance.setTransform(487,584.9,3.72,0.83);
-	new cjs.ButtonHelper(this.instance, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00academy2 = new lib.AreaButton();
+	this.goto00academy2.name = "goto00academy2";
+	this.goto00academy2.setTransform(487,584.9,3.72,0.83);
+	new cjs.ButtonHelper(this.goto00academy2, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance_1 = new lib.AreaButton();
-	this.instance_1.setTransform(487,492.95,3.72,0.83);
-	new cjs.ButtonHelper(this.instance_1, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00academy4 = new lib.AreaButton();
+	this.goto00academy4.name = "goto00academy4";
+	this.goto00academy4.setTransform(487,492.95,3.72,0.83);
+	new cjs.ButtonHelper(this.goto00academy4, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance_2 = new lib.AreaButton();
-	this.instance_2.setTransform(487,402.95,3.72,0.83);
-	new cjs.ButtonHelper(this.instance_2, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00academy6 = new lib.AreaButton();
+	this.goto00academy6.name = "goto00academy6";
+	this.goto00academy6.setTransform(487,402.95,3.72,0.83);
+	new cjs.ButtonHelper(this.goto00academy6, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance},{t:this.hide00popup1}]}).wait(15));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.goto00academy6},{t:this.goto00academy4},{t:this.goto00academy2},{t:this.hide00popup1}]}).wait(15));
 
 	// Layer_1
-	this.instance_3 = new lib._01_1();
-	this.instance_3.setTransform(640,480,1,1,0,0,0,640,480);
-	this.instance_3.alpha = 0;
+	this.instance = new lib._01_1();
+	this.instance.setTransform(640,480,1,1,0,0,0,640,480);
+	this.instance.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({alpha:1},9,cjs.Ease.get(1)).wait(6));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({alpha:1},9,cjs.Ease.get(1)).wait(6));
 
 	this._renderFirstFrame();
 
@@ -106,7 +109,7 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.png?1674230261577", id:"_01"}
+		{src:"images/_01.png?1674249440349", id:"_01"}
 	],
 	preloads: []
 };
