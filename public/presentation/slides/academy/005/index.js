@@ -119,17 +119,17 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:22});
 
 	// Buttons
-	this.hide00popup1 = new lib.AreaButton();
-	this.hide00popup1.name = "hide00popup1";
-	this.hide00popup1.setTransform(322,735.05,3.3808,0.5694);
-	new cjs.ButtonHelper(this.hide00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.open00link1 = new lib.AreaButton();
+	this.open00link1.name = "open00link1";
+	this.open00link1.setTransform(327.55,737.2,3.286,0.5);
+	new cjs.ButtonHelper(this.open00link1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
 	this.goto00academy4 = new lib.AreaButton();
 	this.goto00academy4.name = "goto00academy4";
 	this.goto00academy4.setTransform(450,340.95,2.0096,0.5694);
 	new cjs.ButtonHelper(this.goto00academy4, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00academy4},{t:this.hide00popup1}]},9).wait(16));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00academy4},{t:this.open00link1}]},9).wait(16));
 
 	// Layer_6
 	this.shape = new cjs.Shape();
@@ -188,8 +188,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674211532984", id:"_01"},
-		{src:"images/_02.png?1674211532984", id:"_02"}
+		{src:"images/_01.jpg?1674252655987", id:"_01"},
+		{src:"images/_02.png?1674252655987", id:"_02"}
 	],
 	preloads: []
 };

@@ -119,9 +119,10 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:22});
 
 	// Buttons
-	this.instance = new lib.AreaButton();
-	this.instance.setTransform(320.15,745.95,3.2998,0.41,0,0,0,0.1,0.1);
-	new cjs.ButtonHelper(this.instance, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.open00link1 = new lib.AreaButton();
+	this.open00link1.name = "open00link1";
+	this.open00link1.setTransform(327.55,737.2,3.286,0.5);
+	new cjs.ButtonHelper(this.open00link1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
 	this.show00popup5 = new lib.AreaButton();
 	this.show00popup5.name = "show00popup5";
@@ -153,7 +154,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.goto00academy2.setTransform(451,335.95,2,0.65);
 	new cjs.ButtonHelper(this.goto00academy2, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00academy2},{t:this.show00popup1},{t:this.show00popup2},{t:this.show00popup3},{t:this.show00popup4},{t:this.show00popup5},{t:this.instance}]},9).wait(16));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00academy2},{t:this.show00popup1},{t:this.show00popup2},{t:this.show00popup3},{t:this.show00popup4},{t:this.show00popup5},{t:this.open00link1}]},9).wait(16));
 
 	// Layer_4
 	this.shape = new cjs.Shape();
@@ -163,41 +164,41 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(25));
 
 	// Layer_7
-	this.instance_1 = new lib._01_1();
-	this.instance_1.setTransform(640,325.5,1,1,0,0,0,640,35.4);
-	this.instance_1.alpha = 0;
+	this.instance = new lib._01_1();
+	this.instance.setTransform(640,325.5,1,1,0,0,0,640,35.4);
+	this.instance.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({y:355.5,alpha:1},9,cjs.Ease.get(1)).wait(16));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:355.5,alpha:1},9,cjs.Ease.get(1)).wait(16));
 
 	// Layer_6
-	this.instance_2 = new lib._02_1();
-	this.instance_2.setTransform(640,540.95,1,1,0,0,0,640,120);
+	this.instance_1 = new lib._02_1();
+	this.instance_1.setTransform(640,540.95,1,1,0,0,0,640,120);
+	this.instance_1.alpha = 0;
+	this.instance_1._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(3).to({_off:false},0).to({y:510.95,alpha:1},9,cjs.Ease.get(1)).wait(13));
+
+	// Layer_5
+	this.instance_2 = new lib._03();
+	this.instance_2.setTransform(470.5,795.5,1,1,0,0,0,420.5,164.6);
 	this.instance_2.alpha = 0;
 	this.instance_2._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(3).to({_off:false},0).to({y:510.95,alpha:1},9,cjs.Ease.get(1)).wait(13));
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(8).to({_off:false},0).to({x:420.5,alpha:1},9,cjs.Ease.get(1)).wait(8));
 
-	// Layer_5
-	this.instance_3 = new lib._03();
-	this.instance_3.setTransform(470.5,795.5,1,1,0,0,0,420.5,164.6);
+	// Layer_3
+	this.instance_3 = new lib._04();
+	this.instance_3.setTransform(1110.55,795.5,1,1,0,0,0,219.5,164.6);
 	this.instance_3.alpha = 0;
 	this.instance_3._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_3).wait(8).to({_off:false},0).to({x:420.5,alpha:1},9,cjs.Ease.get(1)).wait(8));
-
-	// Layer_3
-	this.instance_4 = new lib._04();
-	this.instance_4.setTransform(1110.55,795.5,1,1,0,0,0,219.5,164.6);
-	this.instance_4.alpha = 0;
-	this.instance_4._off = true;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(13).to({_off:false},0).to({x:1060.55,alpha:1},9,cjs.Ease.get(1)).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this.instance_3).wait(13).to({_off:false},0).to({x:1060.55,alpha:1},9,cjs.Ease.get(1)).wait(3));
 
 	// Layer_1
-	this.instance_5 = new lib._01();
-	this.instance_5.setTransform(0,0,0.5926,0.5926);
+	this.instance_4 = new lib._01();
+	this.instance_4.setTransform(0,0,0.5926,0.5926);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_5).wait(25));
+	this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(25));
 
 	this._renderFirstFrame();
 
@@ -212,8 +213,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674210534162", id:"_01"},
-		{src:"images/_02.png?1674210534162", id:"_02"}
+		{src:"images/_01.jpg?1674252974607", id:"_01"},
+		{src:"images/_02.png?1674252974607", id:"_02"}
 	],
 	preloads: []
 };

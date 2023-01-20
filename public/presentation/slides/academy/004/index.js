@@ -119,13 +119,17 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:22});
 
 	// Buttons
+	this.open00link1 = new lib.AreaButton();
+	this.open00link1.name = "open00link1";
+	this.open00link1.setTransform(329.55,737.2,3.286,0.5);
+	new cjs.ButtonHelper(this.open00link1, 0, 1, 2, false, new lib.AreaButton(), 3);
+
 	this.goto00academy5 = new lib.AreaButton();
 	this.goto00academy5.name = "goto00academy5";
 	this.goto00academy5.setTransform(731.25,339.95,1.7,0.5503);
-	this.goto00academy5._off = true;
 	new cjs.ButtonHelper(this.goto00academy5, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.goto00academy5).wait(9).to({_off:false},0).wait(16));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00academy5},{t:this.open00link1}]},9).wait(16));
 
 	// Layer_4
 	this.shape = new cjs.Shape();
@@ -184,8 +188,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674211208030", id:"_01"},
-		{src:"images/_02.png?1674211208030", id:"_02"}
+		{src:"images/_01.jpg?1674252681575", id:"_01"},
+		{src:"images/_02.png?1674252681575", id:"_02"}
 	],
 	preloads: []
 };

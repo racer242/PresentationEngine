@@ -157,7 +157,7 @@ class Control extends Component {
     window.addEventListener("message", (event) => {
   		let eventType=event.data.event;
       let eventSource=event.data.source;
-      console.log("Received Message:",eventType,eventSource,event);
+      // console.log("Received Message:",eventType,eventSource,event);
       if ((eventSource)&&(eventSource!==settings.parentWindowId)) {
         let parseSource=eventSource.split("|");
         let slideLayer=parseSource[1];

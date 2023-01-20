@@ -136,7 +136,6 @@ class DataParser {
             slide[index[name]]=v[name];
           }
         }
-
         if (slide.params) {
           let params;
           try {
@@ -303,10 +302,8 @@ class DataParser {
         slide=concatObjects(template,slide);
         layers=this.concatLayers(layers,template.layers);
       }
-
-      //Скорректи ровали слои слайда из слоев текущего слайда
+      //Скорректировали слои слайда из слоев текущего слайда
       layers=this.concatLayers(layers,slides.sequence[i].layers);
-
       layers=this.setupLayers(layers,config);
 
       slide.layers=layers;
