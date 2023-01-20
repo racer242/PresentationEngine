@@ -7,14 +7,51 @@ window.settings={
   useEmbeddedContent:false,
   outContentToConsole:false,
 
-  closeScript: function() {
+  playScript: function(slide) {
     try {
-      //mobileTouch.cancel();
-    	mobileTouch.close();
+      if( typeof omobus == 'undefined' ) {
+        console.log("Omobus object is undefined. Play: ",slide.id);
+      } else {
+        omobus.openSlide(slide.id);
+      }
     } catch (e) {
-    	alert("Close Script Activated");
+    	alert(e);
     }
   },
+
+  stopScript: function(slide) {
+    try {
+      if( typeof omobus == 'undefined' ) {
+        console.log("Omobus object is undefined. Stop: ",slide.id);
+      } else {
+        omobus.closeSlide(slide.id);
+      }
+    } catch (e) {
+    	alert(e);
+    }
+  },
+
+
+  closeScript: function() {
+    try {
+      if( typeof omobus == 'undefined' ) {
+        console.log("Omobus object is undefined. Close");
+      } else {
+        omobus.quitContainer();
+      }
+    } catch (e) {
+    	alert(e);
+    }
+  },
+
+  // closeScript: function() {
+  //   try {
+  //     //mobileTouch.cancel();
+  //   	mobileTouch.close();
+  //   } catch (e) {
+  //   	alert("Close Script Activated");
+  //   }
+  // },
 
   // Настройки. перекрывающие settings, полученные из файла конфигурации
   // Полезно, когда контент переведен в Base64 и надо что-то быстро подрегулировать

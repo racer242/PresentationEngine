@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import settings from '../configuration/settings.js'
-import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer, playbackIsDone } from '../actions/navActions.js';
+import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer, playbackIsDone, gotoHome } from '../actions/navActions.js';
 import { viewLoaded, initIsDone } from '../actions/assetActions.js';
 
 
@@ -39,6 +39,7 @@ class Control extends Component {
 
   onStoreChange() {
     if (this.mounted) {
+
       let state=this.store.getState();
       this.setState(state);
 
@@ -56,6 +57,7 @@ class Control extends Component {
       } else
       if (state.readyToPlay) {
         this.sendPlay();
+        this.processPlay();
         setTimeout(()=>{
           this.store.dispatch(playbackIsDone());
         },200)
@@ -71,10 +73,45 @@ class Control extends Component {
   //--------------------------------------------------------------------------
 
 
+  processClose() {
+    if (settings.closeScript) {
+      settings.closeScript();
+    } else {
+      console.log("Error: Close script not found in public settings...");
+    }
+  }
+
+  processPlay() {
+    if (settings.playScript) {
+      let slide=this.state.sequence[this.state.position];
+      settings.playScript(slide);
+    } else {
+      console.log("Error: Play script not found in public settings...");
+    }
+  }
+
+  processStop() {
+    if (settings.stopScript) {
+      let slide=this.state.sequence[this.state.position];
+      settings.stopScript(slide);
+    } else {
+      console.log("Error: Play script not found in public settings...");
+    }
+  }
+
+
   sendInit() {
     let slide=this.state.sequence[this.state.position];
     Object.values(slide.layers).map((layer)=>{
       if (layer.loaded) {
+        
+        // console.log("!!!!init",{
+        //   source:layer.source,
+        //   params:slide.params,
+        //   menus:this.state.menus,
+        //   data:this.state.extraData,
+        // },slide,layer);
+
         this.sendMessage("init",{
           source:layer.source,
           params:slide.params,
@@ -90,7 +127,19 @@ class Control extends Component {
     let slide=this.state.sequence[this.state.position];
     Object.values(slide.layers).map((layer)=>{
       if (!layer.hiddenNow) {
-        this.sendMessage("play",{},slide,layer);
+        // console.log("!!!!play",{},slide,layer);
+        this.sendMessage("play",{},slide,layer);        
+      }
+      return null;
+    });
+  }
+
+  sendStop() {
+    let slide=this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer)=>{
+      if (!layer.hiddenNow) {
+        // console.log("!!!!stop",{},slide,layer);
+        this.sendMessage("stop",{},slide,layer);
       }
       return null;
     });
@@ -156,6 +205,8 @@ class Control extends Component {
         if (this.state.blockInteraction) {
           return;
         }
+        this.sendStop();//!!!
+        this.processStop();
         this.store.dispatch(nextSlide());
         break;
       }
@@ -163,7 +214,18 @@ class Control extends Component {
         if (this.state.blockInteraction) {
           return;
         }
+        this.sendStop();//!!!
+        this.processStop();
         this.store.dispatch(prevSlide());
+        break;
+      }
+      case "home": {
+        if (this.state.blockInteraction) {
+          return;
+        }
+        this.sendStop();//!!!
+        this.processStop();
+        this.store.dispatch(gotoHome());
         break;
       }
       case "goto": {
@@ -175,6 +237,9 @@ class Control extends Component {
           slideId=data.params[0];
         else
           if (data) slideId=data.id;
+
+        this.sendStop();//!!!  
+        this.processStop();
         this.store.dispatch(gotoSlide(slideId));
         break;
       }
@@ -218,11 +283,7 @@ class Control extends Component {
         break;
       }
       case "close": {
-        if (settings.closeScript) {
-          settings.closeScript();
-        } else {
-          console.log("Error: Close script not found in public settings...");
-        }
+        this.processClose();
         break;
       }
       default:{}

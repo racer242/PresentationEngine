@@ -21,8 +21,8 @@
 	top:0;bottom:0;
   }
 </style>
-<script src="libs/createjs-2015.11.26.min.js"></script>
-<script src="index.js?1641969681052"></script>
+<script src="libs/1.0.0/createjs.min.js"></script>
+<script src="index.js?1674223253502"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -106,6 +106,16 @@ function receiveMessage(data) {
 				createStage(handledEvent,handledComp,handledSource);
 		    break;
 			}
+			case "reset": {
+				if (exportRoot) {
+					if (handledSource.frame) {
+						exportRoot.gotoAndStop(handledSource.frame);
+					} else {
+						exportRoot.gotoAndStop(0);
+					}
+				}
+				break;
+			}
 			case "play": {
 				if (exportRoot) {
 					exportRoot.play();
@@ -129,7 +139,7 @@ function sendMessage(data) {
 }
 function parseCommand(command) {
 	if (command) {
-		var parse=command.split(/\d+/);
+		var parse=command.match(/^(\S+)\d\d(.*)/).slice(1);
 		if (parse.length>1) {
 			if (parse[1]) {
 				parse[1]=parse[1].split("_");
@@ -170,6 +180,7 @@ function createStage(evt,comp,source) {
 	}
 	exportRoot = new lib.tyzine();
 	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();
 	/* *** Define export root clip *** */
 	var libClip=lib[source.clip];
 	if (libClip) {
@@ -235,7 +246,7 @@ function createStage(evt,comp,source) {
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		stage.addChild(exportRoot);
-		createjs.Ticker.setFPS(lib.properties.fps);
+		createjs.Ticker.framerate = lib.properties.fps;
 		createjs.Ticker.addEventListener("tick", stage);
 	}
 	//Code to support hidpi screens and responsive scaling.

@@ -20,22 +20,23 @@
       }
       #button {
         position: absolute;
-        width:30px;
-        height:100px;
+        width:60px;
+        height:60px;
         cursor: pointer;
-        background: #404040;
-        background-image: url(prev.png);
         background-repeat: no-repeat;
-        background-position: center right;
-        background-size: 20px 40px;
+        background-position: center center;
+        background-size: 52px 28px;
+        background-image: url(prev_light.png);
       }
-      #button:active {
-        background: #fff;
-        background-image: url(prev_select.png);
-        background-repeat: no-repeat;
-        background-position: center right;
-        background-size: 20px 40px;
+
+      .interactive {
+        opacity: 1;
       }
+
+      .interactive:active {
+        opacity: 0.5;
+      }
+
     </style>
     <script>
       function buttonClick() {
@@ -51,8 +52,17 @@
 
       function receiveMessage(data) {
         if ((data.target==contentId)||(data.target=="broadcast")) {
-          // console.log("RECEIVED MESSAGE:",window.location.href,data);
           if (data.event=="init") {
+            if (data.data&&data.data.params&&data.data.params.theme) {
+              const element = document.getElementById("button");
+              element.style.backgroundImage="url(prev_"+data.data.params.theme+".png)"
+              if (data.data.params.prev) {
+                if (data.data.params.prev.indexOf("disabled")>=0) {
+                  element.style.opacity="0.3";
+                  element.style.pointerEvents="none";
+                }
+              }
+            }
           } else
           if (data.event=="play") {
           }
@@ -60,7 +70,6 @@
       }
 
       function sendMessage(data) {
-        // console.log("SEND MESSAGE:",window.location.href,data);
         data.source=contentId;
         var parentWindow = window.parent;
         parentWindow.postMessage(data,"*");
@@ -74,6 +83,6 @@
 
   </head>
   <body onload="init();">
-    <div id="button" onclick="buttonClick();"></div>
+    <div id="button"  class="interactive" onclick="buttonClick();"></div>
   </body>
 </html>

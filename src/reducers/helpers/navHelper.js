@@ -30,6 +30,16 @@ export const reducePrevSlide = (state) => {
   return state;
 }
 
+export const reduceGotoHome = (state) => {
+  let index=state.position;
+  let slide=state.sequence[index];
+  if (slide?.home) {
+    return reduceToSlideId(state,slide.home);
+  }
+
+  return state;
+}
+
 export const reduceToSlideIndex = (state,index,firstTime) => {
   if ((state.position===index)&&(!firstTime)) {
     return state;

@@ -1,4 +1,4 @@
-import {reduceToSlideIndex, reduceToSlideId, reduceNextSlide, reducePrevSlide} from './helpers/navHelper.js'
+import {reduceToSlideIndex, reduceToSlideId, reduceNextSlide, reducePrevSlide, reduceGotoHome} from './helpers/navHelper.js'
 
 const navReducer = (state={}, action) => {
 
@@ -22,6 +22,11 @@ const navReducer = (state={}, action) => {
 
     case 'PREV_SLIDE': {
       state=reducePrevSlide(state);
+      break;
+    }
+
+    case 'GOTO_HOME': {
+      state=reduceGotoHome(state);
       break;
     }
 

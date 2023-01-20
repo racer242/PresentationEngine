@@ -16,6 +16,12 @@ export const prevSlide = () => {
   }
 }
 
+export const gotoHome = () => {
+  return {
+    type: 'GOTO_HOME',
+  }
+}
+
 export const gotoSlideIndex = (index) => {
   return {
     type: 'GOTO_SLIDE_INDEX',

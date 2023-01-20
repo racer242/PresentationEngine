@@ -114,12 +114,7 @@
       }
 
       function closeButtonClick() {
-        try {
-          //mobileTouch.cancel();
-  				window.parent.mobileTouch.close();
-  			} catch (e) {
-  				alert("Close Button Pressed");
-  			}
+        sendMessage({event:"close"});
       }
 
     </script>

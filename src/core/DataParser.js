@@ -65,7 +65,7 @@ class DataParser {
         if (!layer.level) layer.level=0;
         if (layer.disable) return a;
         if (layer.margin) {
-          let marginParse=getMatches(/(\D)(\d+)/gi,layer.margin,2);
+          let marginParse=getMatches(/(\D)(-*\d+)/gi,layer.margin,2);
           layer.margin=marginParse.reduce((ma,mv,mi)=>{
             ma[mv[0]]=Number(mv[1]);
             return ma;
