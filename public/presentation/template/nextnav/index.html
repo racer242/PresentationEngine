@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Prev Nav</title>
+    <title>Next Nav</title>
     <style>
       body {
         margin:0;
@@ -56,13 +56,13 @@
             if (data.data&&data.data.params&&data.data.params.theme) {
               const element = document.getElementById("button");
               element.style.backgroundImage="url(next_"+data.data.params.theme+".png)"
-            }
-            if (data.data.params.next) {
-              if (data.data.params.next.indexOf("disabled")>=0) {
-                element.style.opacity="0.3";
-                element.style.pointerEvents="none";
+              if (data.data.params.next) {
+                if (data.data.params.next.indexOf("disabled")>=0) {
+                  element.style.opacity="0.3";
+                  element.style.pointerEvents="none";
+                }
               }
-            }  
+            }            
           } else
           if (data.event=="play") {
           }

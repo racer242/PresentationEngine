@@ -34,7 +34,7 @@
       }
       #menu {
       	position:absolute;
-      	width:426px;
+      	width:720px;
       	height:100%;
       	left:0px;
       	top:0px;
@@ -43,13 +43,13 @@
       }
       .menu-item {
         position:absolute;
-        left:30px;
-      	width:366px;
-        border-bottom: 1px solid #e5e5e5;
+        left:50px;
+      	width:620px;
+        border-bottom: 1px solid #09517a;
         color:#09517a;
         font-family: 'OpenSans-Bold';
         font-weight: bold;
-        font-size: 18px;
+        font-size: 30px;
         cursor: pointer;
       }
       .menu-item div {
@@ -64,26 +64,26 @@
 
       #titleMain {
         position:absolute;
-        left:30px;
-        top:88px;
-      	width:366px;
+        left:50px;
+        top:150px;
+      	width:620px;
         color:#a2b3c2;
         font-family: 'OpenSans-Regular';
         font-weight: regular;
-        font-size: 26px;
+        font-size: 44px;
         text-align: right;
       }
 
       #closeButton {
         position: absolute;
-        left:30px;
-        top:15px;
-        width:60px;
-        height:60px;
+        left:50px;
+        top:26px;
+        width:102px;
+        height:102px;
         cursor: pointer;
         background-repeat: no-repeat;
         background-position: center center;
-        background-size: 60px 60px;
+        background-size: 102px 102px;
         background-image: url(close.png);
       }
 
@@ -130,8 +130,8 @@
         sendMessage({event:"complete"});
       }
 
-      var menuItemsTop=120;
-      var menuItemHeight=84;
+      var menuItemsTop=210;
+      var menuItemHeight=140;
 
       function buildMenu(items) {
         var menu=document.getElementById("menu");

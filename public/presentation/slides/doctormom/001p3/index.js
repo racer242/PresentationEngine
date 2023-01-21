@@ -67,12 +67,27 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:9});
 
 	// Buttons
+	this.goto00doctormom11 = new lib.AreaButton();
+	this.goto00doctormom11.name = "goto00doctormom11";
+	this.goto00doctormom11.setTransform(801.25,280.45,3.0295,3.9895,0,0,0,0.1,0);
+	new cjs.ButtonHelper(this.goto00doctormom11, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.goto00doctormom9 = new lib.AreaButton();
+	this.goto00doctormom9.name = "goto00doctormom9";
+	this.goto00doctormom9.setTransform(489.25,280.45,3.0295,3.9895,0,0,0,0.1,0);
+	new cjs.ButtonHelper(this.goto00doctormom9, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.goto00doctormom13 = new lib.AreaButton();
+	this.goto00doctormom13.name = "goto00doctormom13";
+	this.goto00doctormom13.setTransform(171.75,280.9,3.0295,3.9895,0,0,0,0.1,0);
+	new cjs.ButtonHelper(this.goto00doctormom13, 0, 1, 2, false, new lib.AreaButton(), 3);
+
 	this.hide00popup3 = new lib.AreaButton();
 	this.hide00popup3.name = "hide00popup3";
 	this.hide00popup3.setTransform(1109.95,269.8);
 	new cjs.ButtonHelper(this.hide00popup3, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.hide00popup3).wait(15));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.hide00popup3},{t:this.goto00doctormom13},{t:this.goto00doctormom9},{t:this.goto00doctormom11}]},8).wait(7));
 
 	// Layer_1
 	this.instance = new lib._01_1();
@@ -94,7 +109,7 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.png?1674232746876", id:"_01"}
+		{src:"images/_01.png?1674316208124", id:"_01"}
 	],
 	preloads: []
 };

@@ -149,71 +149,84 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:19});
 
 	// Buttons
-	this.instance = new lib.AreaButton();
-	this.instance.setTransform(895.85,307.55,2.2382,3.781,0,0,0,0.3,0.4);
-	new cjs.ButtonHelper(this.instance, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto01tyzine = new lib.AreaButton();
+	this.goto01tyzine.name = "goto01tyzine";
+	this.goto01tyzine.setTransform(712.5,695.4,3.3232,0.7813,0,0,0,0.4,0.3);
+	new cjs.ButtonHelper(this.goto01tyzine, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance_1 = new lib.AreaButton();
-	this.instance_1.setTransform(478.25,307.2,3.7586,3.781,0,0,0,0.3,0.3);
-	new cjs.ButtonHelper(this.instance_1, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto01doctormom = new lib.AreaButton();
+	this.goto01doctormom.name = "goto01doctormom";
+	this.goto01doctormom.setTransform(275.2,689.1,3.022,0.9414,0,0,0,0.3,0.2);
+	new cjs.ButtonHelper(this.goto01doctormom, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance_2 = new lib.AreaButton();
-	this.instance_2.setTransform(185.55,306.8,2.5599,3.781,0,0,0,0.2,0.2);
-	new cjs.ButtonHelper(this.instance_2, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00tyzine = new lib.AreaButton();
+	this.goto00tyzine.name = "goto00tyzine";
+	this.goto00tyzine.setTransform(895.85,307.55,2.2382,3.781,0,0,0,0.3,0.4);
+	new cjs.ButtonHelper(this.goto00tyzine, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(30));
+	this.goto00rinza = new lib.AreaButton();
+	this.goto00rinza.name = "goto00rinza";
+	this.goto00rinza.setTransform(478.25,307.2,3.7586,3.781,0,0,0,0.3,0.3);
+	new cjs.ButtonHelper(this.goto00rinza, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.goto00doctormom = new lib.AreaButton();
+	this.goto00doctormom.name = "goto00doctormom";
+	this.goto00doctormom.setTransform(185.55,306.8,2.5599,3.781,0,0,0,0.2,0.2);
+	new cjs.ButtonHelper(this.goto00doctormom, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.goto00doctormom},{t:this.goto00rinza},{t:this.goto00tyzine},{t:this.goto01doctormom},{t:this.goto01tyzine}]}).wait(30));
 
 	// Layer_4
-	this.instance_3 = new lib._01_1();
-	this.instance_3.setTransform(231.1,291.1,1,1,0,0,0,231.1,341.1);
-	this.instance_3.alpha = 0;
+	this.instance = new lib._01_1();
+	this.instance.setTransform(231.1,291.1,1,1,0,0,0,231.1,341.1);
+	this.instance.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({y:341.1,alpha:1},9,cjs.Ease.get(1)).wait(21));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:341.1,alpha:1},9,cjs.Ease.get(1)).wait(21));
 
 	// Layer_3
-	this.instance_4 = new lib._02_1();
-	this.instance_4.setTransform(664.2,291.1,1,1,0,0,0,202.1,341.1);
+	this.instance_1 = new lib._02_1();
+	this.instance_1.setTransform(664.2,291.1,1,1,0,0,0,202.1,341.1);
+	this.instance_1.alpha = 0;
+	this.instance_1._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(4).to({_off:false},0).to({y:341.1,alpha:1},9,cjs.Ease.get(1)).wait(17));
+
+	// Layer_5
+	this.instance_2 = new lib._03();
+	this.instance_2.setTransform(1021.3,290.1,1,1,0,0,0,135.1,340.1);
+	this.instance_2.alpha = 0;
+	this.instance_2._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(8).to({_off:false},0).to({y:340.1,alpha:1},9,cjs.Ease.get(1)).wait(13));
+
+	// Layer_6
+	this.instance_3 = new lib._04();
+	this.instance_3.setTransform(467.15,821.1,1,1,0,0,0,149.1,138.9);
+	this.instance_3.alpha = 0;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({x:417.15,alpha:1},9,cjs.Ease.get(1)).wait(21));
+
+	// Layer_7
+	this.instance_4 = new lib._05();
+	this.instance_4.setTransform(761.15,225.1,1,1,0,0,0,175,225.1);
 	this.instance_4.alpha = 0;
 	this.instance_4._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(4).to({_off:false},0).to({y:341.1,alpha:1},9,cjs.Ease.get(1)).wait(17));
+	this.timeline.addTween(cjs.Tween.get(this.instance_4).wait(4).to({_off:false},0).to({x:711.15,alpha:1},9,cjs.Ease.get(1)).wait(17));
 
-	// Layer_5
-	this.instance_5 = new lib._03();
-	this.instance_5.setTransform(1021.3,290.1,1,1,0,0,0,135.1,340.1);
+	// Layer_2
+	this.instance_5 = new lib._06();
+	this.instance_5.setTransform(827.25,819.1,1,1,0,0,0,201.1,140.9);
 	this.instance_5.alpha = 0;
 	this.instance_5._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_5).wait(8).to({_off:false},0).to({y:340.1,alpha:1},9,cjs.Ease.get(1)).wait(13));
-
-	// Layer_6
-	this.instance_6 = new lib._04();
-	this.instance_6.setTransform(467.15,821.1,1,1,0,0,0,149.1,138.9);
-	this.instance_6.alpha = 0;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance_6).to({x:417.15,alpha:1},9,cjs.Ease.get(1)).wait(21));
-
-	// Layer_7
-	this.instance_7 = new lib._05();
-	this.instance_7.setTransform(761.15,225.1,1,1,0,0,0,175,225.1);
-	this.instance_7.alpha = 0;
-	this.instance_7._off = true;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance_7).wait(4).to({_off:false},0).to({x:711.15,alpha:1},9,cjs.Ease.get(1)).wait(17));
-
-	// Layer_2
-	this.instance_8 = new lib._06();
-	this.instance_8.setTransform(827.25,819.1,1,1,0,0,0,201.1,140.9);
-	this.instance_8.alpha = 0;
-	this.instance_8._off = true;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance_8).wait(8).to({_off:false},0).to({x:877.25,alpha:1},9,cjs.Ease.get(1)).wait(13));
+	this.timeline.addTween(cjs.Tween.get(this.instance_5).wait(8).to({_off:false},0).to({x:877.25,alpha:1},9,cjs.Ease.get(1)).wait(13));
 
 	// Layer_1
-	this.instance_9 = new lib._01();
-	this.instance_9.setTransform(0,0,0.5926,0.5926);
+	this.instance_6 = new lib._01();
+	this.instance_6.setTransform(0,0,0.5926,0.5926);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_9).wait(30));
+	this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(30));
 
 	this._renderFirstFrame();
 
@@ -228,8 +241,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674215478403", id:"_01"},
-		{src:"images/_02.png?1674215478403", id:"_02"}
+		{src:"images/_01.jpg?1674310121107", id:"_01"},
+		{src:"images/_02.png?1674310121107", id:"_02"}
 	],
 	preloads: []
 };

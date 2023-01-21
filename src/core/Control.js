@@ -181,23 +181,36 @@ class Control extends Component {
     let targetName;
     if (slide==="broadcast") {
       targetName=slide;
-      targetWindow=window;
+      for (const windowName in window.frames) {
+        targetWindow=window.frames[windowName];
+        if (targetWindow?.postMessage) {
+          targetWindow.postMessage(
+            {
+              event:eventType,
+              source:settings.parentWindowId,
+              target:targetName,
+              data,
+            },
+            "*"
+          );
+        }
+      }
     } else {
       targetName=slide.id+"|"+layer.name+"|"+slide.index;
       targetWindow = window.frames[targetName];
-    }
-    if (targetWindow) {
-      targetWindow.postMessage(
-        {
-          event:eventType,
-          source:settings.parentWindowId,
-          target:targetName,
-          data,
-        },
-        "*"
-      );
-    } else {
-      // console.log("NO TARGET WINDOW",targetName);
+      if (targetWindow) {
+        targetWindow.postMessage(
+          {
+            event:eventType,
+            source:settings.parentWindowId,
+            target:targetName,
+            data,
+          },
+          "*"
+        );
+      } else {
+        // console.log("NO TARGET WINDOW",targetName);
+      }
     }
   }
 
@@ -296,6 +309,10 @@ class Control extends Component {
       }
       case "open": {
         this.openLink(data,slide);
+        break;
+      }
+      case "dispatch": {
+        this.sendMessage("broadcast",data?.params,"broadcast");
         break;
       }
       default:{}

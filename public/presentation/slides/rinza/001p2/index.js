@@ -67,12 +67,22 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:9});
 
 	// Buttons
+	this.goto00rinza8 = new lib.AreaButton();
+	this.goto00rinza8.name = "goto00rinza8";
+	this.goto00rinza8.setTransform(662.45,276.9,3.9595,4.0295);
+	new cjs.ButtonHelper(this.goto00rinza8, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.goto00rinza7 = new lib.AreaButton();
+	this.goto00rinza7.name = "goto00rinza7";
+	this.goto00rinza7.setTransform(221.45,276.9,3.9595,4.0295);
+	new cjs.ButtonHelper(this.goto00rinza7, 0, 1, 2, false, new lib.AreaButton(), 3);
+
 	this.hide00popup2 = new lib.AreaButton();
 	this.hide00popup2.name = "hide00popup2";
 	this.hide00popup2.setTransform(1064.95,268.95);
 	new cjs.ButtonHelper(this.hide00popup2, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.hide00popup2).wait(15));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.hide00popup2},{t:this.goto00rinza7},{t:this.goto00rinza8}]},8).wait(7));
 
 	// Layer_1
 	this.instance = new lib._01_1();
@@ -94,7 +104,7 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.png?1674231171522", id:"_01"}
+		{src:"images/_01.png?1674312219747", id:"_01"}
 	],
 	preloads: []
 };

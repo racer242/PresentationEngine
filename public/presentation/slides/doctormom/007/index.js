@@ -94,12 +94,12 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.goto00doctormom8.setTransform(100.1,796.2,0.7149,0.7395);
 	new cjs.ButtonHelper(this.goto00doctormom8, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.show00popup2 = new lib.AreaButton();
-	this.show00popup2.name = "show00popup2";
-	this.show00popup2.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
-	new cjs.ButtonHelper(this.show00popup2, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.show00popup1 = new lib.AreaButton();
+	this.show00popup1.name = "show00popup1";
+	this.show00popup1.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
+	new cjs.ButtonHelper(this.show00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.show00popup2},{t:this.goto00doctormom8}]},7).wait(13));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.show00popup1},{t:this.goto00doctormom8}]},7).wait(13));
 
 	// Layer_3
 	this.instance = new lib._02_1();
@@ -135,8 +135,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674229075641", id:"_01"},
-		{src:"images/_02.png?1674229075641", id:"_02"}
+		{src:"images/_01.jpg?1674316609301", id:"_01"},
+		{src:"images/_02.png?1674316609301", id:"_02"}
 	],
 	preloads: []
 };

@@ -169,61 +169,62 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.goto00tyzine3.setTransform(370.15,717.15,2.0397,0.7395);
 	new cjs.ButtonHelper(this.goto00tyzine3, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.instance = new lib.AreaButton();
-	this.instance.setTransform(971.2,256.05,2.4905,0.7395);
-	new cjs.ButtonHelper(this.instance, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.goto00tyzine2 = new lib.AreaButton();
+	this.goto00tyzine2.name = "goto00tyzine2";
+	this.goto00tyzine2.setTransform(971.2,256.05,2.4905,0.7395);
+	new cjs.ButtonHelper(this.goto00tyzine2, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.instance},{t:this.goto00tyzine3},{t:this.goto00tyzine9},{t:this.goto00tyzine7},{t:this.goto00tyzine4}]},9).wait(11));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.goto00tyzine2},{t:this.goto00tyzine3},{t:this.goto00tyzine9},{t:this.goto00tyzine7},{t:this.goto00tyzine4}]},9).wait(11));
 
 	// Layer_3
-	this.instance_1 = new lib._01_1();
-	this.instance_1.setTransform(338.1,455.15,1,1,0,0,0,338.1,207.1);
-	this.instance_1.alpha = 0;
+	this.instance = new lib._01_1();
+	this.instance.setTransform(338.1,455.15,1,1,0,0,0,338.1,207.1);
+	this.instance.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({y:505.15,alpha:1},9,cjs.Ease.get(1)).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:505.15,alpha:1},9,cjs.Ease.get(1)).wait(11));
 
 	// Layer_8
-	this.instance_2 = new lib._02_1();
-	this.instance_2.setTransform(979.05,156,1,1,0,0,0,300.9,44);
-	this.instance_2.alpha = 0;
-	this.instance_2._off = true;
+	this.instance_1 = new lib._02_1();
+	this.instance_1.setTransform(979.05,156,1,1,0,0,0,300.9,44);
+	this.instance_1.alpha = 0;
+	this.instance_1._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_2).wait(3).to({_off:false},0).to({y:206,alpha:1},9,cjs.Ease.get(1)).wait(8));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(3).to({_off:false},0).to({y:206,alpha:1},9,cjs.Ease.get(1)).wait(8));
 
 	// Layer_7
-	this.instance_3 = new lib._03();
-	this.instance_3.setTransform(1112.05,296.05,1,1,0,0,0,167.8,45);
-	this.instance_3.alpha = 0;
+	this.instance_2 = new lib._03();
+	this.instance_2.setTransform(1112.05,296.05,1,1,0,0,0,167.8,45);
+	this.instance_2.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({alpha:1},9,cjs.Ease.get(1)).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).to({alpha:1},9,cjs.Ease.get(1)).wait(11));
 
 	// Layer_6
-	this.instance_4 = new lib._06();
-	this.instance_4.setTransform(802.65,523.65,1,1,0,0,0,118.5,183.6);
-	this.instance_4.alpha = 0;
+	this.instance_3 = new lib._06();
+	this.instance_3.setTransform(802.65,523.65,1,1,0,0,0,118.5,183.6);
+	this.instance_3.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_4).to({x:852.65,alpha:1},9,cjs.Ease.get(1)).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({x:852.65,alpha:1},9,cjs.Ease.get(1)).wait(11));
 
 	// Layer_5
-	this.instance_5 = new lib._05();
-	this.instance_5.setTransform(1175.6,526.65,1,1,0,0,0,154.4,185.6);
-	this.instance_5.alpha = 0;
+	this.instance_4 = new lib._05();
+	this.instance_4.setTransform(1175.6,526.65,1,1,0,0,0,154.4,185.6);
+	this.instance_4.alpha = 0;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_5).to({x:1125.6,alpha:1},9,cjs.Ease.get(1)).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_4).to({x:1125.6,alpha:1},9,cjs.Ease.get(1)).wait(11));
 
 	// Layer_4
-	this.instance_6 = new lib._07();
-	this.instance_6.setTransform(824,866.55,1,1,0,0,0,455.9,123.4);
-	this.instance_6.alpha = 0;
-	this.instance_6._off = true;
+	this.instance_5 = new lib._07();
+	this.instance_5.setTransform(824,866.55,1,1,0,0,0,455.9,123.4);
+	this.instance_5.alpha = 0;
+	this.instance_5._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(3).to({_off:false},0).to({y:836.55,alpha:1},9,cjs.Ease.get(1)).wait(8));
+	this.timeline.addTween(cjs.Tween.get(this.instance_5).wait(3).to({_off:false},0).to({y:836.55,alpha:1},9,cjs.Ease.get(1)).wait(8));
 
 	// Layer_1
-	this.instance_7 = new lib._01();
-	this.instance_7.setTransform(0,0,0.5926,0.5926);
+	this.instance_6 = new lib._01();
+	this.instance_6.setTransform(0,0,0.5926,0.5926);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_7).wait(20));
+	this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(20));
 
 	this._renderFirstFrame();
 
@@ -238,8 +239,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674226018182", id:"_01"},
-		{src:"images/_02.png?1674226018182", id:"_02"}
+		{src:"images/_01.jpg?1674325227857", id:"_01"},
+		{src:"images/_02.png?1674325227857", id:"_02"}
 	],
 	preloads: []
 };

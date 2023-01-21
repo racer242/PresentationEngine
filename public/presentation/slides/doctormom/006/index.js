@@ -89,13 +89,13 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.initialize(mode,startPosition,loop,{stop00:13});
 
 	// Buttons
-	this.show00popup2 = new lib.AreaButton();
-	this.show00popup2.name = "show00popup2";
-	this.show00popup2.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
-	this.show00popup2._off = true;
-	new cjs.ButtonHelper(this.show00popup2, 0, 1, 2, false, new lib.AreaButton(), 3);
+	this.show00popup1 = new lib.AreaButton();
+	this.show00popup1.name = "show00popup1";
+	this.show00popup1.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
+	this.show00popup1._off = true;
+	new cjs.ButtonHelper(this.show00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get(this.show00popup2).wait(7).to({_off:false},0).wait(13));
+	this.timeline.addTween(cjs.Tween.get(this.show00popup1).wait(7).to({_off:false},0).wait(13));
 
 	// Layer_3
 	this.instance = new lib._02_1();
@@ -131,8 +131,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674228853916", id:"_01"},
-		{src:"images/_02.png?1674228853916", id:"_02"}
+		{src:"images/_01.jpg?1674316542140", id:"_01"},
+		{src:"images/_02.png?1674316542140", id:"_02"}
 	],
 	preloads: []
 };
