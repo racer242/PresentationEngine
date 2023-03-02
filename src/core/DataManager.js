@@ -1,46 +1,50 @@
-import { Component } from 'react';
-import XLSX from 'xlsx';
+import { Component } from "react";
+import * as XLSX from "xlsx";
 
-import settings from '../configuration/settings.js';
-import { setStoreData, loadStoreDataError } from '../actions/appActions.js';
-import { callLater } from '../core/helpers.js';
+import settings from "../configuration/settings.js";
+import { setStoreData, loadStoreDataError } from "../actions/appActions.js";
+import { callLater } from "../core/helpers.js";
 
-import DataParser from './DataParser.js';
+import DataParser from "./DataParser.js";
 
 // import content from '../content/presentation.xlsx'
 
-
 class DataManager extends Component {
-
   constructor(props) {
     super(props);
     this.store = this.props.store;
     this.state = {
-      isLoading:false,
-      isLoaded:false,
-    }
-    this.loader=null;
-    this.result=null;
+      isLoading: false,
+      isLoaded: false,
+    };
+    this.loader = null;
+    this.result = null;
     this.dataParser = new DataParser();
+
+    this.isInitialized = false;
   }
 
-/* ++++ React methods ++++ */
+  /* ++++ React methods ++++ */
 
   componentDidMount() {
-    this.unsubscribe=this.store.subscribe(()=>{this.onStoreChange()});
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.onStoreChange();
+    });
     this.load();
-    this.mounted=true;
+    this.mounted = true;
   }
 
   componentWillUnmount() {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
-    this.mounted=false;
+    this.mounted = false;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-  }
+  componentDidUpdate(prevProps, prevState) {}
 
   onStoreChange() {
     // if (this.mounted) {
@@ -51,31 +55,28 @@ class DataManager extends Component {
   /* ++++ Logic methods ++++ */
 
   load() {
-
     if (this.state.isLoading) return;
-    this.setState(
-      {
-        ...this.state,
-        isLoading:true,
-        isLoaded:false,
-      }
-    )
+    this.setState({
+      ...this.state,
+      isLoading: true,
+      isLoaded: false,
+    });
 
-    if ((settings.useEmbeddedContent)&&(settings.content)) {
+    if (settings.useEmbeddedContent && settings.content) {
       console.log("Extracting embedded content");
-      callLater(()=>{
+      callLater(() => {
         let wb;
         try {
-          wb = XLSX.read(settings.content, {type: 'base64'});
+          wb = XLSX.read(settings.content, { type: "base64" });
         } catch (e) {
           this.onContentLoadError({
-            lastError:{
-              source:settings.contentUrl,
-              location:window.location.href,
-              error:e.message,
-            }
+            lastError: {
+              source: settings.contentUrl,
+              location: window.location.href,
+              error: e.message,
+            },
           });
-          return
+          return;
         }
         let data = this.convertSheetsToTables(wb.Sheets);
         if (data) {
@@ -84,75 +85,62 @@ class DataManager extends Component {
             this.onContentLoad(data);
           } else {
             this.onContentLoadError({
-              lastError:{
-                source:settings.contentUrl,
-                location:window.location.href,
-                error:"Parse XLSX error",
-              }
+              lastError: {
+                source: settings.contentUrl,
+                location: window.location.href,
+                error: "Parse XLSX error",
+              },
             });
           }
         } else {
           this.onContentLoadError({
-            lastError:{
-              source:settings.contentUrl,
-              location:window.location.href,
-              error:"Convert XLSX error"
-            }
+            lastError: {
+              source: settings.contentUrl,
+              location: window.location.href,
+              error: "Convert XLSX error",
+            },
           });
         }
-      },1000);
-
+      }, 1000);
     } else {
-
-      this.loadXlsx(settings.contentUrl,(data)=>{
+      this.loadXlsx(settings.contentUrl, (data) => {
         if (data) {
           data = this.dataParser.parse(data);
           this.onContentLoad(data);
         } else {
           this.onContentLoadError({
-            lastError:{
-              source:settings.contentUrl,
-              location:window.location.href,
-            }
+            lastError: {
+              source: settings.contentUrl,
+              location: window.location.href,
+            },
           });
         }
       });
-
     }
   }
 
-
   onContentLoad(data) {
-    this.setState(
-      {
-        ...this.state,
-        isLoading:false,
-        isLoaded:true,
-      }
-    )
+    this.setState({
+      ...this.state,
+      isLoading: false,
+      isLoaded: true,
+    });
 
-    this.store.dispatch(
-      setStoreData(data)
-    );
-
+    this.store.dispatch(setStoreData(data));
   }
 
   onContentLoadError(data) {
-    this.setState(
-      {
-        ...this.state,
-        isLoading:false,
-        isLoaded:false,
-      }
-    )
-    this.store.dispatch(
-      loadStoreDataError(data)
-    );
+    this.setState({
+      ...this.state,
+      isLoading: false,
+      isLoaded: false,
+    });
+    this.store.dispatch(loadStoreDataError(data));
   }
 
-/* ++++ Load methods ++++ */
+  /* ++++ Load methods ++++ */
 
-  loadXlsx(url,callback) {
+  loadXlsx(url, callback) {
     var oReq = new XMLHttpRequest();
     oReq.open("GET", url, true);
     oReq.responseType = "arraybuffer";
@@ -161,55 +149,64 @@ class DataManager extends Component {
       let data = arraybuffer;
       let wb;
       let arr = this.fixXlsx(data);
-      let btoaValue=btoa(arr);
+      let btoaValue = btoa(arr);
       if (settings.outContentToConsole) {
         console.log("CONTENT XLSX COPY:");
-        console.log("-----------------------------------------------------------");
-        console.log("window.content=\""+btoaValue+"\"");
-        console.log("-----------------------------------------------------------");
+        console.log(
+          "-----------------------------------------------------------"
+        );
+        console.log('window.content="' + btoaValue + '"');
+        console.log(
+          "-----------------------------------------------------------"
+        );
       }
       try {
-        wb = XLSX.read(btoaValue, {type: 'base64'});
+        wb = XLSX.read(btoaValue, { type: "base64" });
       } catch (e) {
         // console.log(e);
         callback(null);
         return;
       }
       callback(this.convertSheetsToTables(wb.Sheets));
-    }
+    };
     oReq.send();
   }
 
-/* ++++ Processing methods ++++ */
+  /* ++++ Processing methods ++++ */
 
   fixXlsx(data) {
-    let o = "", l = 0, w = 10240;
-    for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-    o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+    let o = "",
+      l = 0,
+      w = 10240;
+    for (; l < data.byteLength / w; ++l)
+      o += String.fromCharCode.apply(
+        null,
+        new Uint8Array(data.slice(l * w, l * w + w))
+      );
+    o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
     return o;
   }
 
   convertSheetsToTables(data) {
-    let result={};
+    let result = {};
     for (let id in data) {
-      let rows=[];
-      result[id]=rows;
-      let cells=data[id];
+      let rows = [];
+      result[id] = rows;
+      let cells = data[id];
       for (let cellId in cells) {
-        let y=cellId.substr(1)-1;
-        let x=cellId.substr(0,1);
-        if (rows[y]==null) {
-          rows[y]=[]
+        let y = cellId.substr(1) - 1;
+        let x = cellId.substr(0, 1);
+        if (rows[y] == null) {
+          rows[y] = [];
         }
-        rows[y][x]=cells[cellId].v;
+        rows[y][x] = cells[cellId].v;
       }
     }
     return result;
   }
 
-  render () {
+  render() {
     return null;
   }
-
 }
 export default DataManager;

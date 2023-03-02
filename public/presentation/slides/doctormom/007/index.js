@@ -91,7 +91,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	// Buttons
 	this.goto00doctormom8 = new lib.AreaButton();
 	this.goto00doctormom8.name = "goto00doctormom8";
-	this.goto00doctormom8.setTransform(100.1,796.2,0.7149,0.7395);
+	this.goto00doctormom8.setTransform(97.1,796.2,0.7149,0.7395);
 	new cjs.ButtonHelper(this.goto00doctormom8, 0, 1, 2, false, new lib.AreaButton(), 3);
 
 	this.show00popup1 = new lib.AreaButton();
@@ -135,8 +135,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674316609301", id:"_01"},
-		{src:"images/_02.png?1674316609301", id:"_02"}
+		{src:"images/_01.jpg", id:"_01"},
+		{src:"images/_02.png", id:"_02"}
 	],
 	preloads: []
 };

@@ -107,19 +107,19 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(29));
 
 	// Layer_4
-	this.show00popup1 = new lib.AreaButton();
-	this.show00popup1.name = "show00popup1";
-	this.show00popup1.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
-	new cjs.ButtonHelper(this.show00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
-
-	this.timeline.addTween(cjs.Tween.get(this.show00popup1).wait(29));
-
-	// Buttons
 	this.goto00doctormom15 = new lib.AreaButton();
 	this.goto00doctormom15.name = "goto00doctormom15";
 	this.goto00doctormom15.setTransform(99.2,794.2,0.7351,0.8095);
 	new cjs.ButtonHelper(this.goto00doctormom15, 0, 1, 2, false, new lib.AreaButton(), 3);
 
+	this.show00popup1 = new lib.AreaButton();
+	this.show00popup1.name = "show00popup1";
+	this.show00popup1.setTransform(1183.6,794.2,0.7482,0.86,0,0,0,0.2,0);
+	new cjs.ButtonHelper(this.show00popup1, 0, 1, 2, false, new lib.AreaButton(), 3);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.show00popup1},{t:this.goto00doctormom15}]}).wait(29));
+
+	// Buttons
 	this.dispatch00frame_page2 = new lib.AreaButton();
 	this.dispatch00frame_page2.name = "dispatch00frame_page2";
 	this.dispatch00frame_page2.setTransform(1158.45,671.3,0.445,0.4796);
@@ -130,7 +130,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 	this.dispatch00frame_page1.setTransform(1158.65,619.35,0.445,0.4796);
 	new cjs.ButtonHelper(this.dispatch00frame_page1, 0, 1, 2, false, new lib.AreaButton(), 3);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.dispatch00frame_page2},{t:this.goto00doctormom15}]},9).to({state:[{t:this.dispatch00frame_page1}]},8).wait(12));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.dispatch00frame_page2}]},9).to({state:[{t:this.dispatch00frame_page1}]},8).wait(12));
 
 	// Layer_3
 	this.instance = new lib._01_2();
@@ -165,9 +165,9 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674321187631", id:"_01"},
-		{src:"images/_02.png?1674321187631", id:"_02"},
-		{src:"images/_02_1.png?1674321187631", id:"_02_1"}
+		{src:"images/_01.jpg?1675154192115", id:"_01"},
+		{src:"images/_02.png?1675154192115", id:"_02"},
+		{src:"images/_02_1.png?1675154192115", id:"_02_1"}
 	],
 	preloads: []
 };

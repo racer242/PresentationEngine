@@ -112,8 +112,8 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_01.jpg?1674233444494", id:"_01"},
-		{src:"images/_02.png?1674233444494", id:"_02"}
+		{src:"images/_01.jpg?1675436718643", id:"_01"},
+		{src:"images/_02.png?1675436718643", id:"_02"}
 	],
 	preloads: []
 };

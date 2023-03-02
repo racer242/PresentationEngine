@@ -1,21 +1,30 @@
-import { Component } from 'react';
-import settings from '../configuration/settings.js'
-import { startPlayback, nextSlide, prevSlide, gotoSlide, hideLayer, showLayer, switchLayer, playbackIsDone, gotoHome } from '../actions/navActions.js';
-import { viewLoaded, initIsDone } from '../actions/assetActions.js';
-
+import { Component } from "react";
+import settings from "../configuration/settings.js";
+import {
+  startPlayback,
+  nextSlide,
+  prevSlide,
+  gotoSlide,
+  hideLayer,
+  showLayer,
+  switchLayer,
+  playbackIsDone,
+  gotoHome,
+} from "../actions/navActions.js";
+import { viewLoaded, initIsDone } from "../actions/assetActions.js";
 
 class Control extends Component {
-
   //--------------------------------------------------------------------------
-	//
-	// Constructor
-	//
-	//--------------------------------------------------------------------------
+  //
+  // Constructor
+  //
+  //--------------------------------------------------------------------------
 
   constructor(props) {
     super(props);
     this.state = {};
     this.store = this.props.store;
+    this.isInitialized = false;
   }
 
   //--------------------------------------------------------------------------
@@ -25,8 +34,14 @@ class Control extends Component {
   //--------------------------------------------------------------------------
 
   componentDidMount() {
-    this.unsubscribe=this.store.subscribe(()=>{this.onStoreChange()});
-    this.mounted=true;
+    this.unsubscribe = this.store.subscribe(() => {
+      this.onStoreChange();
+    });
+    this.mounted = true;
+
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+
     this.initInteractions();
   }
 
@@ -34,35 +49,30 @@ class Control extends Component {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
-    this.mounted=false;
+    this.mounted = false;
   }
 
   onStoreChange() {
     if (this.mounted) {
-
-      let state=this.store.getState();
+      let state = this.store.getState();
       this.setState(state);
 
-      if ((state.dataLoaded)&&(!state.isWorking)) {
+      if (state.dataLoaded && !state.isWorking) {
         this.store.dispatch(startPlayback());
-      } else
-      if (state.loadDataError) {
-        console.log("Presentation data load error...",state.lastError);
-      } else
-      if (state.readyToInit) {
+      } else if (state.loadDataError) {
+        console.log("Presentation data load error...", state.lastError);
+      } else if (state.readyToInit) {
         this.sendInit();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.store.dispatch(initIsDone());
-        },200)
-      } else
-      if (state.readyToPlay) {
+        }, 200);
+      } else if (state.readyToPlay) {
         this.sendPlay();
         this.processPlay();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.store.dispatch(playbackIsDone());
-        },200)
+        }, 200);
       }
-
     }
   }
 
@@ -72,12 +82,12 @@ class Control extends Component {
   //
   //--------------------------------------------------------------------------
 
-  openLink(data,slide) {
-    if (data?.params?.length>0&&slide?.params) {
-      const linkId=data.params[0];
-      const link=slide.params[linkId]?.url;
-      const target=slide.params[linkId]?.target;
-      window.open(link,target)
+  openLink(data, slide) {
+    if (data?.params?.length > 0 && slide?.params) {
+      const linkId = data.params[0];
+      const link = slide.params[linkId]?.url;
+      const target = slide.params[linkId]?.target;
+      window.open(link, target);
     }
   }
 
@@ -91,7 +101,7 @@ class Control extends Component {
 
   processPlay() {
     if (settings.playScript) {
-      let slide=this.state.sequence[this.state.position];
+      let slide = this.state.sequence[this.state.position];
       settings.playScript(slide);
     } else {
       console.log("Error: Play script not found in public settings...");
@@ -100,19 +110,17 @@ class Control extends Component {
 
   processStop() {
     if (settings.stopScript) {
-      let slide=this.state.sequence[this.state.position];
+      let slide = this.state.sequence[this.state.position];
       settings.stopScript(slide);
     } else {
       console.log("Error: Play script not found in public settings...");
     }
   }
 
-
   sendInit() {
-    let slide=this.state.sequence[this.state.position];
-    Object.values(slide.layers).map((layer)=>{
+    let slide = this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer) => {
       if (layer.loaded) {
-        
         // console.log("!!!!init",{
         //   source:layer.source,
         //   params:slide.params,
@@ -120,34 +128,39 @@ class Control extends Component {
         //   data:this.state.extraData,
         // },slide,layer);
 
-        this.sendMessage("init",{
-          source:layer.source,
-          params:slide.params,
-          menus:this.state.menus,
-          data:this.state.extraData,
-        },slide,layer);
+        this.sendMessage(
+          "init",
+          {
+            source: layer.source,
+            params: slide.params,
+            menus: this.state.menus,
+            data: this.state.extraData,
+          },
+          slide,
+          layer
+        );
       }
       return null;
     });
   }
 
   sendPlay() {
-    let slide=this.state.sequence[this.state.position];
-    Object.values(slide.layers).map((layer)=>{
+    let slide = this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer) => {
       if (!layer.hiddenNow) {
         // console.log("!!!!play",{},slide,layer);
-        this.sendMessage("play",{},slide,layer);        
+        this.sendMessage("play", {}, slide, layer);
       }
       return null;
     });
   }
 
   sendStop() {
-    let slide=this.state.sequence[this.state.position];
-    Object.values(slide.layers).map((layer)=>{
+    let slide = this.state.sequence[this.state.position];
+    Object.values(slide.layers).map((layer) => {
       if (!layer.hiddenNow) {
         // console.log("!!!!stop",{},slide,layer);
-        this.sendMessage("stop",{},slide,layer);
+        this.sendMessage("stop", {}, slide, layer);
       }
       return null;
     });
@@ -155,40 +168,40 @@ class Control extends Component {
 
   initInteractions() {
     window.addEventListener("message", (event) => {
-  		let eventType=event.data.event;
-      let eventSource=event.data.source;
+      let eventType = event.data.event;
+      let eventSource = event.data.source;
       // console.log("Received Message:",eventType,eventSource,event);
-      if ((eventSource)&&(eventSource!==settings.parentWindowId)) {
-        let parseSource=eventSource.split("|");
-        let slideLayer=parseSource[1];
-        let slideIndex=parseSource[2];
-        if ((this.state)&&(this.state.sequence)) {
-          let slide=this.state.sequence[slideIndex];
+      if (eventSource && eventSource !== settings.parentWindowId) {
+        let parseSource = eventSource.split("|");
+        let slideLayer = parseSource[1];
+        let slideIndex = parseSource[2];
+        if (this.state && this.state.sequence) {
+          let slide = this.state.sequence[slideIndex];
           if (slide) {
-            let layer=slide.layers[slideLayer];
+            let layer = slide.layers[slideLayer];
             if (layer) {
-              this.processInteraction(eventType,event.data,slide,layer);
+              this.processInteraction(eventType, event.data, slide, layer);
             }
           }
         }
       }
-  	})
+    });
   }
 
-  sendMessage(eventType,data,slide,layer) {
+  sendMessage(eventType, data, slide, layer) {
     // console.log("Send message:",eventType,data,slide,layer);
     let targetWindow;
     let targetName;
-    if (slide==="broadcast") {
-      targetName=slide;
+    if (slide === "broadcast") {
+      targetName = slide;
       for (const windowName in window.frames) {
-        targetWindow=window.frames[windowName];
+        targetWindow = window.frames[windowName];
         if (targetWindow?.postMessage) {
           targetWindow.postMessage(
             {
-              event:eventType,
-              source:settings.parentWindowId,
-              target:targetName,
+              event: eventType,
+              source: settings.parentWindowId,
+              target: targetName,
               data,
             },
             "*"
@@ -196,14 +209,14 @@ class Control extends Component {
         }
       }
     } else {
-      targetName=slide.id+"|"+layer.name+"|"+slide.index;
+      targetName = slide.id + "|" + layer.name + "|" + slide.index;
       targetWindow = window.frames[targetName];
       if (targetWindow) {
         targetWindow.postMessage(
           {
-            event:eventType,
-            source:settings.parentWindowId,
-            target:targetName,
+            event: eventType,
+            source: settings.parentWindowId,
+            target: targetName,
             data,
           },
           "*"
@@ -214,19 +227,19 @@ class Control extends Component {
     }
   }
 
-  processInteraction(eventType,data,slide,layer) {
+  processInteraction(eventType, data, slide, layer) {
     // console.log("Process interaction:",eventType,data,slide,layer);
 
     switch (eventType) {
       case "complete": {
-        this.store.dispatch(viewLoaded(slide.index,layer.name));
+        this.store.dispatch(viewLoaded(slide.index, layer.name));
         break;
       }
       case "next": {
         if (this.state.blockInteraction) {
           return;
         }
-        this.sendStop();//!!!
+        this.sendStop(); //!!!
         this.processStop();
         this.store.dispatch(nextSlide());
         break;
@@ -235,7 +248,7 @@ class Control extends Component {
         if (this.state.blockInteraction) {
           return;
         }
-        this.sendStop();//!!!
+        this.sendStop(); //!!!
         this.processStop();
         this.store.dispatch(prevSlide());
         break;
@@ -244,7 +257,7 @@ class Control extends Component {
         if (this.state.blockInteraction) {
           return;
         }
-        this.sendStop();//!!!
+        this.sendStop(); //!!!
         this.processStop();
         this.store.dispatch(gotoHome());
         break;
@@ -254,53 +267,45 @@ class Control extends Component {
           return;
         }
         let slideId;
-        if (data.params)
-          slideId=data.params[0];
-        else
-          if (data) slideId=data.id;
+        if (data.params) slideId = data.params[0];
+        else if (data) slideId = data.id;
 
-        this.sendStop();//!!!  
+        this.sendStop(); //!!!
         this.processStop();
         this.store.dispatch(gotoSlide(slideId));
         break;
       }
       case "hide": {
         let layerName;
-        if (data.params)
-          layerName=data.params[0];
-        else
-          if (data) layerName=data.name;
-        this.store.dispatch(hideLayer(slide.index,layerName));
-        this.sendMessage("reset",{},slide,slide.layers[layerName]);
+        if (data.params) layerName = data.params[0];
+        else if (data) layerName = data.name;
+        this.store.dispatch(hideLayer(slide.index, layerName));
+        this.sendMessage("reset", {}, slide, slide.layers[layerName]);
         break;
       }
       case "show": {
         let layerName;
-        if (data.params)
-          layerName=data.params[0];
-        else
-          if (data) layerName=data.name;
-        this.store.dispatch(showLayer(slide.index,layerName));
-        this.sendMessage("play",{},slide,slide.layers[layerName]);
+        if (data.params) layerName = data.params[0];
+        else if (data) layerName = data.name;
+        this.store.dispatch(showLayer(slide.index, layerName));
+        this.sendMessage("play", {}, slide, slide.layers[layerName]);
         break;
       }
       case "switch": {
         let layerName;
-        if (data.params)
-          layerName=data.params[0];
-        else
-          if (data) layerName=data.name;
-        this.store.dispatch(switchLayer(slide.index,layerName));
-        let targetLayer=slide.layers[layerName];
+        if (data.params) layerName = data.params[0];
+        else if (data) layerName = data.name;
+        this.store.dispatch(switchLayer(slide.index, layerName));
+        let targetLayer = slide.layers[layerName];
         if (targetLayer) {
           if (targetLayer.hiddenNow) {
-            this.sendMessage("play",{},slide,slide.layers[layerName]);
+            this.sendMessage("play", {}, slide, slide.layers[layerName]);
           }
         }
         break;
       }
       case "stop": {
-        this.sendMessage("stop",{},slide,layer);
+        this.sendMessage("stop", {}, slide, layer);
         break;
       }
       case "close": {
@@ -308,21 +313,21 @@ class Control extends Component {
         break;
       }
       case "open": {
-        this.openLink(data,slide);
+        this.openLink(data, slide);
         break;
       }
       case "dispatch": {
-        this.sendMessage("broadcast",data?.params,"broadcast");
+        this.sendMessage("broadcast", data?.params, "broadcast");
         break;
       }
-      default:{}
+      default: {
+      }
     }
   }
 
-  render () {
+  render() {
     return null;
   }
-
 }
 
 export default Control;

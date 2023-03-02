@@ -138,6 +138,13 @@ p.nominalBounds = new cjs.Rectangle(0,0,100,100);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.goto00virus2},{t:this.goto00virus4},{t:this.goto00virus5},{t:this.goto00virus6}]}).wait(26));
 
+	// Layer_5
+	this.shape = new cjs.Shape();
+	this.shape.graphics.bf(img._02, null, new cjs.Matrix2D(0.593,0,0,0.593,-640,-552)).s().p("EBUbA/wIAA5mIPlAAIAAZmgEhj/A/wIAA8uMBB9AAAIAAcugEhj/gSGMAAAgtpMBf+AAAMAAAAtpg");
+	this.shape.setTransform(640,552.05);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(26));
+
 	// Layer_4
 	this.instance = new lib._01();
 	this.instance.setTransform(940.05,530.2,1,1,0,0,0,339.9,172.1);
@@ -178,10 +185,10 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/_001.jpg?1674213561686", id:"_001"},
-		{src:"images/_02.png?1674213561686", id:"_02"},
-		{src:"images/_03.png?1674213561686", id:"_03"},
-		{src:"images/_04.png?1674213561686", id:"_04"}
+		{src:"images/_001.jpg?1676017579774", id:"_001"},
+		{src:"images/_02.png?1676017579774", id:"_02"},
+		{src:"images/_03.png?1676017579774", id:"_03"},
+		{src:"images/_04.png?1676017579774", id:"_04"}
 	],
 	preloads: []
 };

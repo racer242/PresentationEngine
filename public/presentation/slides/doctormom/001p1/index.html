@@ -21,8 +21,8 @@
 	top:0;bottom:0;
   }
 </style>
-<script src="libs/1.0.0/createjs.min.js"></script>
-<script src="index.js?1674232644979"></script>
+<script src="../../../libs/1.0.0/createjs.min.js"></script>
+<script src="index.js"></script>
 <script>
 var contentId=window.name;
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -139,8 +139,9 @@ function sendMessage(data) {
 }
 function parseCommand(command) {
 	if (command) {
-		var parse=command.match(/^(\S+)\d\d(.*)/).slice(1);
-		if (parse.length>1) {
+		var parse=command.match(/^(\D+)\d\d(.*)/);
+		if (parse) parse=parse.slice(1);
+		if ((parse)&&(parse.length>1)) {
 			if (parse[1]) {
 				parse[1]=parse[1].split("_");
 			} else {
