@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Top Menu</title>
+  <link href="fonts.css" rel="stylesheet">
+
+  <style>
+    body {
+      position: absolute;
+      margin: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently supported by Chrome and Opera */
+      outline-style: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      /* mobile webkit */
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #plate {
+      position: absolute;
+      width: 100%;
+      height: 61px;
+      left: 0;
+      top: 0;
+    }
+
+    .interactive {
+      opacity: 1;
+    }
+
+    .interactive:active {
+      opacity: 0.5;
+    }
+
+    #popupButton {
+      position: absolute;
+      top: 0px;
+      right: 30px;
+      width: 61px;
+      height: 61px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 61px 61px;
+      background-image: url(popup_light.png);
+    }
+
+    #menu {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 30px;
+      top: 0px;
+      font-size: 6px;
+    }
+
+    .menu-item {
+      position: absolute;
+      width: 61px;
+      height: 61px;
+      line-height: 58px;
+      border: 2px solid #09517a;
+      color: #09517a;
+      border-radius: 31px;
+      font-family: 'OpenSans-Bold';
+      font-weight: bold;
+      font-size: 25px;
+      cursor: pointer;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .menu-item.selected {
+      color: #ffffff;
+      background: #09517a;
+      pointer-events: none;
+    }
+
+    .menu-item.academy {
+      color: #cc0033;
+      border-color: #0b0d9b7e;
+    }
+
+    .menu-item.dark {
+      color: #ffff;
+      border-color: #ffff;
+    }
+
+    .menu-item.light {
+      color: #09517a;
+      border-color: #09517ae0;
+    }
+
+    .menu-item.selected.academy {
+      color: #cc0033;
+      background: rgba(2, 6, 153, .2);
+    }
+
+    .menu-item.selected.dark {
+      color: #09517a;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .menu-item.selected.light {
+      color: #ffffff;
+      background: rgba(9, 81, 122, 0.9);
+    }
+  </style>
+  <script>
+    function popupButtonClick() {
+      sendMessage({ event: "show", name: "popup" });
+    }
+
+  </script>
+
+  <script>
+    var contentId = window.name;
+    window.addEventListener("message", function (event) {
+      receiveMessage(event.data);
+    });
+
+    function receiveMessage(data) {
+      if ((data.target == contentId) || (data.target == "broadcast")) {
+        if (data.event == "init") {
+          if (data.data && data.data.params && data.data.params.theme) {
+            const popupElement = document.getElementById("popupButton");
+            popupElement.classList.add(data.data.params.theme);
+            popupElement.style.backgroundImage = "url(popup_" + data.data.params.theme + ".png)";
+            if ((data.data.params["popup"] && data.data.params["popup"].indexOf("disabled") >= 0) || (!(data.data.layers["popup"] && data.data.layers["popup"].source.path))) {
+              popupElement.style.opacity = "0.3";
+              popupElement.style.pointerEvents = "none";
+            }
+          }
+          if (data.data && data.data.menus && data.data.params && data.data.params.menu) {
+            buildMenu(data.data.menus[data.data.params.menu], data.data.params.theme, data.data.id)
+          }
+        } else
+          if (data.event == "play") {
+          }
+      }
+    }
+
+    function sendMessage(data) {
+      data.source = contentId;
+      var parentWindow = window.parent;
+      parentWindow.postMessage(data, "*");
+    }
+
+    function init() {
+      sendMessage({ event: "complete" });
+    }
+
+
+    var menuItemGap = 10;
+    var menuItemWidth = 61;
+
+    function buildMenu(items, theme, current) {
+      var menu = document.getElementById("menu");
+      menu.innerHTML = "";
+      var offset = 0;
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var element = document.createElement("div");
+        element.innerHTML = item.title;
+        element.classList.add('menu-item');
+        element.classList.add(theme);
+        if (item.reference === current) element.classList.add("selected");
+        element.style.left = offset + "px";
+        element.data = item;
+        element.addEventListener("click", function (e) {
+          sendMessage({ event: "goto", id: e.target.data.reference });
+        });
+        menu.append(element);
+        offset += menuItemWidth + menuItemGap;
+      }
+
+    }
+
+
+  </script>
+
+</head>
+
+<body onload="init();">
+  <div id="plate">
+    <div id="menu">
+    </div>
+    <div id="popupButton" class="interactive" onclick="popupButtonClick();"></div>
+  </div>
+</body>
+
+</html>

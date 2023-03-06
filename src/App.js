@@ -1,18 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import settings from "./configuration/settings.js";
+import settings from './configuration/settings.js'
 
-import mainReducer from "./reducers/mainReducer";
-import Container from "./core/Container";
-import DataManager from "./core/DataManager.js";
-import Control from "./core/Control";
+import mainReducer from './reducers/mainReducer'
+import Container from './core/Container';
+import DataManager from './core/DataManager.js';
+import Control from './core/Control';
 
-import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-import { appInit } from "./actions/appActions.js";
+import { appInit } from './actions/appActions.js';
 
-import "./css/app.css";
+import './css/app.css';
 
 const Store = createStore(
   mainReducer,
@@ -20,34 +20,30 @@ const Store = createStore(
 );
 
 class App extends Component {
+
   constructor(props) {
     super(props);
 
     console.log(settings.startAppText);
 
-    this.state = {};
+    this.state = {
+    };
 
-    this.initHandler = this.initHandler.bind(this);
-    this.resizeHandler = this.resizeHandler.bind(this);
+    this.initHandler=this.initHandler.bind(this);
+    this.resizeHandler=this.resizeHandler.bind(this);
 
-    this.isInitialized = false;
   }
 
   updateLayout() {
-    let windowInnerWidth =
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      window.innerWidth;
-    let windowInnerHeight =
-      document.documentElement.clientHeight ||
-      document.body.clientHeight ||
-      window.innerHeight;
+    let windowInnerWidth=document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
+    let windowInnerHeight=document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
 
     this.setState({
       ...this.state,
-      windowWidth: windowInnerWidth,
-      windowHeight: windowInnerHeight,
+      windowWidth:windowInnerWidth,
+      windowHeight:windowInnerHeight,
     });
+
   }
 
   initHandler(event) {
@@ -59,12 +55,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (this.isInitialized) return;
-    this.isInitialized = true;
 
-    Store.dispatch(appInit());
-    window.addEventListener("load", this.initHandler);
-    window.addEventListener("resize", this.resizeHandler);
+    Store.dispatch(
+      appInit()
+    );
+
+    window.addEventListener("load",this.initHandler);
+    window.addEventListener("resize",this.resizeHandler);
   }
 
   render() {
@@ -76,12 +73,17 @@ class App extends Component {
           windowHeight={this.state.windowHeight}
           store={Store}
         >
-          <DataManager store={Store} />
-          <Control store={Store} />
+          <DataManager
+            store={Store}
+          />
+          <Control
+            store={Store}
+          />
         </Container>
       </Provider>
     );
   }
+
 }
 
 export default App;

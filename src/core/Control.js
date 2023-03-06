@@ -24,7 +24,6 @@ class Control extends Component {
     super(props);
     this.state = {};
     this.store = this.props.store;
-    this.isInitialized = false;
   }
 
   //--------------------------------------------------------------------------
@@ -38,10 +37,6 @@ class Control extends Component {
       this.onStoreChange();
     });
     this.mounted = true;
-
-    if (this.isInitialized) return;
-    this.isInitialized = true;
-
     this.initInteractions();
   }
 
@@ -131,6 +126,13 @@ class Control extends Component {
         this.sendMessage(
           "init",
           {
+            id: slide.id,
+
+            prev: slide.prev,
+            next: slide.next,
+            home: slide.home,
+
+            layers: slide.layers,
             source: layer.source,
             params: slide.params,
             menus: this.state.menus,

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import path from 'path';
 import settings from "../configuration/settings.js";
 
 import "../css/view.css";

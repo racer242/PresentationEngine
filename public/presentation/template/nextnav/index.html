@@ -1,88 +1,97 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Next Nav</title>
-    <style>
-      body {
-        margin:0;
-        overflow:hidden;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-        outline-style:none;
-        outline: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
-        -webkit-font-smoothing: antialiased;
-      }
-      #button {
-        position: absolute;
-        width: 61px;
-        height:61px;
-        cursor: pointer;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 50px 26px;
-        background-image: url(next_light.png);
-      }
 
-      .interactive {
-        opacity: 1;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>Next Nav</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently supported by Chrome and Opera */
+      outline-style: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      /* mobile webkit */
+      -webkit-font-smoothing: antialiased;
+    }
 
-      .interactive:active {
-        opacity: 0.5;
-      }
+    #button {
+      position: absolute;
+      width: 61px;
+      height: 61px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 50px 26px;
+      background-image: url(next_light.png);
+    }
 
-    </style>
-    <script>
-      function buttonClick() {
-        sendMessage({event:"next"});
-      }
-    </script>
+    .interactive {
+      opacity: 1;
+    }
 
-    <script>
-      var contentId=window.name;
-      window.addEventListener("message", function(event) {
-        receiveMessage(event.data);
-      });
+    .interactive:active {
+      opacity: 0.5;
+    }
+  </style>
+  <script>
+    function buttonClick() {
+      sendMessage({ event: "next" });
+    }
+  </script>
 
-      function receiveMessage(data) {
-        if ((data.target==contentId)||(data.target=="broadcast")) {
-          if (data.event=="init") {
-            if (data.data&&data.data.params&&data.data.params.theme) {
-              const element = document.getElementById("button");
-              element.style.backgroundImage="url(next_"+data.data.params.theme+".png)"
-              if (data.data.params.next) {
-                if (data.data.params.next.indexOf("disabled")>=0) {
-                  element.style.opacity="0.3";
-                  element.style.pointerEvents="none";
-                }
-              }
-            }            
-          } else
-          if (data.event=="play") {
+  <script>
+    var contentId = window.name;
+    window.addEventListener("message", function (event) {
+      receiveMessage(event.data);
+    });
+
+    function receiveMessage(data) {
+      if ((data.target == contentId) || (data.target == "broadcast")) {
+        if (data.event == "init") {
+          if (data.data && data.data.params && data.data.params.theme) {
+            const element = document.getElementById("button");
+            element.style.backgroundImage = "url(next_" + data.data.params.theme + ".png)"
+            if (((data.data.params.next) && (data.data.params.next.indexOf("disabled") >= 0)) || (data.data.next === "-")) {
+              element.style.opacity = "0.3";
+              element.style.pointerEvents = "none";
+
+            }
           }
-        }
+        } else
+          if (data.event == "play") {
+          }
       }
+    }
 
-      function sendMessage(data) {
-        data.source=contentId;
-        var parentWindow = window.parent;
-        parentWindow.postMessage(data,"*");
-      }
+    function sendMessage(data) {
+      data.source = contentId;
+      var parentWindow = window.parent;
+      parentWindow.postMessage(data, "*");
+    }
 
-      function init() {
-        sendMessage({event:"complete"});
-      }
+    function init() {
+      sendMessage({ event: "complete" });
+    }
 
-    </script>
+  </script>
 
-  </head>
-  <body onload="init();">
-    <div id="button"  class="interactive" onclick="buttonClick();"></div>
-  </body>
+</head>
+
+<body onload="init();">
+  <div id="button" class="interactive" onclick="buttonClick();"></div>
+</body>
+
 </html>

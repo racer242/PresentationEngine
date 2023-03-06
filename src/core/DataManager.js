@@ -20,16 +20,11 @@ class DataManager extends Component {
     this.loader = null;
     this.result = null;
     this.dataParser = new DataParser();
-
-    this.isInitialized = false;
   }
 
   /* ++++ React methods ++++ */
 
   componentDidMount() {
-    if (this.isInitialized) return;
-    this.isInitialized = true;
-
     this.unsubscribe = this.store.subscribe(() => {
       this.onStoreChange();
     });
