@@ -211,7 +211,7 @@ class Control extends Component {
         }
       }
     } else {
-      targetName = slide.id + "|" + layer.name + "|" + slide.index;
+      targetName = slide?.id + "|" + layer?.name + "|" + slide?.index;
       targetWindow = window.frames[targetName];
       if (targetWindow) {
         targetWindow.postMessage(
