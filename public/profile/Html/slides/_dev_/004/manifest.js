@@ -6,9 +6,8 @@ const settings = {
 };
 const manifest = [
   "background.jpg",
-  "top_1.png",
-  "bottom_1.png",
-  "opacity.png",
-  "static_1.png",
-  "static_2.png",
+  "left.png",
+  "right.png",
+  "bottom.png",
+  "static.png",
 ];

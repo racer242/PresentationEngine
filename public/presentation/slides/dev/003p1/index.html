@@ -43,6 +43,7 @@
       height: 100%;
       left: 0px;
       top: 0px;
+      overflow: hidden;
     }
 
     .content {
@@ -89,7 +90,7 @@
 
     function receiveMessage(data) {
       if ((data.target == contentId) || (data.target == "broadcast")) {
-        if (data.event == "init") {
+        if ((data.event == "init") || (data.event == "reset")) {
           for (var i = 0; i < elements.length; i++) {
             const element = document.getElementById(elements[i]);
             element.style.transition = null;
@@ -102,8 +103,7 @@
               element.style.transition = elements[i].split("_")[0] + " " + stepDuration + "ms ease-out " + i * stepDelay + "ms, opacity " + stepDuration + "ms ease-out " + i * stepDelay + "ms";
             }
           }, 100);
-
-          const buttonParams = data.data.menus[data.data.params.buttons];
+          const buttonParams = data.data.params?.buttons ? data.data.menus[data.data.params.buttons] : null;
           if (buttonParams) {
             for (var i = 0; i < buttonParams.length; i++) {
               const element = document.getElementById(buttonParams[i].index);

@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Top Menu</title>
   <link href="fonts.css" rel="stylesheet">
 
   <style>
@@ -50,19 +49,6 @@
 
     .interactive:active {
       opacity: 0.5;
-    }
-
-    #popupButton {
-      position: absolute;
-      top: 0px;
-      right: 30px;
-      width: 61px;
-      height: 61px;
-      cursor: pointer;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 61px 61px;
-      background-image: url(popup_light.png);
     }
 
     #menu {
@@ -126,12 +112,6 @@
       background: rgba(9, 81, 122, 0.9);
     }
   </style>
-  <script>
-    function popupButtonClick() {
-      sendMessage({ event: "show", name: "popup" });
-    }
-
-  </script>
 
   <script>
     var contentId = window.name;
@@ -142,15 +122,6 @@
     function receiveMessage(data) {
       if ((data.target == contentId) || (data.target == "broadcast")) {
         if (data.event == "init") {
-          if (data.data && data.data.params && data.data.params.theme) {
-            const popupElement = document.getElementById("popupButton");
-            popupElement.classList.add(data.data.params.theme);
-            popupElement.style.backgroundImage = "url(popup_" + data.data.params.theme + ".png)";
-            if ((data.data.params["popup"] && data.data.params["popup"].indexOf("disabled") >= 0) || (!(data.data.layers["popup"] && data.data.layers["popup"].source.path))) {
-              popupElement.style.opacity = "0.3";
-              popupElement.style.pointerEvents = "none";
-            }
-          }
           if (data.data && data.data.menus && data.data.params && data.data.params.menu) {
             buildMenu(data.data.menus[data.data.params.menu], data.data.params.theme, data.data.id)
           }

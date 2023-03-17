@@ -1,175 +1,224 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>menu</title>
-    <link href="fonts.css" rel="stylesheet">
 
-    <style>
-      body {
-        position:absolute;
-        margin:0;
-        left:0;right:0;
-        top:0;bottom:0;
-        overflow:hidden;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-        outline-style:none;
-        outline: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
-        -webkit-font-smoothing: subpixel-antialiased;
+<head>
+  <meta charset="UTF-8">
+  <title>menu</title>
+  <link href="fonts.css" rel="stylesheet">
+
+  <style>
+    body {
+      position: absolute;
+      margin: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently supported by Chrome and Opera */
+      outline-style: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      /* mobile webkit */
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+
+    #container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0px;
+      top: 0px;
+      color: #ffff00;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    #menu {
+      position: absolute;
+      width: 432px;
+      height: 100%;
+      left: 0px;
+      top: 0px;
+      font-size: 6px;
+      background: #ffffff;
+    }
+
+    #content {
+      left: 0px;
+      top: 100px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      overflow: auto;
+      width: 432px;
+      height: 740px;
+      font-size: 6px;
+      background: #ffffff;
+    }
+
+    .menu-item {
+      position: relative;
+      flex: 1;
+      left: 30px;
+      width: 372px;
+      border-bottom: 1px solid #09517a;
+      color: #09517a;
+      font-family: 'OpenSans-Bold';
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .menu-item div {
+      margin-left: 11px;
+      pointer-events: none;
+    }
+
+    .menu-item sup {
+      vertical-align: 0.3em;
+      font-size: 70%
+    }
+
+    .title {
+      position: relative;
+      left: 30px;
+      width: 372px;
+      margin-top: 30px;
+      color: #a2b3c2;
+      font-family: 'OpenSans-Regular';
+      font-weight: regular;
+      font-size: 26px;
+      text-align: right;
+    }
+
+    #closeButton {
+      position: absolute;
+      left: 30px;
+      top: 16px;
+      width: 61px;
+      height: 61px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 61px 61px;
+      background-image: url(close.png);
+    }
+
+    .interactive {
+      opacity: 1;
+    }
+
+    .interactive:active {
+      opacity: 0.5;
+    }
+  </style>
+
+  <script>
+    function buttonClick() {
+      sendMessage({ event: "hide", name: "menu" });
+    }
+  </script>
+  <script>
+    var contentId = window.name;
+    window.addEventListener("message", function (event) {
+      receiveMessage(event.data);
+    });
+
+    function receiveMessage(data) {
+      if ((data.target == contentId) || (data.target == "broadcast")) {
+        // console.log("RECEIVED MESSAGE:",window.location.href,data);
+        if (data.event == "init") {
+          if (data.data.menus.main) {
+            buildMenu(data.data.menus.main, "Основные слайды")
+          }
+          if (data.data.menus.backup) {
+            buildMenu(data.data.menus.backup, "Бэкап слайды")
+          }
+        } else
+          if (data.event == "play") {
+          }
       }
-      #container {
-      	position:absolute;
-      	width:100%;
-      	height:100%;
-      	left:0px;
-      	top:0px;
-      	color:#ffff00;
-      	background: rgba(0,0,0,0.5);
-      }
-      #menu {
-      	position:absolute;
-      	width:432px;
-      	height:100%;
-      	left:0px;
-      	top:0px;
-      	font-size:6px;
-      	background: #ffffff;
-      }
-      .menu-item {
-        position:absolute;
-        left:30px;
-      	width:372px;
-        border-bottom: 1px solid #09517a;
-        color:#09517a;
-        font-family: 'OpenSans-Bold';
-        font-weight: bold;
-        font-size: 18px;
-        cursor: pointer;
-      }
-      .menu-item div {
-        margin-left: 11px;
-        pointer-events: none;
+    }
+
+    function sendMessage(data) {
+      // console.log("SEND MESSAGE:",window.location.href,data);
+      data.source = contentId;
+      var parentWindow = window.parent;
+      parentWindow.postMessage(data, "*");
+    }
+
+    function init() {
+      sendMessage({ event: "complete" });
+    }
+
+    var titleHeight = 60;
+    var menuItemHeight = 84;
+
+    function buildMenu(items, title) {
+
+      var menu = document.getElementById("content");
+      var element = document.createElement("div");
+      element.innerHTML = "<div>" + title + "</div>";
+      element.classList.add('title');
+      element.style.height = titleHeight + "px";
+      element.style.lineHeight = titleHeight + "px";
+      element.data = item;
+      menu.append(element);
+
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var element = document.createElement("div");
+        element.innerHTML = "<div>" + item.title + "</div>";
+        element.classList.add('menu-item');
+        element.style.height = menuItemHeight + "px";
+        element.style.lineHeight = menuItemHeight + "px";
+        element.data = item;
+        if (item.reference) {
+          element.addEventListener("click", function (e) {
+            sendMessage({ event: "goto", id: e.target.data.reference });
+            sendMessage({ event: "hide", name: "menu" });
+            e.stopImmediatePropagation();
+          });
+        } else {
+          element.style.cursor = "default";
+          element.style.opacity = 0.5;
+          element.addEventListener("click", function (e) { e.stopImmediatePropagation() });
+        }
+        menu.append(element);
       }
 
-      .menu-item sup {
-        vertical-align:0.3em;
-        font-size:70%
-      }
-
-      #titleMain {
-        position:absolute;
-        left:30px;
-        top:90px;
-      	width:372px;
-        color:#a2b3c2;
-        font-family: 'OpenSans-Regular';
-        font-weight: regular;
-        font-size: 26px;
-        text-align: right;
-      }
-
-      #closeButton {
-        position: absolute;
-        left:30px;
-        top:16px;
-        width:61px;
-        height:61px;
-        cursor: pointer;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 61px 61px;
-        background-image: url(close.png);
-      }
-
-      .interactive {
-        opacity: 1;
-      }
-
-      .interactive:active {
-        opacity: 0.5;
-      }
-
-    </style>
-
-    <script>
-      function buttonClick() {
-        sendMessage({event:"hide",name:"menu"});
-      }
-    </script>
-    <script>
-      var contentId=window.name;
-      window.addEventListener("message", function(event) {
-        receiveMessage(event.data);
+      var container = document.getElementById("container");
+      container.addEventListener("click", function (e) {
+        sendMessage({ event: "hide", name: "menu" });
       });
 
-      function receiveMessage(data) {
-        if ((data.target==contentId)||(data.target=="broadcast")) {
-          // console.log("RECEIVED MESSAGE:",window.location.href,data);
-          if (data.event=="init") {
-            buildMenu(data.data.menus.contents)
-          } else
-          if (data.event=="play") {
-          }
-        }
-      }
+    }
 
-      function sendMessage(data) {
-        // console.log("SEND MESSAGE:",window.location.href,data);
-        data.source=contentId;
-        var parentWindow = window.parent;
-        parentWindow.postMessage(data,"*");
-      }
+  </script>
 
-      function init() {
-        sendMessage({event:"complete"});
-      }
+</head>
 
-      var menuItemsTop=126;
-      var menuItemHeight=84;
+<body onload="init();">
+  <div id="container">
+    <div id="menu">
+      <div id="content">
 
-      function buildMenu(items) {
-        var menu=document.getElementById("menu");
-        menu.innerHTML="";
-        var offset=menuItemsTop;
-        for (var i = 0; i < items.length; i++) {
-          var item=items[i];
-          var element = document.createElement("div");
-          element.innerHTML="<div>"+item.title+"</div>";
-          element.classList.add('menu-item');
-          element.style.height=menuItemHeight+"px";
-          element.style.lineHeight=menuItemHeight+"px";
-          element.style.top=offset+"px";
-          element.data=item;
-          element.addEventListener("click",function (e) {
-            sendMessage({event:"goto",id:e.target.data.reference});
-            sendMessage({event:"hide",name:"menu"});
-          });
-          menu.append(element);
-          offset+=menuItemHeight;
-        }
-
-        var container=document.getElementById("container");
-        container.addEventListener("click",function (e) {
-          sendMessage({event:"hide",name:"menu"});
-        });
-
-      }
-
-    </script>
-
-  </head>
-  <body onload="init();">
-  	<div id="container">
-      <div id="menu">
       </div>
-      <div id="closeButton"  class="interactive" onclick="buttonClick();"></div>
-      <div id="titleMain">Основные слайды</div>
     </div>
-  </body>
+    <div id="closeButton" class="interactive" onclick="buttonClick();"></div>
+  </div>
+</body>
+
 </html>

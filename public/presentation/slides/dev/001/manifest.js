@@ -8,6 +8,6 @@ const manifest = [
   "background.jpg",
   "left.png",
   "right.png",
-  "bottom.png",
+  "right_1.png",
   "static.png",
 ];
