@@ -50,7 +50,7 @@
       opacity: 0.5;
     }
 
-    #searchButton {
+    #extraButton {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -60,15 +60,9 @@
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 61px 61px;
-      background-image: url(search_light.png);
+      background-image: url(extra_light.png);
     }
   </style>
-  <script>
-    function searchButtonClick() {
-      sendMessage({ event: "show", name: "search" });
-    }
-
-  </script>
 
   <script>
     var contentId = window.name;
@@ -79,14 +73,19 @@
     function receiveMessage(data) {
       if ((data.target == contentId) || (data.target == "broadcast")) {
         if (data.event == "init") {
-          if (data.data && data.data.params && data.data.params.theme) {
-            const searchElement = document.getElementById("searchButton");
-            searchElement.classList.add(data.data.params.theme);
-            searchElement.style.backgroundImage = "url(search_" + data.data.params.theme + ".png)";
-            if ((data.data.params["search"] && data.data.params["search"].indexOf("disabled") >= 0) || (!(data.data.layers["search"] && data.data.layers["search"].source.path))) {
-              searchElement.style.opacity = "0.3";
-              searchElement.style.pointerEvents = "none";
+          if (data.data && data.data.params && data.data.params.theme && data.data.params.buttons) {
+            const element = document.getElementById("extraButton");
+            const button = data.data.params.buttons.split(/\,\s*/)[0];
+            element.classList.add(data.data.params.theme);
+            element.style.backgroundImage = "url(" + button + "_" + data.data.params.theme + ".png)";
+            if ((data.data.params[button] && data.data.params[button].indexOf("disabled") >= 0) || (!(data.data.layers[button] && data.data.layers[button].source.path))) {
+              element.style.opacity = "0.3";
+              element.style.pointerEvents = "none";
             }
+            element.data = { name: button };
+            element.addEventListener("click", function (e) {
+              sendMessage({ event: "show", name: e.target.data.name });
+            });
           }
         } else
           if (data.event == "play") {
@@ -110,7 +109,7 @@
 
 <body onload="init();">
   <div id="plate">
-    <div id="searchButton" class="interactive" onclick="searchButtonClick();"></div>
+    <div id="extraButton" class="interactive"></div>
   </div>
 </body>
 

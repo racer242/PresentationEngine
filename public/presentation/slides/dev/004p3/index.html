@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>slide</title>
+
+  <script src="../../../libs/preloadjs.min.js"></script>
+  <script src="manifest.js"></script>
+  <script src="buttons.js"></script>
+
+  <style>
+    body {
+      position: absolute;
+      margin: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently supported by Chrome and Opera */
+      outline-style: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      /* mobile webkit */
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+
+    #container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0px;
+      top: 0px;
+      overflow: hidden;
+    }
+
+    .content {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+
+    .button {
+      position: absolute;
+      cursor: pointer;
+    }
+
+    .interactive {
+      opacity: 1;
+    }
+
+    .interactive:active {
+      opacity: 0.5;
+    }
+  </style>
+
+  <script>
+    function buttonClick() {
+      sendMessage({ event: "hide", name: "popup" });
+    }
+  </script>
+  <script>
+
+    var elements = [];
+    const animatedElements = ["left", "right", "top", "bottom", "opacity"];
+    const initialPosition = (window.settings && settings.initialPosition != null) ? settings.initialPosition : -100;
+    const initialOpacity = (window.settings && settings.initialOpacity != null) ? settings.initialOpacity : 0;
+    const stepDuration = (window.settings && settings.stepDuration != null) ? settings.stepDuration : 600;
+    const stepDelay = (window.settings && settings.stepDelay != null) ? settings.stepDelay : 300;
+
+    var contentId = window.name;
+    window.addEventListener("message", function (event) {
+      receiveMessage(event.data);
+    });
+
+    function receiveMessage(data) {
+      if ((data.target == contentId) || (data.target == "broadcast")) {
+        if ((data.event == "init") || (data.event == "reset")) {
+          for (var i = 0; i < elements.length; i++) {
+            const element = document.getElementById(elements[i]);
+            element.style.transition = null;
+            element.style[elements[i].split("_")[0]] = initialPosition + "px"
+            element.style.opacity = initialOpacity
+          }
+          setTimeout(() => {
+            for (var i = 0; i < elements.length; i++) {
+              const element = document.getElementById(elements[i]);
+              element.style.transition = elements[i].split("_")[0] + " " + stepDuration + "ms ease-out " + i * stepDelay + "ms, opacity " + stepDuration + "ms ease-out " + i * stepDelay + "ms";
+            }
+          }, 100);
+          const buttonParams = data.data.params?.buttons ? data.data.menus[data.data.params.buttons] : null;
+          if (buttonParams) {
+            for (var i = 0; i < buttonParams.length; i++) {
+              const element = document.getElementById(buttonParams[i].index);
+              if (element) {
+                element.params = { event: "goto", id: buttonParams[i].reference }
+              }
+            }
+          }
+        } else
+          if (data.event == "play") {
+            setTimeout(() => {
+              for (var i = 0; i < elements.length; i++) {
+                const element = document.getElementById(elements[i]);
+                element.style[elements[i].split("_")[0]] = 0 + "px"
+                element.style.opacity = 1
+              }
+            }, 200);
+          }
+      }
+    }
+
+    function sendMessage(data) {
+      data.source = contentId;
+      var parentWindow = window.parent;
+      parentWindow.postMessage(data, "*");
+    }
+
+    function init() {
+      const container = document.getElementById("container");
+      const devMode = (window.location && window.location.href.indexOf("_dev_") > 0);
+      if (devMode) {
+        document.body.style.overflow = "auto";
+        if (viewport) {
+          for (const name in viewport) {
+            container.style[name] = viewport[name];
+          }
+        }
+      }
+      if (manifest) {
+        for (var i = 0; i < manifest.length; i++) {
+          const id = manifest[i].split(".")[0]
+          const element = document.createElement("div");
+          element.id = id;
+          element.className = "content"
+          element.style.backgroundImage = "url(" + manifest[i] + ")";
+          container.append(element)
+          if (animatedElements.indexOf(id.split("_")[0]) >= 0) elements.push(id);
+        }
+      }
+      if (buttons) {
+        for (var i = 0; i < buttons.length; i++) {
+          const element = document.createElement("div");
+          element.className = "button";
+          for (const name in buttons[i].style) {
+            element.style[name] = buttons[i].style[name];
+            if (devMode) {
+              element.style.border = "1px solid rgba(255, 0, 0, 1  )";
+            }
+          }
+          const params = {};
+          if (buttons[i].event) params.event = buttons[i].event;
+          if (buttons[i].id) {
+            element.id = buttons[i].id;
+            params.id = buttons[i].id;
+          }
+          for (const name in buttons[i].params) {
+            params[name] = buttons[i].params[name];
+          }
+          element.params = params
+          if (devMode) {
+            element.onclick = function () {
+              var display = ""
+              for (const name in element.params) {
+                display += name + ": " + element.params[name] + "\n";
+              }
+              sendMessage(element.params);
+              alert(display)
+            }
+          } else {
+            element.onclick = function () {
+              sendMessage(element.params);
+            }
+          }
+
+          container.append(element)
+        }
+      }
+      var queue = new createjs.LoadQueue(false);
+      queue.installPlugin(createjs.Sound);
+      queue.on("complete", handleComplete, this);
+      queue.loadManifest(manifest);
+      function handleComplete() {
+        queue.removeAll();
+        sendMessage({ event: "complete" });
+      }
+      for (var i = 0; i < elements.length; i++) {
+        const element = document.getElementById(elements[i]);
+        element.style[elements[i].split("_")[0]] = initialPosition + "px"
+        element.style.opacity = initialOpacity
+      }
+      if (devMode) {
+        setTimeout(() => {
+          for (var i = 0; i < elements.length; i++) {
+            const element = document.getElementById(elements[i]);
+            element.style.transition = elements[i].split("_")[0] + " " + stepDuration + "ms ease-out " + i * stepDelay + "ms, opacity " + stepDuration + "ms ease-out " + i * stepDelay + "ms";
+          }
+        }, 100);
+        setTimeout(() => {
+          for (var i = 0; i < elements.length; i++) {
+            const element = document.getElementById(elements[i]);
+            element.style[elements[i].split("_")[0]] = 0 + "px"
+            element.style.opacity = 1
+          }
+        }, 200);
+      }
+    }
+
+  </script>
+
+</head>
+
+<body onload="init();">
+  <div id="container">
+  </div>
+</body>
+
+</html>
