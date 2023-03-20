@@ -179,6 +179,7 @@
               for (const name in element.params) {
                 display += name + ": " + element.params[name] + "\n";
               }
+              sendMessage(element.params);
               alert(display)
             }
           } else {

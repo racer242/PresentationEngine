@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+      position: absolute;
+      margin: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently supported by Chrome and Opera */
+      outline-style: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      /* mobile webkit */
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #plate {
+      position: absolute;
+      width: 100%;
+      height: 61px;
+      left: 0;
+      top: 0;
+    }
+
+    .interactive {
+      opacity: 1;
+    }
+
+    .interactive:active {
+      opacity: 0.5;
+    }
+
+    #searchButton {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 61px;
+      height: 61px;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 61px 61px;
+      background-image: url(search_light.png);
+    }
+  </style>
+  <script>
+    function searchButtonClick() {
+      sendMessage({ event: "show", name: "search" });
+    }
+
+  </script>
+
+  <script>
+    var contentId = window.name;
+    window.addEventListener("message", function (event) {
+      receiveMessage(event.data);
+    });
+
+    function receiveMessage(data) {
+      if ((data.target == contentId) || (data.target == "broadcast")) {
+        if (data.event == "init") {
+          if (data.data && data.data.params && data.data.params.theme) {
+            const searchElement = document.getElementById("searchButton");
+            searchElement.classList.add(data.data.params.theme);
+            searchElement.style.backgroundImage = "url(search_" + data.data.params.theme + ".png)";
+            if ((data.data.params["search"] && data.data.params["search"].indexOf("disabled") >= 0) || (!(data.data.layers["search"] && data.data.layers["search"].source.path))) {
+              searchElement.style.opacity = "0.3";
+              searchElement.style.pointerEvents = "none";
+            }
+          }
+        } else
+          if (data.event == "play") {
+          }
+      }
+    }
+
+    function sendMessage(data) {
+      data.source = contentId;
+      var parentWindow = window.parent;
+      parentWindow.postMessage(data, "*");
+    }
+
+    function init() {
+      sendMessage({ event: "complete" });
+    }
+
+  </script>
+
+</head>
+
+<body onload="init();">
+  <div id="plate">
+    <div id="searchButton" class="interactive" onclick="searchButtonClick();"></div>
+  </div>
+</body>
+
+</html>
