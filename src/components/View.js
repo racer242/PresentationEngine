@@ -160,8 +160,7 @@ class View extends Component {
         style={{
           ...this.props.bounds.style,
           ...this.props.style,
-          visibility:
-            this.props.hidden || this.props.invisible ? "hidden" : "visible",
+          display: this.props.hidden || this.props.invisible ? "none" : "block",
         }}
       >
         <div
